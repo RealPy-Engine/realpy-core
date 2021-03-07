@@ -46,8 +46,9 @@ def init():
     PyDisplay.set_allow_screensaver(False)
     RsScreen = PyDisplay.set_mode(RsConstants.Resolutions)
 
+    room_register("roomTest")
+    
     # Startup
-    Game.init()
     Rooms = RsContainers.RoomOrder
     RsRoom = Rooms[0]
     if not RsRoom:
