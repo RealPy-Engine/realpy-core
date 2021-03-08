@@ -14,18 +14,22 @@ from .sprite import RsSprite
 import RsCore.constants as RsConstants, RsCore.containers as RsContainers
 from .assets import *
 
-RsScreen: Optional[PySurface]
-RsRoom: Optional[RsScene]
+
+async def scene_update(room: RsScene, time: int):
+    ...
 
 
 async def event_collect() -> int:
     ...
 
+
 def init(title: str, view_port_width: int, view_port_height: int):
     ...
 
+
 def startup():
     ...
+
 
 def rs_cleanup():
     ...

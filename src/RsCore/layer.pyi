@@ -2,8 +2,8 @@ from RsCore.instance import RsObject
 
 
 class RsLayer(object):
-    name: str = ""
-    storage: list[RsObject] = []
+    name: str
+    storage: list[RsObject]
 
     def __init__(self, name: str):
         ...

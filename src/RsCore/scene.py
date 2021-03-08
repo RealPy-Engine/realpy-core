@@ -1,3 +1,6 @@
+from RsCore.layer import RsLayer
+
+
 class RsScene(object):
     def __init__(self, name):
         self.name = name
@@ -13,7 +16,13 @@ class RsScene(object):
         return "Room " + self.name
 
     def add_layer(self, caption):
-        ...
+        Temp = RsLayer(caption)
+        self.layer_stack.append(Temp)
+        self.trees[caption] = Temp
+        return Temp
+
+    def layer_find(self, caption):
+        return self.trees[caption]
 
     def pause(self):
         self.paused = True

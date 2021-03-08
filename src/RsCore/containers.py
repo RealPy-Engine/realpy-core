@@ -1,4 +1,9 @@
+# Application surface
+RsScreen = None
+
 # Rooms
+RsRoom = None
+RsLastRoom = None
 RoomOrder = []
 RoomPot = {}
 

@@ -7,20 +7,18 @@ import pygame.display as PyDisplay
 import pygame.event as PyEvent
 from pygame.time import Clock as Clock
 
-from RsCore.scene import RsScene
-from RsCore.layer import RsLayer
-from RsCore.prefab import RsPrefab
-from RsCore.instance import RsObject, RsDirtyObject
-from RsCore.sprite import RsSprite
 from RsCore import constants as RsConstants, containers as RsContainers
-from RsCore.assets import *
 
-RsScreen = None
-RsRoom = None
+
+async def scene_update(room, time):
+    room.onUpdate(time)
+    room.onUpdateLater(time)
+    room.onDraw(time)
+    room.onGUI(time)
 
 
 async def event_collect():
-    # TODO: #1 summary events in a list for each types.
+    # TODO: summary events in a list for each types.
     RsContainers.Events = PyEvent.get()
     for event in RsContainers.Events:
         if event.type == PyConstants.QUIT:
@@ -28,7 +26,7 @@ async def event_collect():
         elif event.type == PyConstants.KEYDOWN and event.key == PyConstants.K_ESCAPE:
             rs_quit()
         elif event.type == PyConstants.MOUSEBUTTONDOWN:
-            room_goto_next()
+            pass  # room_goto_next()
         elif event.type == PyConstants.MOUSEBUTTONUP:
             pass
 
@@ -36,35 +34,35 @@ async def event_collect():
 
 
 def init(title: str, view_port_width: int, view_port_height: int):
-    global RsScreen, RsRoom
-
     pygame.init()
     PyDisplay.init()
     PyDisplay.set_caption(title)
     PyDisplay.set_allow_screensaver(False)
-    RsConstants.Resolutions = (view_port_width, view_port_height)
 
-    RsScreen = PyDisplay.set_mode(RsConstants.Resolutions)
+    RsConstants.Resolutions = (view_port_width, view_port_height)
+    RsContainers.RsScreen = PyDisplay.set_mode(RsConstants.Resolutions)
 
 
 def startup():
     # Startup
     Rooms = RsContainers.RoomOrder
-    RsRoom = Rooms[0]
-    if not RsRoom:
+    Temp = Rooms[0]
+
+    if not Temp:
         raise RuntimeError("No scene found.")
+    RsContainers.RsRoom = Temp
 
     absolute_timer = Clock()
 
     # Load rooms
-    print(RsRoom)
-    RsRoom.onAwake()
+    print(RsContainers.RsRoom)
+    RsContainers.RsRoom.onAwake()
     while True:
-        frame_time: int = 0 if RsRoom.paused else absolute_timer.get_time()
-        RsScreen.fill(RsConstants.c_black)
+        frame_time: int = 0 if RsContainers.RsRoom.paused else absolute_timer.get_time()
+        RsContainers.RsScreen.fill(RsConstants.c_black)
 
         asyncio.run(event_collect())
-        asyncio.run(scene_update(RsRoom, frame_time))
+        asyncio.run(scene_update(RsContainers.RsRoom, frame_time))
 
         PyDisplay.flip()
         absolute_timer.tick()

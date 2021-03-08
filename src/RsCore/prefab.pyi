@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Type
 
 from RsCore.instance import RsObject
 from RsCore.sprite import RsSprite
@@ -8,7 +8,7 @@ class RsPrefab(object):
     name: str
     __parent: Optional[RsPrefab]
     children: list[RsPrefab]
-    __link_implement: Optional[RsObject]
+    link_implement: Type[RsObject]
     sprite_index: Optional[RsSprite]
     serial: int
 
@@ -26,30 +26,22 @@ class RsPrefab(object):
     def parent(self, target: Optional[RsPrefab]):
         ...
 
-    @property
-    def link_implement(self) -> Optional[RsObject]:
+    def onAwake(self, target):
         ...
 
-    @link_implement.setter
-    def link_implement(self, target: Optional[RsPrefab]):
+    def onDestroy(self, target):
         ...
 
-    def onAwake(self, target: RsObject):
+    def onUpdate(self, time: int, target):
         ...
 
-    def onDestroy(self, target: RsObject):
+    def onUpdateLater(self, time: int, target):
         ...
 
-    def onUpdate(self, time: int, target: RsObject):
+    def onDraw(self, time: int, target):
         ...
 
-    def onUpdateLater(self, time: int, target: RsObject):
-        ...
-
-    def onDraw(self, time: int, target: RsObject):
-        ...
-
-    def onGUI(self, time: int, target: RsObject):
+    def onGUI(self, time: int, target):
         ...
 
     ...

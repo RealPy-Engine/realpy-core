@@ -1,9 +1,14 @@
-from RsCore.utilities import *
+from typing import Optional
+
+from RsCore.prefab import RsPrefab
+from RsCore.utility import *
 
 
 class RsObject(object):
-    def __init__(self, prefab, scene, layer, x=0, y=0):
-        self.__link_original = prefab
+    link_original: Optional[RsPrefab]
+
+    def __init__(self, scene, layer, x=0, y=0):
+        self.link_original = None
         self.__enabled = True
         self.__visible = True
         self.scene = scene
@@ -12,20 +17,12 @@ class RsObject(object):
         self.y = y
 
     @property
-    def link_original(self):
-        return self.__link_original
-
-    @property
     def enabled(self):
         return self.__enabled
 
     @property
     def visible(self):
         return self.__visible
-
-    @link_original.setter
-    def link_original(self, target):
-        self.__link_original = target
 
     @enabled.setter
     def enabled(self, flag):
@@ -36,33 +33,33 @@ class RsObject(object):
         self.__visible = flag
 
     def onAwake(self):
-        if self.__link_original:
-            self.__link_original.onAwake(self)
+        if self.link_original:
+            self.link_original.onAwake(self)
 
     def onDestroy(self):
-        if self.__link_original:
-            self.__link_original.onDestroy(self)
+        if self.link_original:
+            self.link_original.onDestroy(self)
 
     def onUpdate(self, time):
-        if self.__link_original:
-            self.__link_original.onUpdate(time, self)
+        if self.link_original:
+            self.link_original.onUpdate(time, self)
 
     def onUpdateLater(self, time):
-        if self.__link_original:
-            self.__link_original.onUpdateLater(time, self)
+        if self.link_original:
+            self.link_original.onUpdateLater(time, self)
 
     def onDraw(self, time):
-        if self.__link_original:
-            self.__link_original.onDraw(time, self)
+        if self.link_original:
+            self.link_original.onDraw(time, self)
 
     def onGUI(self, time):
-        if self.__link_original:
-            self.__link_original.onGUI(time, self)
+        if self.link_original:
+            self.link_original.onGUI(time, self)
 
 
 class RsDirtyObject(RsObject):
-    def __init__(self, prefab, scene, layer, x=0, y=0):
-        super().__init__(prefab, scene, layer, x, y)
+    def __init__(self, scene, layer, x=0, y=0):
+        super().__init__(scene, layer, x, y)
 
         self.image_angle = 0
         self.image_index = 0
