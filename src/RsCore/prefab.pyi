@@ -26,22 +26,22 @@ class RsPrefab(object):
     def parent(self, target: Optional[RsPrefab]):
         ...
 
-    def onAwake(self, target: RsObject):
+    def onAwake(self, target):
         ...
 
-    def onDestroy(self, target: RsObject):
+    def onDestroy(self, target):
         ...
 
-    def onUpdate(self, time: int, target: RsObject):
+    def onUpdate(self, time: int, target):
         ...
 
-    def onUpdateLater(self, time: int, target: RsObject):
+    def onUpdateLater(self, time: int, target):
         ...
 
-    def onDraw(self, time: int, target: RsObject):
+    def onDraw(self, time: int, target):
         ...
 
-    def onGUI(self, time: int, target: RsObject):
+    def onGUI(self, time: int, target):
         ...
 
     ...

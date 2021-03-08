@@ -15,6 +15,9 @@ class RsScene(object):
     def add_layer(self, caption):
         ...
 
+    def layer_find(self, caption):
+        ...
+
     def pause(self):
         self.paused = True
 

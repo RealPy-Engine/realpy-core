@@ -34,13 +34,6 @@ class RsImage(object):
         self.boundbox.width = self.raw_data[0].get_width()
         self.boundbox.height = self.raw_data[0].get_height()
 
-    def draw(self, x: float, y: float, index: int):
-        if self.number == 0:
-            Temp = self.raw_data[0]
-            Temp.get_rect()
-        else:
-            pass
-
 
 class RsSprite(object):
     xoffset: int = 0
@@ -57,9 +50,6 @@ class RsSprite(object):
             Box = self.raw_data.boundbox
             Box.x = int(x)
             Box.y = int(y)
-
-    def draw(self, x: float, y: float, index: int = 0):
-        self.raw_data.draw(x, y, index)
 
 
 """

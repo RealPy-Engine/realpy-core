@@ -6,113 +6,96 @@ from RsCore.prefab import RsPrefab
 from RsCore.instance import RsObject
 from RsCore import constants as RsConstants, containers as RsContainers
 
-__all__ = [
-    "object_register",
-    "scene_update", "room_register", "room_get", "room_goto", "room_goto_next",
-    "layer_find",
-    "instance_create"
-]
 
-RsRoom: Optional[RsScene]
-RsLastRoom: Optional[RsScene]
-
-
-def object_register(name: str) -> RsPrefab:
+def object_register(name):
     Temp = RsPrefab(name)
-    # TODO: #3 object add
     RsContainers.PrefabsPot[name] = Temp
-
     return Temp
 
 
-async def scene_update(room: RsScene, time: int) -> None:
-    room.onUpdate(time)
-    room.onUpdateLater(time)
-    room.onDraw(time)
-    room.onGUI(time)
-
-
-def room_register(name: str):
-    global RsRoom, RsLastRoom
+def room_register(name):
     NewRoom = RsScene(name)
 
     Number = len(RsContainers.RoomOrder)
     if 0 < Number:
-        LastRoom = RsContainers.RoomOrder[-1]
+        LastRoom = RsContainers.RsLastRoom
         if LastRoom and NewRoom:
             NewRoom.before = LastRoom
             LastRoom.next = NewRoom
     else:
-        RsRoom = NewRoom
-        RsLastRoom = NewRoom
+        RsContainers.RsRoom = NewRoom
+        RsContainers.RsLastRoom = NewRoom
 
     RsContainers.RoomOrder.append(NewRoom)
     RsContainers.RoomPot[name] = NewRoom
     return NewRoom
 
 
-def room_get(id: Union[int, str]) -> Optional[RsScene]:
+def room_get(id):
     if type(id) is int:
         return RsContainers.RoomOrder[id]
     elif type(id) is str:
         return RsContainers.RoomPot[id]
 
 
-def room_set(taget: RsScene):
-    global RsRoom
-
-    if RsRoom:
-        RsRoom.onDestroy()
-    RsRoom = taget
-    RsRoom.onAwake()
-    print("Go to " + str(RsRoom))
+def room_set(taget):
+    if RsContainers.RsRoom:
+        RsContainers.RsRoom.onDestroy()
+    RsContainers.RsRoom = taget
+    RsContainers.RsRoom.onAwake()
+    print("Go to " + str(RsContainers.RsRoom))
 
 
-def room_goto(name: str):
-    global RsRoom
-
+def room_goto(name):
     Temp = room_get(name)
     if not Temp:
         raise RuntimeError("The room " + name + " doesn't exist.")
-    elif Temp is not RsRoom:
+    elif Temp is not RsContainers.RsRoom:
         room_set(Temp)
 
 
 def room_goto_next():
-    global RsRoom
-
-    Next = RsRoom.next
+    Next = RsContainers.RsRoom.next
     print(Next)
     if Next:
-        Temp: RsScene = Next
-        room_set(Temp)
+        room_set(Next)
     else:
         raise RuntimeError("The next room doesn't exist.\n")
 
 
-def layer_find(name: str) -> Optional[RsLayer]:
-    global RsRoom
-    if RsRoom:
-        Where = RsRoom.trees[name]
+def global_layer_find(name):
+    if RsContainers.RsRoom:
+        Where = RsContainers.RsRoom.trees[name]
         return Where
     return None
 
 
-def instance_create(prefab: Type[RsObject], layer: Union[str, RsLayer], x: float = 0, y: float = 0) -> Optional[RsObject]:
-    global RsRoom
-    if RsRoom:
-        Layer = None
+def instantiate(gobject, layer, x = 0, y = 0):
+    if RsContainers.RsRoom:
+        Instance = gobject(RsContainers.RsRoom, layer, x, y)
+        Instance.onAwake()
+
+        RsContainers.RsRoom.SpecificInstancesPot[gobject.link_original.name].append(Instance)
+        RsContainers.RsRoom.EveryInstancesPot.append(Instance)
+        return Instance
+    else:
+        return None
+
+
+def instance_create(gobject, layer, x = 0, y = 0):
+    if RsContainers.RsRoom:
+        Layer: Optional[RsLayer] = None
         if type(layer) is str:
-            Layer = layer_find(layer)
-            if not Layer:
-                return None
-        
+            try:
+                Layer = RsContainers.RsRoom.layer_find(layer)
+            except KeyError:
+                raise RuntimeError("The specific layer are not found.")
+        elif type(layer) is RsLayer:
+            Layer = layer
+            
+        print(Layer)
         if Layer:
-            Instance = prefab(RsRoom, Layer, x, y)
-            Instance.onAwake()
-            RsRoom.SpecificInstancesPot[prefab.link_original.name].append(Instance)
-            RsRoom.EveryInstancesPot.append(Instance)
-            return Instance
+            return instantiate(gobject, Layer, x, y)
     return None
 
 

@@ -19,10 +19,14 @@ class RsScene(object):
     def __repr__(self) -> str:
         ...
 
-    def add_layer(self, caption: str):
+    def add_layer(self, caption: str) -> RsLayer:
         Temp = RsLayer(caption)
         self.layer_stack.append(Temp)
         self.trees[caption] = Temp
+        return Temp
+
+    def layer_find(self, caption: str) -> Optional[RsLayer]:
+        return self.trees[caption]
 
     def pause(self):
         ...

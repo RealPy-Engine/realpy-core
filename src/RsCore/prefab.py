@@ -1,5 +1,5 @@
 class RsPrefab(object):
-    def __init__(self, name: str):
+    def __init__(self, name):
         self.name = name
         self.__parent = None
         self.children = []
