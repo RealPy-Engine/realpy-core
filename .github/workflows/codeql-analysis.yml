@@ -10,19 +10,14 @@
 # supported CodeQL languages.
 #
 name: "CodeQL"
-
 on:
   workflow_dispatch:
   push:
-    paths:
-      - 'src/*'
-      - 'example/*'
+    paths: [ 'src/*', 'example/*' ]
 
   pull_request:
     # The branches below must be a subset of the branches above
-    paths:
-      - 'src/*'
-      - 'example/*'
+    paths: [ 'src/*', 'example/*' ]
 
   schedule:
     - cron: '25 9 * * 3'
