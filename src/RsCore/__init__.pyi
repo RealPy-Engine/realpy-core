@@ -18,14 +18,18 @@ from .assets import *
 async def scene_update(room: RsScene, time: int):
     ...
 
+
 async def event_collect() -> int:
     ...
+
 
 def init(title: str, view_port_width: int, view_port_height: int):
     ...
 
+
 def startup():
     ...
+
 
 def rs_cleanup():
     ...

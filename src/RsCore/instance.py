@@ -6,6 +6,7 @@ from RsCore.utility import *
 
 class RsObject(object):
     link_original: Optional[RsPrefab]
+
     def __init__(self, scene, layer, x=0, y=0):
         self.link_original = None
         self.__enabled = True

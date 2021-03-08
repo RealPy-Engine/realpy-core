@@ -46,11 +46,11 @@ def global_layer_find(name: str) -> Optional[RsLayer]:
     ...
 
 
-def instantiate(gobject: Type[RsObject], layer: RsLayer, x: float = 0, y: float = 0):
+def instantiate(gobject: Type[RsObject], layer: RsLayer, x: float = 0, y: float = 0) -> RsObject:
     ...
 
 
-def instance_create(gobject: Type[RsObject], layer: Union[str, RsLayer], x: float = 0, y: float = 0) -> Optional[RsObject]:
+def instance_create(gobject: Type[RsObject], layer: Union[str, RsLayer], x: float = 0, y: float = 0) -> RsObject:
     ...
 
 

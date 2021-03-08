@@ -46,7 +46,7 @@ def init(title: str, view_port_width: int, view_port_height: int):
 def startup():
     # Startup
     Rooms = RsContainers.RoomOrder
-    Temp  = Rooms[0]
+    Temp = Rooms[0]
 
     if not Temp:
         raise RuntimeError("No scene found.")

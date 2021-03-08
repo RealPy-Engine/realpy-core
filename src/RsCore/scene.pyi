@@ -10,8 +10,8 @@ class RsScene(object):
     paused: bool
     EveryInstancesPot: list
     SpecificInstancesPot: dict[str, list]
-    before: Optional[RsScene] = None
-    next: Optional[RsScene] = None
+    before: Optional[RsScene]
+    next: Optional[RsScene]
 
     def __init__(self, name: str):
         ...
@@ -20,13 +20,10 @@ class RsScene(object):
         ...
 
     def add_layer(self, caption: str) -> RsLayer:
-        Temp = RsLayer(caption)
-        self.layer_stack.append(Temp)
-        self.trees[caption] = Temp
-        return Temp
+        ...
 
     def layer_find(self, caption: str) -> Optional[RsLayer]:
-        return self.trees[caption]
+        ...
 
     def pause(self):
         ...

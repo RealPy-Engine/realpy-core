@@ -70,35 +70,39 @@ def global_layer_find(name):
     return None
 
 
-def instantiate(gobject, layer, x = 0, y = 0):
+def instantiate(gobject, layer, x=0, y=0):
     if RsContainers.RsRoom:
         Instance = gobject(RsContainers.RsRoom, layer, x, y)
         Instance.onAwake()
 
-        RsContainers.RsRoom.SpecificInstancesPot[gobject.link_original.name].append(Instance)
-        RsContainers.RsRoom.EveryInstancesPot.append(Instance)
+        try:
+            RsContainers.RsRoom.SpecificInstancesPot[gobject.link_original.name].append(Instance)
+        except KeyError:
+            RsContainers.RsRoom.SpecificInstancesPot[gobject.link_original.name] = []
+        finally:
+            RsContainers.RsRoom.SpecificInstancesPot[gobject.link_original.name].append(Instance)
         return Instance
     else:
-        return None
+        raise RuntimeError("No scene exists.")
 
 
-def instance_create(gobject, layer, x = 0, y = 0):
+def instance_create(gobject, layer, x=0, y=0):
     if RsContainers.RsRoom:
-        Layer: Optional[RsLayer] = None
+        if not layer:
+            raise RuntimeError("No layer specified.")
         if type(layer) is str:
             try:
                 Layer = RsContainers.RsRoom.layer_find(layer)
             except KeyError:
                 raise RuntimeError("The specific layer are not found.")
-        elif type(layer) is RsLayer:
+        else:
             Layer = layer
-            
+
         print(Layer)
-        if Layer:
-            return instantiate(gobject, Layer, x, y)
+        return instantiate(gobject, Layer, x, y)
     return None
 
 
-def instance_destroy(instance: RsObject):
+def instance_destroy(instance):
     instance.onDestroy()
     del instance
