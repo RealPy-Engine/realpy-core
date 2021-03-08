@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Type
 
 from RsCore.scene import RsScene
 from RsCore.layer import RsLayer
@@ -7,19 +7,15 @@ from RsCore.sprite import RsSprite
 
 
 class RsObject(object):
-    __link_original: RsPrefab
-    __enabled: bool = True
-    __visible: bool = True
+    link_original: Optional[RsPrefab]
+    __enabled: bool
+    __visible: bool
     scene: RsScene
     layer: RsLayer
     x: float
     y: float
 
-    def __init__(self, prefab: type[RsPrefab], scene: RsScene, layer: RsLayer, x: float = 0, y: float = 0):
-        ...
-
-    @property
-    def link_original(self) -> Optional[RsPrefab]:
+    def __init__(self, scene: RsScene, layer: RsLayer, x: float = 0, y: float = 0):
         ...
 
     @property
@@ -28,10 +24,6 @@ class RsObject(object):
 
     @property
     def visible(self) -> bool:
-        ...
-
-    @link_original.setter
-    def link_original(self, target):
         ...
 
     @enabled.setter
@@ -73,7 +65,7 @@ class RsDirtyObject(RsObject):
     __vspeed: float
     gravity: dict[str, float]
 
-    def __init__(self, prefab: type[RsPrefab], scene: RsScene, layer: RsLayer, x: float = 0, y: float = 0):
+    def __init__(self, scene: RsScene, layer: RsLayer, x: float = 0, y: float = 0):
         ...
 
     ...

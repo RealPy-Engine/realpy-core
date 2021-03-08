@@ -3,7 +3,6 @@ class RsPrefab(object):
         self.name = name
         self.__parent = None
         self.children = []
-        self.__link_implement = None
         self.sprite_index = None
         self.serial: int = 0
 
@@ -24,19 +23,6 @@ class RsPrefab(object):
                 Parent.children.remove(self)
             self.__parent = target
             target.children.append(self)
-
-    @property
-    def link_implement(self):
-        return self.__link_implement
-
-    @link_implement.setter
-    def link_implement(self, target):
-        Before = self.__link_implement
-        if Before and Before is not target:
-            Before.__link_original = None
-        if target:
-            self.__link_implement = target
-            target.__link_original = self
 
     def onAwake(self, target):
         pass
