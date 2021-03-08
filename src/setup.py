@@ -1,10 +1,11 @@
 import setuptools
 
+
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="Realpy", # Replace with your own username
+    name="Realpy-iconer", # Replace with your own username
     version="0.0.1",
     author="Iconerworks",
     author_email="yoyofa2@hotmail.com",
