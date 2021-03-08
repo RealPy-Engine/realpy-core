@@ -7,15 +7,15 @@ from RsCore.sprite import RsSprite
 
 
 class RsObject(object):
-    __link_original: Optional[RsPrefab] = None
+    __link_original: RsPrefab
     __enabled: bool = True
     __visible: bool = True
     scene: RsScene
     layer: RsLayer
-    x: float = 0
-    y: float = 0
+    x: float
+    y: float
 
-    def __init__(self, scene: RsScene, layer: RsLayer, x: float = 0, y: float = 0):
+    def __init__(self, prefab: type[RsPrefab], scene: RsScene, layer: RsLayer, x: float = 0, y: float = 0):
         ...
 
     @property
@@ -73,7 +73,7 @@ class RsDirtyObject(RsObject):
     __vspeed: float
     gravity: dict[str, float]
 
-    def __init__(self, scene: RsScene, layer: RsLayer, x: float = 0, y: float = 0):
+    def __init__(self, prefab: type[RsPrefab], scene: RsScene, layer: RsLayer, x: float = 0, y: float = 0):
         ...
 
     ...

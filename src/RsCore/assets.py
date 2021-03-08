@@ -6,8 +6,6 @@ from RsCore.prefab import RsPrefab
 from RsCore.instance import RsObject
 from RsCore import constants as RsConstants, containers as RsContainers
 
-from Game import game_cfg as GameConstants
-
 __all__ = [
     "object_register",
     "scene_update", "room_register", "room_get", "room_goto", "room_goto_next",
@@ -37,9 +35,6 @@ async def scene_update(room: RsScene, time: int) -> None:
 def room_register(name: str):
     global RsRoom, RsLastRoom
     NewRoom = RsScene(name)
-
-    for explicit_layer in GameConstants.layer_default:
-        NewRoom.add_layer(explicit_layer)
 
     Number = len(RsContainers.RoomOrder)
     if 0 < Number:
@@ -97,7 +92,7 @@ def room_goto_next():
 
 def layer_find(name: str) -> Optional[RsLayer]:
     global RsRoom
-    if RsRoom and name in GameConstants.layer_default:
+    if RsRoom:
         Where = RsRoom.trees[name]
         return Where
     return None

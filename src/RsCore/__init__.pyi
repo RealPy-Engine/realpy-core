@@ -21,10 +21,11 @@ RsRoom: Optional[RsScene]
 async def event_collect() -> int:
     ...
 
-
-def init():
+def init(title: str, view_port_width: int, view_port_height: int):
     ...
 
+def startup():
+    ...
 
 def rs_cleanup():
     ...

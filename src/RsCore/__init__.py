@@ -15,8 +15,6 @@ from RsCore.sprite import RsSprite
 from RsCore import constants as RsConstants, containers as RsContainers
 from RsCore.assets import *
 
-import Game
-
 RsScreen = None
 RsRoom = None
 
@@ -37,17 +35,19 @@ async def event_collect():
     return len(RsContainers.Events)
 
 
-def init():
+def init(title: str, view_port_width: int, view_port_height: int):
     global RsScreen, RsRoom
 
     pygame.init()
     PyDisplay.init()
-    PyDisplay.set_caption("Real Space")
+    PyDisplay.set_caption(title)
     PyDisplay.set_allow_screensaver(False)
+    RsConstants.Resolutions = (view_port_width, view_port_height)
+
     RsScreen = PyDisplay.set_mode(RsConstants.Resolutions)
 
-    room_register("roomTest")
-    
+
+def startup():
     # Startup
     Rooms = RsContainers.RoomOrder
     RsRoom = Rooms[0]

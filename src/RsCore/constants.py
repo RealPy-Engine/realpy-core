@@ -1,4 +1,4 @@
-Resolutions = (640, 480)
+Resolutions: tuple[int, int]
 
 # 10 px == 1 metre
 phy_mess: float = 10.0 / 1
@@ -12,9 +12,6 @@ class MASKS:
 
 # Colors
 from pygame import Color
-
-# from collections import namedtuple
-# Color = namedtuple("Color", ["r", "g", "b"])
 
 # Greyscales
 c_white = Color(255, 255, 255)
