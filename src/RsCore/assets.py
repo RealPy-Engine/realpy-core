@@ -2,15 +2,12 @@ from typing import Optional, Union, Type
 
 from RsCore.scene import RsScene
 from RsCore.layer import RsLayer
-from RsCore.prefab import RsPrefab
-from RsCore.instance import RsObject
 from RsCore import constants as RsConstants, containers as RsContainers
 
 
-def object_register(name):
-    Temp = RsPrefab(name)
-    RsContainers.PrefabsPot[name] = Temp
-    return Temp
+def object_register(prefab):
+    RsContainers.PrefabsPot.append(prefab)
+    return prefab
 
 
 def room_register(name):
@@ -70,17 +67,19 @@ def global_layer_find(name):
     return None
 
 
-def instantiate(gobject, layer, x=0, y=0):
+def make_instance(gobject, layer, x=0, y=0):
     if RsContainers.RsRoom:
-        Instance = gobject(RsContainers.RsRoom, layer, x, y)
+        Instance = gobject.instantiate(RsContainers.RsRoom, layer, x, y)
         Instance.onAwake()
 
+        TempHash = hash(gobject)
         try:
-            RsContainers.RsRoom.SpecificInstancesPot[gobject.link_original.name].append(Instance)
+            if not RsContainers.RsRoom.SpecificInstancesPot[TempHash]:
+                RsContainers.RsRoom.SpecificInstancesPot[TempHash] = []
         except KeyError:
-            RsContainers.RsRoom.SpecificInstancesPot[gobject.link_original.name] = []
+            RsContainers.RsRoom.SpecificInstancesPot[TempHash] = []
         finally:
-            RsContainers.RsRoom.SpecificInstancesPot[gobject.link_original.name].append(Instance)
+            RsContainers.RsRoom.SpecificInstancesPot[TempHash].append(Instance)
         return Instance
     else:
         raise RuntimeError("No scene exists.")
@@ -99,10 +98,10 @@ def instance_create(gobject, layer, x=0, y=0):
             Layer = layer
 
         print(Layer)
-        return instantiate(gobject, Layer, x, y)
+        return make_instance(gobject, Layer, x, y)
     return None
 
 
-def instance_destroy(instance):
-    instance.onDestroy()
-    del instance
+def instance_destroy(target):
+    target.onDestroy()
+    del target

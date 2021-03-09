@@ -2,8 +2,7 @@ from typing import Optional, Union, Type
 
 from RsCore.scene import RsScene
 from RsCore.layer import RsLayer
-from RsCore.prefab import RsPrefab
-from RsCore.instance import RsObject
+from RsCore.prefab import RsPrefab, RsInstance, RsDirtyInstance
 from RsCore import constants as RsConstants, containers as RsContainers
 
 __all__ = [
@@ -14,7 +13,7 @@ __all__ = [
 ]
 
 
-def object_register(name: str) -> RsPrefab:
+def object_register(prefab: Type[RsPrefab]) -> Type[RsPrefab]:
     ...
 
 
@@ -46,13 +45,13 @@ def global_layer_find(name: str) -> Optional[RsLayer]:
     ...
 
 
-def instantiate(gobject: Type[RsObject], layer: RsLayer, x: float = 0, y: float = 0) -> RsObject:
+def instantiate(gobject: Type[RsPrefab], layer: RsLayer, x: float = 0, y: float = 0) -> RsInstance:
     ...
 
 
-def instance_create(gobject: Type[RsObject], layer: Union[str, RsLayer], x: float = 0, y: float = 0) -> RsObject:
+def instance_create(gobject: Type[RsPrefab], layer: Union[str, RsLayer], x: float = 0, y: float = 0) -> RsInstance:
     ...
 
 
-def instance_destroy(instance: RsObject) -> None:
+def instance_destroy(target: RsInstance) -> None:
     ...

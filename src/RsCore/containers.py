@@ -14,7 +14,7 @@ Events = []
 Atlas = []
 
 # All game objects
-PrefabsPot = {}
+PrefabsPot = []
 
 # All sounds
 AudioPot = {}

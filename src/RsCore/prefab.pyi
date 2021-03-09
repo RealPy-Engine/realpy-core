@@ -1,47 +1,97 @@
 from typing import Optional, Type
 
-from RsCore.instance import RsObject
+from RsCore.scene import RsScene
+from RsCore.layer import RsLayer
 from RsCore.sprite import RsSprite
 
 
 class RsPrefab(object):
-    name: str
-    __parent: Optional[RsPrefab]
-    children: list[RsPrefab]
-    link_implement: Type[RsObject]
-    sprite_index: Optional[RsSprite]
-    serial: int
-
-    def __init__(self, name: str):
-        ...
-
-    def __hash__(self) -> int:
-        ...
+    __parent: Optional[Type[RsPrefab]]
+    __children: Optional[list[Type[RsPrefab]]]
+    __sprite_index: Optional[RsSprite]
 
     @property
-    def parent(self) -> Optional[RsPrefab]:
+    @classmethod
+    def parent(cls) -> Optional[Type[RsPrefab]]:
         ...
 
     @parent.setter
-    def parent(self, target: Optional[RsPrefab]):
+    @classmethod
+    def parent(cls, target: Optional[Type[RsPrefab]]):
         ...
 
-    def onAwake(self, target):
+    @property
+    @classmethod
+    def children(cls) -> Optional[list[Type[RsPrefab]]]:
         ...
 
-    def onDestroy(self, target):
+    @staticmethod
+    def onAwake(target):
         ...
 
-    def onUpdate(self, time: int, target):
+    @staticmethod
+    def onDestroy(target):
         ...
 
-    def onUpdateLater(self, time: int, target):
+    @staticmethod
+    def onUpdate(target, time: int):
         ...
 
-    def onDraw(self, time: int, target):
+    @staticmethod
+    def onUpdateLater(target, time: int):
         ...
 
-    def onGUI(self, time: int, target):
+    @staticmethod
+    def onDraw(target, time: int):
+        ...
+
+    @staticmethod
+    def onGUI(target, time: int):
+        ...
+
+    @classmethod
+    def instantiate(cls, scene: RsScene, layer: RsLayer, x: float=0, y: float=0) -> RsInstance:
+        ...
+
+    @classmethod
+    def instantiate_complex(cls, scene: RsScene, layer: RsLayer, x: float=0, y: float=0) -> RsInstance:
         ...
 
     ...
+
+
+class RsInstance(object):
+    """RsInstance(Scene, Layer, x, y)
+
+    A derived object of prefabs.
+    """
+    enabled: bool
+    visible: bool
+    original: Type[RsPrefab]
+    scene: RsScene
+    layer: RsLayer
+    x: float
+    y: float
+
+    def __init__(self, original: Type[RsPrefab], scene: RsScene, layer: RsLayer, x: float=0, y: float=0):
+        ...
+
+    ...
+
+
+class RsDirtyInstance(RsInstance):
+    image_angle: float
+    image_index: float
+    __speed: float
+    __direction: float
+    __hspeed: float
+    __vspeed: float
+    gravity_force: float
+    gravity_direction: float
+
+    def __init__(self, original: Type[RsPrefab], scene: RsScene, layer: RsLayer, x: float = 0, y: float = 0):
+        ...
+
+    ...
+
+

@@ -1,9 +1,9 @@
-from RsCore.instance import RsObject
+from RsCore.prefab import RsInstance
 
 
 class RsLayer(object):
     name: str
-    storage: list[RsObject]
+    storage: list[RsInstance]
 
     def __init__(self, name: str):
         ...

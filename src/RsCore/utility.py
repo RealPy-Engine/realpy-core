@@ -37,12 +37,12 @@ def bezier4(t, x1, x2, x3, x4) -> float:
                      + t * (factor * x2 + t * x3)) + t * (factor * (factor * x2 + t * x3) + t * (factor * x3 + t * x4))
 
 
-def lengthdir_x(Length: float, Direction: float) -> float:
-    return math.cos(degtorad(Direction)) * Length
+def lengthdir_x(length: float, direction: float) -> float:
+    return math.cos(degtorad(direction)) * length
 
 
-def lengthdir_y(Length: float, Direction: float) -> float:
-    return -math.sin(degtorad(Direction)) * Length
+def lengthdir_y(length: float, direction: float) -> float:
+    return -math.sin(degtorad(direction)) * length
 
 
 def point_distance(X1: float, Y1: float, X2: float, Y2: float) -> float:

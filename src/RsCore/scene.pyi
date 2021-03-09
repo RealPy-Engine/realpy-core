@@ -1,6 +1,7 @@
-from typing import Optional
+from typing import Optional, Type
 
 from RsCore.layer import RsLayer
+from RsCore.prefab import RsPrefab
 
 
 class RsScene(object):
@@ -9,7 +10,7 @@ class RsScene(object):
     trees: dict[str, RsLayer]
     paused: bool
     EveryInstancesPot: list
-    SpecificInstancesPot: dict[str, list]
+    SpecificInstancesPot: dict[int, list]
     before: Optional[RsScene]
     next: Optional[RsScene]
 

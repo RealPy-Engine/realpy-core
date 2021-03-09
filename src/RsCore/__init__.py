@@ -46,11 +46,15 @@ def init(title: str, view_port_width: int, view_port_height: int):
 def startup():
     # Startup
     Rooms = RsContainers.RoomOrder
-    Temp = Rooms[0]
-
-    if not Temp:
+    StartRoom = None
+    try:
+        StartRoom = Rooms[0]
+        RsContainers.RsRoom = StartRoom
+    except IndexError:
         raise RuntimeError("No scene found.")
-    RsContainers.RsRoom = Temp
+
+    if not StartRoom:
+        raise RuntimeError("Invalid scene.")
 
     absolute_timer = Clock()
 

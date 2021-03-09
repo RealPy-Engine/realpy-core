@@ -9,7 +9,6 @@ from pygame.time import Clock as Clock
 from .scene import RsScene
 from .layer import RsLayer
 from .prefab import RsPrefab
-from .instance import RsObject
 from .sprite import RsSprite
 import RsCore.constants as RsConstants, RsCore.containers as RsContainers
 from .assets import *

@@ -21,7 +21,7 @@ from RsCore.prefab import RsPrefab
 ## Object
 
 ```python
-from RsCore.instance import RsObject, RsDirtyObject
+from RsCore.prefab import RsInstance, RsDirtyInstance
 ```
 
 ## Sprite
