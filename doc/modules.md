@@ -3,53 +3,54 @@
 ## Scene
 
 ```python
-from RsCore.scene import RsScene
+from realpy import RsScene
 ```
 
 ## Layer
 
 ```python
-from RsCore.layer import RsLayer
+from realpy import RsLayer
 ```
 
 ## Prefab
 
 ```python
-from RsCore.prefab import RsPrefab
+from realpy import RsPrefab
 ```
 
 ## Object
 
 ```python
-from RsCore.prefab import RsInstance, RsDirtyInstance
+from realpy import RsInstance, RsDirtyInstance
+```
+
+## Raw Image
+
+```python
+from realpy import RsImage
 ```
 
 ## Sprite
 
 ```python
-from RsCore.sprite import RsImage, RsSprite
+from realpy import RsSprite
 ```
 
 ## Asset Management
 
 ```python
-from RsCore.assets import *
+import realpy
+realpy.method()
 ```
 
 ## Global Containers
 
 ```python
-from RsCore import containers as RsContainers
-```
-
-## Global Constants
-
-```python
-from RsCore import constants as RsConstants
+from realpy import preset
 ```
 
 ## Utilities
 
 ```python
-from RsCore.utility import *
+from realpy import utility
 ```
