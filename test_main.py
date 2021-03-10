@@ -1,6 +1,6 @@
-import RsCore
-from RsCore.assets import room_register, instance_create
-from RsCore.prefab import RsPrefab
+from realpy import framework
+from realpy.asset import room_register, instance_create
+from realpy.prefab import RsPrefab
 
 
 class oTest(RsPrefab):
@@ -8,7 +8,7 @@ class oTest(RsPrefab):
 
 
 if __name__ == "__main__":
-    RsCore.init("RealPy Engine", 640, 480)
+    framework.rs_init("RealPy Engine", 640, 480)
 
     TestRoom = room_register("roomTest")
     Testbed = TestRoom.add_layer("Instances")
@@ -21,5 +21,5 @@ if __name__ == "__main__":
     print(TestInstance2)
     print(TestInstance2.original)
 
-    RsCore.startup()
+    framework.rs_startup()
 
