@@ -1,8 +1,8 @@
 from typing import Optional, Type
 
-from RsCore.scene import RsScene
-from RsCore.layer import RsLayer
-from RsCore.sprite import RsSprite
+from realpy.scene import RsScene
+from realpy.layer import RsLayer
+from realpy.sprite import RsSprite
 
 
 class RsPrefab(object):

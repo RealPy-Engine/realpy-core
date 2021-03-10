@@ -1,7 +1,7 @@
 from typing import Optional, Type
 
-from RsCore.layer import RsLayer
-from RsCore.prefab import RsPrefab
+from realpy.layer import RsLayer
+from realpy.prefab import RsPrefab
 
 
 class RsScene(object):

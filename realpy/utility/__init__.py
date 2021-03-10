@@ -1,19 +1,12 @@
-__all__ = [
-    "sqr", "sign", "degtorad", "radtodeg", "irandom", "irandom_range", "bezier4", "choose",
-    "distribute", "probability_test", "lengthdir_x", "lengthdir_y",
-    "point_distance", "point_direction"
-]
-
 import math
 import random
-from typing import Union
 
 
-def sqr(v) -> float:
+def sqr(v):
     return v * v
 
 
-def sign(x) -> int:
+def sign(x):
     ret = 0
     if x > 0:
         ret = 1
@@ -22,53 +15,53 @@ def sign(x) -> int:
     return ret
 
 
-def degtorad(degree: float) -> float:
+def degtorad(degree):
     return math.radians(degree * math.pi / 180)
 
 
-def radtodeg(radian: float) -> float:
+def radtodeg(radian):
     return math.degrees(radian)
 
 
-def bezier4(t, x1, x2, x3, x4) -> float:
+def bezier4(t, x1, x2, x3, x4):
     factor = 1 - t
 
     return factor * (factor * (factor * x1 + t * x2)
                      + t * (factor * x2 + t * x3)) + t * (factor * (factor * x2 + t * x3) + t * (factor * x3 + t * x4))
 
 
-def lengthdir_x(length: float, direction: float) -> float:
+def lengthdir_x(length, direction):
     return math.cos(degtorad(direction)) * length
 
 
-def lengthdir_y(length: float, direction: float) -> float:
+def lengthdir_y(length, direction):
     return -math.sin(degtorad(direction)) * length
 
 
-def point_distance(X1: float, Y1: float, X2: float, Y2: float) -> float:
+def point_distance(X1, Y1, X2, Y2):
     return math.dist([X1, Y1], [X2, Y2])
 
 
-def point_direction(X1: float, Y1: float, X2: float, Y2: float) -> float:
+def point_direction(X1, Y1, X2, Y2):
     return radtodeg(math.atan2(Y2 - Y1, X1 - X2))
 
 
-def irandom(n: Union[int, float]) -> int:
+def irandom(n):
     return random.randint(0, int(n))
 
 
-def irandom_range(n1: Union[int, float], n2: Union[int, float]) -> int:
+def irandom_range(n1, n2):
     return random.randint(int(n1), int(n2))
 
 
-def distribute(x1: float, x2: float, ratio: float) -> float:
+def distribute(x1, x2, ratio):
     if irandom(100) <= ratio * 100:
         return x1
     else:
         return x2
 
 
-def probability_test(max: Union[int, float]) -> bool:
+def probability_test(max):
     return bool(irandom(max - 1) == 0)
 
 

@@ -1,58 +1,55 @@
-from typing import Optional, Union, Type
-
-from RsCore.scene import RsScene
-from RsCore.layer import RsLayer
-from RsCore import constants as RsConstants, containers as RsContainers
+from realpy.scene import RsScene
+from realpy import preset
 
 
 def object_register(prefab):
-    RsContainers.PrefabsPot.append(prefab)
+    preset.PrefabsPot.append(prefab)
     return prefab
 
 
 def room_register(name):
     NewRoom = RsScene(name)
 
-    Number = len(RsContainers.RoomOrder)
+    Number = len(preset.RoomOrder)
     if 0 < Number:
-        LastRoom = RsContainers.RsLastRoom
+        LastRoom = preset.RsLastRoom
         if LastRoom and NewRoom:
             NewRoom.before = LastRoom
             LastRoom.next = NewRoom
     else:
-        RsContainers.RsRoom = NewRoom
-        RsContainers.RsLastRoom = NewRoom
+        preset.RsRoom = NewRoom
+        preset.RsLastRoom = NewRoom
 
-    RsContainers.RoomOrder.append(NewRoom)
-    RsContainers.RoomPot[name] = NewRoom
+    preset.RoomOrder.append(NewRoom)
+    preset.RoomPot[name] = NewRoom
     return NewRoom
 
 
 def room_get(id):
     if type(id) is int:
-        return RsContainers.RoomOrder[id]
+        return preset.RoomOrder[id]
     elif type(id) is str:
-        return RsContainers.RoomPot[id]
+        return preset.RoomPot[id]
 
 
 def room_set(taget):
-    if RsContainers.RsRoom:
-        RsContainers.RsRoom.onDestroy()
-    RsContainers.RsRoom = taget
-    RsContainers.RsRoom.onAwake()
-    print("Go to " + str(RsContainers.RsRoom))
+    if preset.RsRoom:
+        preset.RsRoom.onDestroy()
+    preset.RsRoom = taget
+    preset.RsRoom.onAwake()
+    print("Go to " + str(preset.RsRoom))
 
 
 def room_goto(name):
     Temp = room_get(name)
     if not Temp:
         raise RuntimeError("The room " + name + " doesn't exist.")
-    elif Temp is not RsContainers.RsRoom:
+    elif Temp is not preset.RsRoom:
         room_set(Temp)
 
 
 def room_goto_next():
-    Next = RsContainers.RsRoom.next
+    Next = preset.RsRoom.next
     print(Next)
     if Next:
         room_set(Next)
@@ -61,37 +58,37 @@ def room_goto_next():
 
 
 def global_layer_find(name):
-    if RsContainers.RsRoom:
-        Where = RsContainers.RsRoom.trees[name]
+    if preset.RsRoom:
+        Where = preset.RsRoom.trees[name]
         return Where
     return None
 
 
 def make_instance(gobject, layer, x=0, y=0):
-    if RsContainers.RsRoom:
-        Instance = gobject.instantiate(RsContainers.RsRoom, layer, x, y)
+    if preset.RsRoom:
+        Instance = gobject.instantiate(preset.RsRoom, layer, x, y)
         Instance.onAwake()
 
         TempHash = hash(gobject)
         try:
-            if not RsContainers.RsRoom.SpecificInstancesPot[TempHash]:
-                RsContainers.RsRoom.SpecificInstancesPot[TempHash] = []
+            if not preset.RsRoom.SpecificInstancesPot[TempHash]:
+                preset.RsRoom.SpecificInstancesPot[TempHash] = []
         except KeyError:
-            RsContainers.RsRoom.SpecificInstancesPot[TempHash] = []
+            preset.RsRoom.SpecificInstancesPot[TempHash] = []
         finally:
-            RsContainers.RsRoom.SpecificInstancesPot[TempHash].append(Instance)
+            preset.RsRoom.SpecificInstancesPot[TempHash].append(Instance)
         return Instance
     else:
         raise RuntimeError("No scene exists.")
 
 
 def instance_create(gobject, layer, x=0, y=0):
-    if RsContainers.RsRoom:
+    if preset.RsRoom:
         if not layer:
             raise RuntimeError("No layer specified.")
         if type(layer) is str:
             try:
-                Layer = RsContainers.RsRoom.layer_find(layer)
+                Layer = preset.RsRoom.layer_find(layer)
             except KeyError:
                 raise RuntimeError("The specific layer are not found.")
         else:

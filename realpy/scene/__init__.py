@@ -1,4 +1,4 @@
-from RsCore.layer import RsLayer
+from realpy.layer import RsLayer
 
 
 class RsScene(object):

@@ -1,4 +1,4 @@
-from RsCore.prefab import RsInstance
+from realpy.prefab import RsInstance
 
 
 class RsLayer(object):

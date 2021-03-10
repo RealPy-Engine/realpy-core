@@ -1,4 +1,4 @@
-from RsCore.utility import *
+from realpy.utility import *
 
 
 class RsPrefab(object):
@@ -172,5 +172,3 @@ class RsDirtyInstance(RsInstance):
         Vspeed = self.__vspeed
         if Vspeed != 0:
             self.y += Vspeed
-
-

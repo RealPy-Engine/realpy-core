@@ -1,27 +1,18 @@
 import os
-from typing import Optional, Union
 
 import pygame.image as PyImage
 import pygame.rect as PyRect
-from pygame.surface import Surface as PySurface
-
-import RsCore.constants as RsConstants
 
 
 class RsImage(object):
-    """
-        RsImage(image_path)
-
-        Raw image of a sprite that contains single image or multiple images.
-    """
     boundbox = PyRect.Rect(0, 0, 0, 0)
 
-    def __init__(self, filepath: Union[list[str], str]) -> None:
+    def __init__(self, filepath) -> None:
         if not PyImage.get_extended():
             raise RuntimeError("Cannot load image files.")
 
-        self.number: int
-        self.raw_data: list[PySurface] = []
+        self.number = -1
+        self.raw_data = []
 
         if type(filepath) is str:
             self.number = 0
@@ -40,16 +31,12 @@ class RsImage(object):
 
 
 class RsSprite(object):
-    raw_data: Optional[RsImage] = None
-    xoffset: int = 0
-    yoffset: int = 0
-
-    def __init__(self, image: RsImage, mask_type=RsConstants.MASKS.RECTANGLE, xo: int = 0, yo: int = 0):
+    def __init__(self, image, mask_type, xo=0, yo=0):
         self.raw_data = image
         self.xoffset = xo
         self.yoffset = yo
 
-    def update(self, x: float, y: float):
+    def update(self, x, y):
         if self.raw_data:
             Box = self.raw_data.boundbox
             Box.x = int(x)

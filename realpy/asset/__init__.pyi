@@ -1,9 +1,8 @@
 from typing import Optional, Union, Type
 
-from RsCore.scene import RsScene
-from RsCore.layer import RsLayer
-from RsCore.prefab import RsPrefab, RsInstance, RsDirtyInstance
-from RsCore import constants as RsConstants, containers as RsContainers
+from realpy.scene import RsScene
+from realpy.layer import RsLayer
+from realpy.prefab import RsPrefab, RsInstance
 
 __all__ = [
     "object_register",
