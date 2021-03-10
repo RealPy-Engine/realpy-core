@@ -45,6 +45,7 @@ class RsSprite(object):
             Box.y = int(y)
 
     def draw(self, where, index, x, y):
+        # TODO: #10 Game object still can't draw its sprite.
         if self.image:
             if self.image.number == 0:
                 Image: Surface = self.image.raw_data[0]
