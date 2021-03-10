@@ -80,6 +80,12 @@ class RsInstance(object):
         self.x = x
         self.y = y
 
+    def __str__(self):
+        return "{0} at Layer {2} of the Scene {1}" % id(self), self.scene, self.layer
+
+    def __repr__(self):
+        return "Realpy Instance " + str(self)
+ 
     def onAwake(self):
         if self.original:
             self.original.onAwake(self)
@@ -119,19 +125,19 @@ class RsDirtyInstance(RsInstance):
         self.gravity_direction = 0
 
     @property
-    def speed(self) -> float:
+    def speed(self):
         return self.__speed
 
     @property
-    def direction(self) -> float:
+    def direction(self):
         return self.__direction
 
     @property
-    def hspeed(self) -> float:
+    def hspeed(self):
         return self.__hspeed
 
     @property
-    def vspeed(self) -> float:
+    def vspeed(self):
         return self.__vspeed
 
     @speed.setter
@@ -158,17 +164,17 @@ class RsDirtyInstance(RsInstance):
         self.__speed = point_distance(0, 0, self.__hspeed, self.__vspeed)
         self.__direction = point_direction(0, 0, self.__hspeed, self.__vspeed)
 
-    def onUpdateLater(self, time: int):
+    def onUpdateLater(self, time):
         super().onUpdateLater()
 
         if self.gravity_force != 0:
             self.__hspeed += lengthdir_x(self.gravity_force, self.gravity_direction)
             self.__vspeed += lengthdir_y(self.gravity_force, self.gravity_direction)
         
-        Hspeed = self.__hspeed
+        Hspeed = self.__hspeed * time
         if Hspeed != 0:
             self.x += Hspeed
 
-        Vspeed = self.__vspeed
+        Vspeed = self.__vspeed * time
         if Vspeed != 0:
             self.y += Vspeed

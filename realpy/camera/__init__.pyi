@@ -1,5 +1,5 @@
 from realpy.prefab import RsPrefab
 
 
-class oCamera(RsPrefab):
+class RsCamera(RsPrefab):
     ...

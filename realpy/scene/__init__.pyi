@@ -5,6 +5,11 @@ from realpy.prefab import RsPrefab
 
 
 class RsScene(object):
+    """
+        RsScene(name)
+
+        Large portion of game pipeline.
+    """
     name: str
     layer_stack: list[RsLayer]
     trees: dict[str, RsLayer]
@@ -15,6 +20,9 @@ class RsScene(object):
     next: Optional[RsScene]
 
     def __init__(self, name: str):
+        ...
+
+    def __str__(self) -> str:
         ...
 
     def __repr__(self) -> str:

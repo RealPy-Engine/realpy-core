@@ -12,8 +12,11 @@ class RsScene(object):
         self.before = None
         self.next = None
 
+    def __str__(self):
+        return self.name
+
     def __repr__(self):
-        return "Room " + self.name
+        return "Scene " + str(self)
 
     def add_layer(self, caption):
         Temp = RsLayer(caption)

@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, _T
 
 __all__ = [
     "sqr", "sign", "degtorad", "radtodeg", "irandom", "irandom_range", "bezier4", "choose",

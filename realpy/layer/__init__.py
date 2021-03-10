@@ -3,8 +3,11 @@ class RsLayer(object):
         self.name = name
         self.storage = []
 
+    def __str__(self):
+        return self.name
+
     def __repr__(self):
-        return "Layer " + self.name
+        return "Layer " + str(self)
 
     def onAwake(self):
         for Instance in self.storage:
