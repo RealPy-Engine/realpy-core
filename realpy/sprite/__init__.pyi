@@ -1,5 +1,6 @@
 from typing import Optional, Union
 
+from pygame.sprite import Sprite as PySprite
 import pygame.image as PyImage
 import pygame.rect as PyRect
 from pygame.surface import Surface as PySurface
@@ -29,7 +30,6 @@ class RsSprite(object):
     yoffset: int
 
     def __init__(self, image: RsImage, mask_type=preset.MASKS.RECTANGLE, xo: int = 0, yo: int = 0):
-        self.image: Optional[RsImage]
         ...
 
     def update(self, x: float, y: float):

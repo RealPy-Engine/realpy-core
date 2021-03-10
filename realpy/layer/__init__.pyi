@@ -1,4 +1,6 @@
-from realpy.prefab import RsInstance
+from typing import Union
+
+from realpy import GameObject, RsDirtyInstance, RsInstance
 
 
 class RsLayer(object):
@@ -8,7 +10,7 @@ class RsLayer(object):
         Belongs to a scene and contains game instances.
     """
     name: str
-    storage: list[RsInstance]
+    storage: list[GameObject]
 
     def __init__(self, name: str):
         ...

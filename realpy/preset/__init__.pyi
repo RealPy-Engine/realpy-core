@@ -1,4 +1,4 @@
-from typing import Optional, Type
+from typing import Optional
 
 from pygame.event import Event
 from pygame.surface import Surface as PySurface
@@ -27,7 +27,7 @@ Events: list[Event]
 Atlas: dict[str, RsSprite]
 
 # All game objects
-PrefabsPot: list[Type[RsPrefab]]
+PrefabsPot: list[type[RsPrefab]]
 
 # All sounds
 AudioPot: dict[str, object]

@@ -1,4 +1,4 @@
-from typing import Optional, Type
+from typing import Optional, overload
 
 from realpy.layer import RsLayer
 from realpy.prefab import RsPrefab
@@ -30,6 +30,10 @@ class RsScene(object):
 
     def add_layer(self, caption: str) -> RsLayer:
         ...
+
+    def add_layer_direct(self, layer: RsLayer) -> RsLayer:
+        ...
+
 
     def layer_find(self, caption: str) -> Optional[RsLayer]:
         ...

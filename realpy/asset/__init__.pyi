@@ -1,8 +1,9 @@
-from typing import Optional, Union, Type
+from typing import Optional, Union
 
-from realpy.scene import RsScene
-from realpy.layer import RsLayer
-from realpy.prefab import RsPrefab, RsInstance
+from realpy import GameObject
+from realpy import RsScene
+from realpy import RsLayer
+from realpy import RsDirtyInstance, RsPrefab, RsInstance
 
 __all__ = [
     "object_register",
@@ -12,7 +13,7 @@ __all__ = [
 ]
 
 
-def object_register(prefab: Type[RsPrefab]) -> Type[RsPrefab]:
+def object_register(prefab: type[RsPrefab]) -> type[RsPrefab]:
     ...
 
 
@@ -20,7 +21,7 @@ async def scene_update(room: RsScene, time: int) -> None:
     ...
 
 
-def room_register(name: str) -> RsScene:
+def room_register(info: Union[RsScene, str]) -> RsScene:
     ...
 
 
@@ -44,13 +45,13 @@ def global_layer_find(name: str) -> Optional[RsLayer]:
     ...
 
 
-def instantiate(gobject: Type[RsPrefab], layer: RsLayer, x: float = 0, y: float = 0) -> RsInstance:
+def instantiate(gobject: type[RsPrefab], layer: RsLayer, x: float = 0, y: float = 0) -> GameObject:
     ...
 
 
-def instance_create(gobject: Type[RsPrefab], layer: Union[str, RsLayer], x: float = 0, y: float = 0) -> RsInstance:
+def instance_create(gobject: type[RsPrefab], layer: Union[str, RsLayer], x: float = 0, y: float = 0) -> GameObject:
     ...
 
 
-def instance_destroy(target: RsInstance) -> None:
+def instance_destroy(target: GameObject) -> None:
     ...

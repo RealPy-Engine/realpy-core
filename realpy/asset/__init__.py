@@ -1,5 +1,7 @@
-from realpy.scene import RsScene
-from realpy import preset
+from typing import Optional, Union
+
+from realpy.layer import RsLayer
+from realpy import preset, RsScene, RsPrefab
 
 
 def object_register(prefab):
@@ -7,8 +9,13 @@ def object_register(prefab):
     return prefab
 
 
-def room_register(name):
-    NewRoom = RsScene(name)
+def room_register(info):
+    if type(info) is str:
+        NewRoom = RsScene(info)
+        name: str = info
+    else:
+        NewRoom: RsScene = info
+        name: str = info.name
 
     Number = len(preset.RoomOrder)
     if 0 < Number:
@@ -64,7 +71,7 @@ def global_layer_find(name):
     return None
 
 
-def make_instance(gobject, layer, x=0, y=0):
+def make_instance(gobject: type[RsPrefab], layer: RsLayer, x=0, y=0):
     if preset.RsRoom:
         Instance = gobject.instantiate(preset.RsRoom, layer, x, y)
         Instance.onAwake()
@@ -75,26 +82,30 @@ def make_instance(gobject, layer, x=0, y=0):
                 preset.RsRoom.SpecificInstancesPot[TempHash] = []
         except KeyError:
             preset.RsRoom.SpecificInstancesPot[TempHash] = []
-        finally:
-            preset.RsRoom.SpecificInstancesPot[TempHash].append(Instance)
+        preset.RsRoom.SpecificInstancesPot[TempHash].append(Instance)
+
         return Instance
     else:
         raise RuntimeError("No scene exists.")
 
 
-def instance_create(gobject, layer, x=0, y=0):
+def instance_create(gobject: type[RsPrefab], layer: Union[str, RsLayer], x=0, y=0):
     if preset.RsRoom:
+        Layer: RsLayer
         if not layer:
             raise RuntimeError("No layer specified.")
-        if type(layer) is str:
+        elif type(layer) is str:
             try:
-                Layer = preset.RsRoom.layer_find(layer)
+                Temp = preset.RsRoom.layer_find(layer)
+                if Temp:
+                    Layer = Temp
+                else:
+                    raise KeyError("")
             except KeyError:
                 raise RuntimeError("The specific layer are not found.")
-        else:
+        elif type(layer) is RsLayer:
             Layer = layer
 
-        print(Layer)
         return make_instance(gobject, Layer, x, y)
     return None
 

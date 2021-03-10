@@ -1,4 +1,4 @@
-from typing import Optional, Type
+from typing import Optional, Union
 
 from realpy.scene import RsScene
 from realpy.layer import RsLayer
@@ -11,9 +11,10 @@ class RsPrefab(object):
 
         A preset of game object. Contains its own sprite and hierachies.
     """
-    __parent: Optional[Type[RsPrefab]]
-    __children: Optional[list[Type[RsPrefab]]]
+    __parent: Optional[type[RsPrefab]]
+    __children: Optional[list[type[RsPrefab]]]
     __sprite_index: Optional[RsSprite]
+    __is_dirty: bool
 
     @classmethod
     def __str__(cls) -> str:
@@ -25,17 +26,17 @@ class RsPrefab(object):
 
     @property
     @classmethod
-    def parent(cls) -> Optional[Type[RsPrefab]]:
+    def parent(cls) -> Optional[type[RsPrefab]]:
         ...
 
     @parent.setter
     @classmethod
-    def parent(cls, target: Optional[Type[RsPrefab]]):
+    def parent(cls, target: Optional[type[RsPrefab]]):
         ...
 
     @property
     @classmethod
-    def children(cls) -> Optional[list[Type[RsPrefab]]]:
+    def children(cls) -> Optional[list[type[RsPrefab]]]:
         ...
 
     @staticmethod
@@ -63,11 +64,15 @@ class RsPrefab(object):
         ...
 
     @classmethod
-    def instantiate(cls, scene: RsScene, layer: RsLayer, x: float=0, y: float=0) -> RsInstance:
+    def instantiate(cls, scene: RsScene, layer: RsLayer, x: float=0, y: float=0) -> Union[RsDirtyInstance, RsInstance]:
         ...
 
     @classmethod
-    def instantiate_complex(cls, scene: RsScene, layer: RsLayer, x: float=0, y: float=0) -> RsDirtyInstance:
+    def make_instance(cls, scene: RsScene, layer: RsLayer, x: float=0, y: float=0) -> RsInstance:
+        ...
+
+    @classmethod
+    def make_instance_complex(cls, scene: RsScene, layer: RsLayer, x: float=0, y: float=0) -> RsDirtyInstance:
         ...
 
     ...
@@ -81,19 +86,37 @@ class RsInstance(object):
     """
     enabled: bool
     visible: bool
-    original: Type[RsPrefab]
+    original: type[RsPrefab]
     scene: RsScene
     layer: RsLayer
     x: float
     y: float
 
-    def __init__(self, original: Type[RsPrefab], scene: RsScene, layer: RsLayer, x: float=0, y: float=0):
+    def __init__(self, original: type[RsPrefab], scene: RsScene, layer: RsLayer, x: float=0, y: float=0):
         ...
 
     def __str__(self) -> str:
         ...
 
     def __repr__(self) -> str:
+        ...
+
+    def onAwake(self):
+        ...
+
+    def onDestroy(self):
+        ...
+
+    def onUpdate(self, time: int):
+        ...
+
+    def onUpdateLater(self, time: int):
+        ...
+
+    def onDraw(self, time: int):
+        ...
+
+    def onGUI(self, time: int):
         ...
 
     ...
@@ -115,7 +138,7 @@ class RsDirtyInstance(RsInstance):
     gravity_force: float
     gravity_direction: float
 
-    def __init__(self, original: Type[RsPrefab], scene: RsScene, layer: RsLayer, x: float = 0, y: float = 0):
+    def __init__(self, original: type[RsPrefab], scene: RsScene, layer: RsLayer, x: float = 0, y: float = 0):
         ...
 
     @property

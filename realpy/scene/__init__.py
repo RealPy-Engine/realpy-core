@@ -1,3 +1,4 @@
+from typing import overload
 from realpy.layer import RsLayer
 
 
@@ -23,6 +24,11 @@ class RsScene(object):
         self.layer_stack.append(Temp)
         self.trees[caption] = Temp
         return Temp
+
+    def add_layer_direct(self, layer):
+        self.layer_stack.append(layer.name)
+        self.trees[layer.name] = layer
+        return layer
 
     def layer_find(self, caption):
         return self.trees[caption]

@@ -5,6 +5,10 @@ class RsPrefab(object):
     __parent = None
     __children = []
     __sprite_index = None
+    __is_dirty = False
+
+    def __new__(cls):
+        cls.__is_dirty = False
 
     def __str__(self):
         return str(type(self))
@@ -68,11 +72,19 @@ class RsPrefab(object):
 
     @classmethod
     def instantiate(cls, scene, layer, x=0, y=0):
+        if cls.__is_dirty:
+            Result = cls.make_instance_complex(scene, layer, x, y)
+        else:
+            Result = cls.make_instance(scene, layer, x, y)
+        return Result
+
+    @classmethod
+    def make_instance(cls, scene, layer, x=0, y=0):
         Result = RsInstance(cls, scene, layer, x, y)
         return Result
 
     @classmethod
-    def instantiate_complex(cls, scene, layer, x=0, y=0):
+    def make_instance_complex(cls, scene, layer, x=0, y=0):
         Result = RsDirtyInstance(cls, scene, layer, x, y)
         return Result
 
@@ -81,11 +93,12 @@ class RsInstance(object):
     def __init__(self, original, scene, layer, x=0, y=0):
         self.enabled = True
         self.visible = True
-        self.original = original
+        self.original: type[RsPrefab] = original
         self.scene = scene
         self.layer = layer
         self.x = x
         self.y = y
+        layer.storage.append(self)
 
     def __str__(self):
         return f"Realpy Instance of {str(self.original)}"
@@ -101,21 +114,21 @@ class RsInstance(object):
         if self.original:
             self.original.onDestroy(self)
 
-    def onUpdate(self):
+    def onUpdate(self, time):
         if self.original:
-            self.original.onUpdate(self)
+            self.original.onUpdate(self, time)
 
-    def onUpdateLater(self):
+    def onUpdateLater(self, time):
         if self.original:
-            self.original.onUpdateLater(self)
+            self.original.onUpdateLater(self, time)
 
-    def onDraw(self):
+    def onDraw(self, time):
         if self.original:
-            self.original.onDraw(self)
+            self.original.onDraw(self, time)
 
-    def onGUI(self):
+    def onGUI(self, time):
         if self.original:
-            self.original.onGUI(self)
+            self.original.onGUI(self, time)
 
 
 class RsDirtyInstance(RsInstance):
@@ -173,7 +186,7 @@ class RsDirtyInstance(RsInstance):
         self.__direction = point_direction(0, 0, self.__hspeed, self.__vspeed)
 
     def onUpdateLater(self, time):
-        super().onUpdateLater()
+        super().onUpdateLater(time)
 
         if self.gravity_force != 0:
             self.__hspeed += lengthdir_x(self.gravity_force, self.gravity_direction)
