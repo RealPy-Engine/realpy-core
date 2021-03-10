@@ -1,8 +1,9 @@
 import os
-import RsCore
-from RsCore.assets import room_register, instance_create
-from RsCore.prefab import RsPrefab
-from RsCore.sprite import RsImage, RsSprite
+
+from realpy import framework
+from realpy.prefab import RsPrefab
+from realpy.sprite import RsImage, RsSprite
+from realpy.asset import room_register, instance_create
 
 
 class SPACESHIP_TYPES:
@@ -14,7 +15,7 @@ class oSpaceShip(RsPrefab):
 
 
 if __name__ == "__main__":
-    RsCore.init("RealPy Engine", 640, 480)
+    framework.rs_init("RealPy Engine", 640, 480)
 
     TestRoom = room_register("roomTest")
     Testbed = TestRoom.add_layer("Instances")
@@ -25,9 +26,8 @@ if __name__ == "__main__":
     TestSprite = RsSprite(TestImage)
 
     TestInstance1 = instance_create(oSpaceShip, Testbed, 40, 40)
-    
 
     print(TestInstance1)
     print(TestInstance1.original)
 
-    RsCore.startup()
+    framework.rs_startup()
