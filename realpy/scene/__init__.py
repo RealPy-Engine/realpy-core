@@ -13,10 +13,10 @@ class RsScene(object):
         self.next = None
 
     def __str__(self):
-        return self.name
+        return f"Realpy Scene {self.name}"
 
     def __repr__(self):
-        return "Scene " + str(self)
+        return f"Realpy Scene {self.name} ({len(self.layer_stack)})"
 
     def add_layer(self, caption):
         Temp = RsLayer(caption)
