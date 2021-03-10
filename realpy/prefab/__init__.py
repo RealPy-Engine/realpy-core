@@ -158,7 +158,7 @@ class RsDirtyInstance(RsInstance):
         self.__speed = point_distance(0, 0, self.__hspeed, self.__vspeed)
         self.__direction = point_direction(0, 0, self.__hspeed, self.__vspeed)
 
-    def onUpdateLater(self, time):
+    def onUpdateLater(self, time: int):
         super().onUpdateLater()
 
         if self.gravity_force != 0:

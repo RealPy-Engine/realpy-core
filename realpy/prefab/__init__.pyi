@@ -26,27 +26,27 @@ class RsPrefab(object):
         ...
 
     @staticmethod
-    def onAwake(target):
+    def onAwake(target: RsInstance):
         ...
 
     @staticmethod
-    def onDestroy(target):
+    def onDestroy(target: RsInstance):
         ...
 
     @staticmethod
-    def onUpdate(target, time: int):
+    def onUpdate(target: RsInstance, time: int):
         ...
 
     @staticmethod
-    def onUpdateLater(target, time: int):
+    def onUpdateLater(target: RsInstance, time: int):
         ...
 
     @staticmethod
-    def onDraw(target, time: int):
+    def onDraw(target: RsInstance, time: int):
         ...
 
     @staticmethod
-    def onGUI(target, time: int):
+    def onGUI(target: RsInstance, time: int):
         ...
 
     @classmethod
@@ -54,7 +54,7 @@ class RsPrefab(object):
         ...
 
     @classmethod
-    def instantiate_complex(cls, scene: RsScene, layer: RsLayer, x: float=0, y: float=0) -> RsInstance:
+    def instantiate_complex(cls, scene: RsScene, layer: RsLayer, x: float=0, y: float=0) -> RsDirtyInstance:
         ...
 
     ...
