@@ -9,6 +9,7 @@ setuptools.setup(
     author="Iconerworks",
     author_email="yoyofa2@hotmail.com",
     description="2D game engine",
+    license="LICENSE",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/RealPy-Engine/realpy-core",
