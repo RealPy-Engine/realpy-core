@@ -1,9 +1,7 @@
-import os
-
 from realpy import framework
-from realpy.prefab import RsPrefab
-from realpy.sprite import RsImage, RsSprite
-from realpy.asset import room_register, instance_create
+from realpy import RsPrefab
+from realpy import RsImage, RsSprite
+from realpy import room_register, instance_create
 
 
 class SPACESHIP_TYPES:
@@ -21,13 +19,13 @@ if __name__ == "__main__":
     Testbed = TestRoom.add_layer("Instances")
     Testbed = TestRoom.add_layer("Starfield")
     TestRoom.add_layer("Background")
-    
+
     TestImage = RsImage("battleship.png")
-    TestSprite = RsSprite(TestImage)
+    TestSprite = RsSprite(TestImage, 0)
 
     TestInstance1 = instance_create(oSpaceShip, Testbed, 40, 40)
 
-    print(TestInstance1)
+    print(TestInstance1.__repr__())
     print(TestInstance1.original)
 
     framework.rs_startup()
