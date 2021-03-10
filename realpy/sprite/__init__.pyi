@@ -20,14 +20,22 @@ class RsImage(object):
     def __init__(self, filepath: Union[str, list[str]]) -> None:
         ...
 
+    ...
+
 
 class RsSprite(object):
-    raw_data: Optional[RsImage]
+    image: Optional[RsImage]
     xoffset: int
     yoffset: int
 
     def __init__(self, image: RsImage, mask_type=preset.MASKS.RECTANGLE, xo: int = 0, yo: int = 0):
+        self.image: Optional[RsImage]
         ...
 
     def update(self, x: float, y: float):
         ...
+
+    def draw(self, where: PySurface, index: int, x: float, y: float):
+        ...
+
+    ...

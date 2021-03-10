@@ -6,6 +6,13 @@ class RsPrefab(object):
     __children = []
     __sprite_index = None
 
+    def __str__(self):
+        return str(type(self))
+
+    def __repr__(self):
+        SpriteCheck = f" ({self.__sprite_index})" if self.__sprite_index else ""
+        return f"Prefab" + SpriteCheck + f" of {(type(self)).__base__}"
+
     @property
     @classmethod
     def parent(cls):
@@ -81,10 +88,10 @@ class RsInstance(object):
         self.y = y
 
     def __str__(self):
-        return "{0} at Layer {2} of the Scene {1}" % id(self), self.scene, self.layer
+        return f"Realpy Instance of {str(self.original)}"
 
     def __repr__(self):
-        return "Realpy Instance " + str(self)
+        return f"Instance %s at Layer {self.layer} of the Scene {self.scene}" % id(self)
  
     def onAwake(self):
         if self.original:
@@ -115,6 +122,7 @@ class RsDirtyInstance(RsInstance):
     def __init__(self, original, scene, layer, x=0, y=0):
         super().__init__(original, scene, layer, x, y)
 
+        self.sprite_index = original.sprite_index
         self.image_angle = 0
         self.image_index = 0
         self.__speed = 0

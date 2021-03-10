@@ -15,6 +15,14 @@ class RsPrefab(object):
     __children: Optional[list[Type[RsPrefab]]]
     __sprite_index: Optional[RsSprite]
 
+    @classmethod
+    def __str__(cls) -> str:
+        ...
+
+    @classmethod
+    def __repr__(cls) -> str:
+        ...
+
     @property
     @classmethod
     def parent(cls) -> Optional[Type[RsPrefab]]:
@@ -97,6 +105,7 @@ class RsDirtyInstance(RsInstance):
 
         A derived object from prefabs. Has physical attributes.
     """
+    sprite_index: Optional[RsSprite]
     image_angle: float
     image_index: float
     __speed: float

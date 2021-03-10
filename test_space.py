@@ -1,6 +1,7 @@
-from realpy import framework
-from realpy import RsPrefab
-from realpy import RsImage, RsSprite
+import math
+
+from realpy import framework, preset
+from realpy import RsPrefab, RsInstance, RsDirtyInstance, RsImage, RsSprite
 from realpy import room_register, instance_create
 
 
@@ -9,7 +10,11 @@ class SPACESHIP_TYPES:
 
 
 class oSpaceShip(RsPrefab):
-    pass
+    @staticmethod
+    def onDraw(target: RsDirtyInstance, time):
+        super().onDraw(target, time)
+        if preset.RsScreen and target.sprite_index:
+            target.sprite_index.draw(preset.RsScreen, math.floor(target.image_index), target.x, target.y)
 
 
 if __name__ == "__main__":
@@ -25,7 +30,8 @@ if __name__ == "__main__":
 
     TestInstance1 = instance_create(oSpaceShip, Testbed, 40, 40)
 
-    print(TestInstance1.__repr__())
+    print(TestInstance1)
     print(TestInstance1.original)
+    # print(repr(oSpaceShip()))
 
     framework.rs_startup()

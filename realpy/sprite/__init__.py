@@ -1,7 +1,9 @@
 import os
+from typing import Optional
 
 import pygame.image as PyImage
 import pygame.rect as PyRect
+from pygame.surface import Surface
 
 
 class RsImage(object):
@@ -32,15 +34,30 @@ class RsImage(object):
 
 class RsSprite(object):
     def __init__(self, image, mask_type, xo=0, yo=0):
-        self.raw_data = image
+        self.image: Optional[RsImage] = image
         self.xoffset = xo
         self.yoffset = yo
 
     def update(self, x, y):
-        if self.raw_data:
-            Box = self.raw_data.boundbox
+        if self.image:
+            Box = self.image.boundbox
             Box.x = int(x)
             Box.y = int(y)
+
+    def draw(self, where, index, x, y):
+        if self.image:
+            if self.image.number == 0:
+                Image: Surface = self.image.raw_data[0]
+                Position = Image.get_rect()
+                Position.x = x
+                Position.y = y
+                Image.blit(where, Position)
+            elif 0 < self.image.number:
+                Image: Surface = self.image.raw_data[index]
+                Position = Image.get_rect()
+                Position.x = x
+                Position.y = y
+                Image.blit(where, Position)
 
 
 """

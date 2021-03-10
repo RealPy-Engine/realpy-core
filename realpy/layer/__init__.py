@@ -4,10 +4,10 @@ class RsLayer(object):
         self.storage = []
 
     def __str__(self):
-        return self.name
+        return f"Realpy Layer {self.name}"
 
     def __repr__(self):
-        return "Layer " + str(self)
+        return f"Realpy Layer {self.name} ({len(self.storage)})"
 
     def onAwake(self):
         for Instance in self.storage:
