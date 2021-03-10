@@ -5,10 +5,10 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="Realpy-iconer",  # Replace with your own username
-    version="0.0.1",
+    version="1.0.0",
     author="Iconerworks",
     author_email="yoyofa2@hotmail.com",
-    description="A 2D game engine",
+    description="2D game engine",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/RealPy-Engine/realpy-core",
