@@ -16,7 +16,7 @@ class RsImage(object):
         if type(filepath) is str:
             self.number = 0
 
-            Temp = PyImage.load(filepath)
+            Temp = PyImage.load(filepath).convert_alpha()
             self.raw_data.append(Temp)
             self.filename = os.path.splitext(filepath)[0]
             self.boundbox = Temp.get_rect()
@@ -24,7 +24,7 @@ class RsImage(object):
             self.number = len(filepath)
 
             for file in filepath:
-                self.raw_data.append(PyImage.load(file))
+                self.raw_data.append(PyImage.load(file).convert_alpha())
             self.filename = os.path.splitext(filepath[0])[0]
 
             Temp = PyImage.load(self.raw_data[0])
