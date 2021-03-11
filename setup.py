@@ -4,7 +4,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="Realpy-iconer",  # Replace with your own username
+    name="realpy-iconer",  # Replace with your own username
     version="1.0.0",
     author="Iconerworks",
     author_email="yoyofa2@hotmail.com",
