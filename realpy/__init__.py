@@ -5,10 +5,15 @@ from .layer import RsLayer
 from .prefab import RsPrefab, RsInstance, RsDirtyInstance
 from .camera import RsCamera
 from .sprite import RsImage, RsSprite
-from .asset import *
 
 from . import framework
 from . import preset
-from . import utility
+
+from .asset import *
+from .utility import *
 
 GameObject = Union[RsInstance, RsDirtyInstance]
+
+init = framework.rs_init
+startup = framework.rs_startup
+quit = framework.rs_quit

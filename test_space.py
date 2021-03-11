@@ -1,8 +1,8 @@
 import math
-from realpy.scene import RsScene
 
-from realpy import framework, preset
-from realpy import RsPrefab, RsInstance, RsDirtyInstance, RsImage, RsSprite
+import realpy
+from realpy import preset
+from realpy import RsScene, RsPrefab, RsInstance, RsDirtyInstance, RsImage, RsSprite
 from realpy import room_register, instance_create
 
 
@@ -41,7 +41,7 @@ class oSpaceShip(RsPrefab):
 
 
 if __name__ == "__main__":
-    framework.rs_init("RealPy Engine", 640, 480)
+    realpy.init("RealPy Engine", 640, 480)
 
     TestRoom = room_register(oTestRoom())
     Testbed = TestRoom.add_layer("Instances")
@@ -55,4 +55,4 @@ if __name__ == "__main__":
 
     TestInstance1 = oSpaceShip.make_instance_complex(TestRoom, Testbed, 40, 40)
 
-    framework.rs_startup()
+    realpy.startup()

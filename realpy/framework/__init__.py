@@ -7,10 +7,14 @@ import pygame.display as PyDisplay
 import pygame.event as PyEvent
 from pygame.time import Clock as Clock
 
-from realpy import preset
+from realpy import preset, RsScene
+
+__all__ = [
+    "rs_init", "rs_startup", "rs_quit"
+]
 
 
-async def scene_update(room, time):
+async def scene_update(room: RsScene, time: int):
     room.onUpdate(time)
     room.onUpdateLater(time)
     room.onDraw(time)

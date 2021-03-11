@@ -7,9 +7,6 @@ class RsPrefab(object):
     __sprite_index = None
     __is_dirty = False
 
-    def __new__(cls):
-        cls.__is_dirty = False
-
     def __str__(self):
         return str(type(self))
 
