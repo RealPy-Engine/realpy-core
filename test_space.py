@@ -1,7 +1,9 @@
 import math
+from realpy.layer import RsLayer
 
-from realpy import framework, preset
-from realpy import RsPrefab, RsInstance, RsDirtyInstance, RsImage, RsSprite
+import realpy
+from realpy import preset
+from realpy import RsScene, RsPrefab, RsInstance, RsImage, RsSprite
 from realpy import room_register, instance_create
 
 
@@ -9,29 +11,47 @@ class SPACESHIP_TYPES:
     PATROL = 0
 
 
+class oTestRoom(RsScene):
+    def __init__(self):
+        super().__init__("roomTest")
+
+    def onAwake(self):
+        super().onAwake()
+        print("Test initialized")
+
+    def onUpdate(self, time):
+        super().onUpdate(time)
+        # print("Test updating")
+
+
 class oSpaceShip(RsPrefab):
     @staticmethod
-    def onDraw(target: RsDirtyInstance, time):
-        super().onDraw(target, time)
-        if preset.RsScreen and target.sprite_index:
-            target.sprite_index.draw(preset.RsScreen, math.floor(target.image_index), target.x, target.y)
+    def onUpdate(target, time):
+        # print("Spaceship is updating")
+        pass
+
+    @staticmethod
+    def onDraw(target, time):
+        if preset.application_surface and target.sprite_index:
+            target.sprite_index.draw(preset.application_surface, 0, target.x, target.y)
 
 
 if __name__ == "__main__":
-    framework.rs_init("RealPy Engine", 640, 480)
+    realpy.init("RealPy Engine", 640, 480)
 
-    TestRoom = room_register("roomTest")
-    Testbed = TestRoom.add_layer("Instances")
-    Testbed = TestRoom.add_layer("Starfield")
-    TestRoom.add_layer("Background")
+    Temp = oTestRoom()
+    TestRoom = room_register(Temp)
+
+    Testbed = TestRoom.add_layer_direct(RsLayer("Instances"))
+    TestRoom.add_layer_direct(RsLayer("Starfield"))
+    TestRoom.add_layer_direct(RsLayer("Background"))
+    print(repr(TestRoom))
+    print(repr(Testbed))
 
     TestImage = RsImage("battleship.png")
     TestSprite = RsSprite(TestImage, 0)
+    oSpaceShip.sprite_index = TestSprite
+    TestInstance1 = oSpaceShip.instantiate(TestRoom, Testbed, 40, 40)
+    print(repr(TestInstance1))
 
-    TestInstance1 = instance_create(oSpaceShip, Testbed, 40, 40)
-
-    print(TestInstance1)
-    print(TestInstance1.original)
-    # print(repr(oSpaceShip()))
-
-    framework.rs_startup()
+    realpy.startup()

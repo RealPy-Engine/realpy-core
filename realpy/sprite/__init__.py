@@ -1,64 +1,31 @@
-import os
 from typing import Optional
 
-import pygame.image as PyImage
-import pygame.rect as PyRect
 from pygame.surface import Surface
 
+from .primitive import RsImage
 
-class RsImage(object):
-    boundbox = PyRect.Rect(0, 0, 0, 0)
-
-    def __init__(self, filepath) -> None:
-        if not PyImage.get_extended():
-            raise RuntimeError("Cannot load image files.")
-
-        self.number = -1
-        self.raw_data = []
-
-        if type(filepath) is str:
-            self.number = 0
-            self.raw_data.append(PyImage.load(filepath))
-            # TODO: #8 can't find the image file
-            self.filename = os.path.splitext(filepath)[0]
-        else:
-            self.number = len(filepath)
-
-            for file in filepath:
-                self.raw_data.append(PyImage.load(file))
-            self.filename = os.path.splitext(filepath[0])[0]
-
-        self.boundbox.width = self.raw_data[0].get_width()
-        self.boundbox.height = self.raw_data[0].get_height()
+__all__ = ("RsImage", "RsSprite")
 
 
 class RsSprite(object):
-    def __init__(self, image, mask_type, xo=0, yo=0):
+    def __init__(self, image: RsImage, mask_type: int=0, xo: int=0, yo: int=0):
         self.image: Optional[RsImage] = image
-        self.xoffset = xo
-        self.yoffset = yo
+        self.mask_type: int = mask_type
+        self.xoffset: int = xo
+        self.yoffset: int = yo
 
-    def update(self, x, y):
-        if self.image:
-            Box = self.image.boundbox
-            Box.x = int(x)
-            Box.y = int(y)
-
-    def draw(self, where, index, x, y):
-        # TODO: #10 Game object still can't draw its sprite.
+    def draw(self, where, index, x: int, y: int, xscale: float=1, yscale: float=1, orientation: float=0, blend: int=0, alpha: float=1):
         if self.image:
             if self.image.number == 0:
                 Image: Surface = self.image.raw_data[0]
                 Position = Image.get_rect()
-                Position.x = x
-                Position.y = y
-                Image.blit(where, Position)
+                Position.center = (x, y)
+                where.blit(Image, Position)
             elif 0 < self.image.number:
                 Image: Surface = self.image.raw_data[index]
                 Position = Image.get_rect()
-                Position.x = x
-                Position.y = y
-                Image.blit(where, Position)
+                Position.center = (x, y)
+                where.blit(Image, Position)
 
 
 """

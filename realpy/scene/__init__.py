@@ -1,30 +1,38 @@
+from typing import Optional
+
 from realpy.layer import RsLayer
 
 
 class RsScene(object):
-    def __init__(self, name):
-        self.name = name
-        self.layer_stack = []
-        self.trees = {}
-        self.paused = False
-        self.EveryInstancesPot = []
-        self.SpecificInstancesPot = {}
-        self.before = None
-        self.next = None
+    """ RsScene(name)
 
-    def __str__(self):
+        Large portion of game pipeline.
+    """
+
+    def __init__(self, name: str):
+        from realpy.prefab import RsInstance
+
+        self.name: str = name
+        self.layer_stack: list[RsLayer] = []
+        self.trees: dict[str, RsLayer] = {}
+        self.paused: bool = False
+        self.EveryInstancesPot: list = []
+        self.SpecificInstancesPot: dict[int, list[RsInstance]] = {}
+        self.before: Optional[RsScene] = None
+        self.next: Optional[RsScene] = None
+
+    def __str__(self) -> str:
         return f"Realpy Scene {self.name}"
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"Realpy Scene {self.name} ({len(self.layer_stack)})"
 
-    def add_layer(self, caption):
-        Temp = RsLayer(caption)
-        self.layer_stack.append(Temp)
-        self.trees[caption] = Temp
-        return Temp
+    def add_layer_direct(self, layer: RsLayer) -> RsLayer:
+        self.layer_stack.append(layer)
+        self.trees[layer.name] = layer
+        return layer
 
-    def layer_find(self, caption):
+    def layer_find(self, caption: str) -> Optional[RsLayer]:
         return self.trees[caption]
 
     def pause(self):
@@ -41,18 +49,18 @@ class RsScene(object):
         for Layer in self.layer_stack:
             Layer.onDestroy()
 
-    def onUpdate(self, time):
+    def onUpdate(self, time: int):
         for Layer in self.layer_stack:
             Layer.onUpdate(time)
 
-    def onUpdateLater(self, time):
+    def onUpdateLater(self, time: int):
         for Layer in self.layer_stack:
             Layer.onUpdateLater(time)
 
-    def onDraw(self, time):
+    def onDraw(self, time: int):
         for Layer in self.layer_stack:
             Layer.onDraw(time)
 
-    def onGUI(self, time):
+    def onGUI(self, time: int):
         for Layer in self.layer_stack:
             Layer.onGUI(time)

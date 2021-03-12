@@ -1,32 +1,43 @@
 from pygame import Color
 
+from typing import Optional
 
-Resolutions = (640, 480)
+from pygame.event import Event
+from pygame.surface import Surface as PySurface
+from pygame import Color
+
+from ..scene import RsScene
+from ..prefab import RsPrefab
+from ..sprite import RsSprite
+
+
+# Display
+Resolutions: tuple[int, int] = (640, 480)
 
 # Application surface
-RsScreen = None
+application_surface: Optional[PySurface] = None
 
 # Rooms
-RsRoom = None
-RsLastRoom = None
-RoomOrder = []
-RoomPot = {}
+RsRoom: Optional[RsScene] = None
+RsLastRoom: Optional[RsScene] = None
+RoomOrder: list[RsScene] = []
+RoomPot: dict[str, RsScene] = {}
 
 # Events
-Events = []
+Events: list[Event] = []
 
 # Sprite texture group
-Atlas = []
+Atlas: dict[str, RsSprite] = {}
 
 # All game objects
-PrefabsPot = []
+PrefabsPot: list[type[RsPrefab]] = []
 
 # All sounds
-AudioPot = {}
+AudioPot: dict[str, object] = {}
 
 # 10 px == 1 metre
-phy_mess = 10.0 / 1
-phy_velocity = (((1000.0 / 60.0) / 60.0) * phy_mess)
+phy_mess: float = 10.0 / 1
+phy_velocity: float = (((1000.0 / 60.0) / 60.0) * phy_mess)
 
 # Colors
 # 1
@@ -63,5 +74,5 @@ c_teal = Color(0, 255, 128)
 
 
 class MASKS:
-    RECTANGLE = 0
-    CIRCLE = 2
+    RECTANGLE: int = 0
+    CIRCLE: int = 2
