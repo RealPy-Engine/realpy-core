@@ -12,7 +12,7 @@ class RsImage(object):
         Raw image of a sprite that contains single image or multiple images.
     """
 
-    def __init__(self, filepath: Union[str, list[str]]) -> None:
+    def __init__(self, filepath: Union[str, list[str]]):
         self.number: int = -1
         self.raw_data: list[PySurface] = []
         self.boundbox = PyRect.Rect(0, 0, 0, 0)

@@ -15,7 +15,6 @@ class RsSprite(object):
         self.yoffset: int = yo
 
     def draw(self, where, index, x: int, y: int, xscale: float=1, yscale: float=1, orientation: float=0, blend: int=0, alpha: float=1):
-        # TODO: #10 Game object still can't draw its sprite.
         if self.image:
             if self.image.number == 0:
                 Image: Surface = self.image.raw_data[0]

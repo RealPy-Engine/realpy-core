@@ -32,7 +32,6 @@ class oSpaceShip(RsPrefab):
 
     @staticmethod
     def onDraw(target, time):
-        # TODO: #11 Make object can draw its sprite and can have dirty instance.
         if preset.application_surface and target.sprite_index:
             target.sprite_index.draw(preset.application_surface, 0, target.x, target.y)
 
@@ -40,7 +39,8 @@ class oSpaceShip(RsPrefab):
 if __name__ == "__main__":
     realpy.init("RealPy Engine", 640, 480)
 
-    TestRoom = room_register(oTestRoom())
+    Temp = oTestRoom()
+    TestRoom = room_register(Temp)
 
     Testbed = TestRoom.add_layer_direct(RsLayer("Instances"))
     TestRoom.add_layer_direct(RsLayer("Starfield"))

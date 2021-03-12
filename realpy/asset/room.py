@@ -5,12 +5,14 @@ from realpy.scene import RsScene
 
 
 def room_register(info: Union[str, RsScene]):
+    NewRoom: RsScene
+    Name: str
     if type(info) is str:
         NewRoom = RsScene(info)
-        name: str = info
+        Name = info
     elif type(info) is RsScene:
-        NewRoom: RsScene = info
-        name: str = info.name
+        NewRoom = info
+        Name = info.name
     else:
         raise TypeError("No specific scene found.")
 
@@ -25,7 +27,7 @@ def room_register(info: Union[str, RsScene]):
         preset.RsLastRoom = NewRoom
 
     preset.RoomOrder.append(NewRoom)
-    preset.RoomPot[name] = NewRoom
+    preset.RoomPot[Name] = NewRoom
     return NewRoom
 
 

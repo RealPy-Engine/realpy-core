@@ -20,7 +20,7 @@ async def scene_update(room: RsScene, time: int):
 
 
 async def event_collect():
-    # TODO: summary events in a list for each types.
+    # TODO: #13 summary events in a list for each types.
     preset.Events = PyEvent.get()
     for event in preset.Events:
         if event.type == PyConstants.QUIT:
