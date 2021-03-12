@@ -13,11 +13,11 @@ name: "CodeQL"
 on:
   workflow_dispatch:
   push:
-    paths: [ 'src/*', 'example/*' ]
+    paths: [ 'src/*', 'tests/*', 'realpy/*' ]
 
   pull_request:
     # The branches below must be a subset of the branches above
-    paths: [ 'src/*', 'example/*' ]
+    paths: [ 'src/*', 'tests/*', 'realpy/*' ]
 
   schedule:
     - cron: '25 9 * * 3'
