@@ -2,7 +2,7 @@ from typing import Union
 
 from .scene import RsScene
 from .layer import RsLayer
-from .prefab import RsPrefab, RsInstance, RsDirtyInstance
+from .prefab import RsPrefab, RsInstance
 from .camera import RsCamera
 from .sprite import RsImage, RsSprite
 
@@ -12,7 +12,6 @@ from . import preset
 from .asset import *
 from .utility import *
 
-GameObject = Union[RsInstance, RsDirtyInstance]
 
 init = framework.rs_init
 startup = framework.rs_startup

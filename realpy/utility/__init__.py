@@ -2,11 +2,11 @@ import math
 import random
 from typing import Union
 
-__all__ = [
+__all__ = (
     "sqr", "sign", "degtorad", "radtodeg", "irandom", "irandom_range", "bezier4", "choose",
     "distribute", "probability_test", "lengthdir_x", "lengthdir_y",
     "point_distance", "point_direction"
-]
+)
 
 
 def sqr(v: float) -> float:
@@ -30,7 +30,7 @@ def radtodeg(radian: float) -> float:
     return math.degrees(radian)
 
 
-def bezier4(t, x1, x2, x3, x4) -> float:
+def bezier4(t: float, x1, x2, x3, x4) -> float:
     factor = 1 - t
 
     return factor * (factor * (factor * x1 + t * x2)
@@ -41,7 +41,7 @@ def lengthdir_x(length: float, direction: float) -> float:
     return math.cos(degtorad(direction)) * length
 
 
-def lengthdir_y(length, direction):
+def lengthdir_y(length: float, direction: float):
     return -math.sin(degtorad(direction)) * length
 
 
