@@ -1,9 +1,4 @@
-import os
 from typing import Union
-
-import pygame.rect as PyRect
-import pygame.image as PyImage
-from pygame.surface import Surface as PySurface
 
 
 class RsImage(object):
@@ -13,6 +8,11 @@ class RsImage(object):
     """
 
     def __init__(self, filepath: Union[str, list[str]]):
+        import os
+        import pygame.rect as PyRect
+        import pygame.image as PyImage
+        from pygame.surface import Surface as PySurface
+
         self.number: int = -1
         self.raw_data: list[PySurface] = []
         self.boundbox = PyRect.Rect(0, 0, 0, 0)
