@@ -84,14 +84,14 @@ class RsInstance(object):
         """
         self.original.onDestroy(self)
 
-    def onUpdate(self, time: int) -> None:
+    def onUpdate(self, time: float) -> None:
         """onUpdate(time)
 
             Do not override it.
         """
         self.original.onUpdate(self, time)
 
-    def onUpdateLater(self, time: int) -> None:
+    def onUpdateLater(self, time: float) -> None:
         """onUpdateLater(time)
 
             Do not override it.
@@ -110,7 +110,7 @@ class RsInstance(object):
         if Vspeed != 0:
             self.y += Vspeed
 
-    def onDraw(self, time: int) -> None:
+    def onDraw(self, time: float) -> None:
         """onDraw(time)
 
             Do not override it.

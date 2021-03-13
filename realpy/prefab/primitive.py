@@ -57,7 +57,7 @@ class RsPrefab(object):
         pass
 
     @staticmethod
-    def onUpdate(itself, time: int):
+    def onUpdate(itself, time: float):
         """onUpdate(instance, time)
 
             This will run on its instance. You may override it.
@@ -65,7 +65,7 @@ class RsPrefab(object):
         pass
 
     @staticmethod
-    def onUpdateLater(itself, time: int) -> None:
+    def onUpdateLater(itself, time: float) -> None:
         """onUpdateLater(instance, time)
 
             This will run on its instance. You may override it.
@@ -73,7 +73,7 @@ class RsPrefab(object):
         pass
 
     @staticmethod
-    def onDraw(itself, time: int) -> None:
+    def onDraw(itself, time: float) -> None:
         """onAwake(instance, time)
 
             This will run on its instance. You may override it.

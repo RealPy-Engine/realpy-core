@@ -24,14 +24,14 @@ class RsLayer(object):
         for Instance in self.storage:
             Instance.onDestroy()
 
-    def onUpdate(self, time: int) -> None:
+    def onUpdate(self, time: float) -> None:
         for Instance in self.storage:
             Instance.onUpdate(time)
 
-    def onUpdateLater(self, time: int) -> None:
+    def onUpdateLater(self, time: float) -> None:
         for Instance in self.storage:
             Instance.onUpdateLater(time)
 
-    def onDraw(self, time: int) -> None:
+    def onDraw(self, time: float) -> None:
         for Instance in self.storage:
             Instance.onDraw(time)

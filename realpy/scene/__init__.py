@@ -49,14 +49,14 @@ class RsScene(object):
         for Layer in self.layer_stack:
             Layer.onDestroy()
 
-    def onUpdate(self, time: int):
+    def onUpdate(self, time: float):
         for Layer in self.layer_stack:
             Layer.onUpdate(time)
 
-    def onUpdateLater(self, time: int):
+    def onUpdateLater(self, time: float):
         for Layer in self.layer_stack:
             Layer.onUpdateLater(time)
 
-    def onDraw(self, time: int):
+    def onDraw(self, time: float):
         for Layer in self.layer_stack:
             Layer.onDraw(time)
