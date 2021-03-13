@@ -1,6 +1,8 @@
 from typing import Optional
+from numpy import matrixlib
 
 from pygame.surface import Surface
+from pygame import transform
 
 from .primitive import RsImage
 
@@ -9,18 +11,25 @@ __all__ = ("RsImage", "RsSprite")
 
 class RsSprite(object):
     def __init__(self, image: RsImage, mask_type: int=0, xo: int=0, yo: int=0):
-        self.image: Optional[RsImage] = image
+        self.image: RsImage = image
         self.mask_type: int = mask_type
+        self.width: int = image.boundbox.width
+        self.height: int = image.boundbox.height
+        self.radius: int = max(xo, yo)
         self.xoffset: int = xo
         self.yoffset: int = yo
 
-    def draw(self, where, index, x: int, y: int, xscale: float=1, yscale: float=1, orientation: float=0, blend: int=0, alpha: float=1):
+    def draw(self, where: Surface, index: int, x: int, y: int, scale: float=1, orientation: float=0, alpha: float=1):
+        if 0 == scale or alpha <= 0:
+            return
         if self.image:
             if self.image.number == 0:
                 Image: Surface = self.image.raw_data[0]
-                Position = Image.get_rect()
+
+                Trx: Surface = transform.rotozoom(Image, orientation, scale)
+                Position = Trx.get_rect()
                 Position.center = (x, y)
-                where.blit(Image, Position)
+                where.blit(Trx, Position)
             elif 0 < self.image.number:
                 Image: Surface = self.image.raw_data[index]
                 Position = Image.get_rect()
