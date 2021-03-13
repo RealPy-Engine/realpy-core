@@ -11,8 +11,11 @@ from ..prefab import RsPrefab
 from ..sprite import RsSprite
 
 
+# General
+game_speed: int = 60
+
 # Display
-Resolutions: tuple[int, int] = (640, 480)
+dimension: tuple[int, int] = (640, 480)
 
 # Application surface
 application_surface: Optional[PySurface] = None
@@ -24,7 +27,7 @@ RoomOrder: list[RsScene] = []
 RoomPot: dict[str, RsScene] = {}
 
 # Events
-Events: list[Event] = []
+Events: dict[str, Event] = {}
 
 # Sprite texture group
 Atlas: dict[str, RsSprite] = {}
