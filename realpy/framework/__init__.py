@@ -16,9 +16,14 @@ __all__ = ("rs_init", "rs_startup", "rs_quit")
 async def scene_update(room: RsScene, time: int):
     room.onUpdate(time)
     room.onUpdateLater(time)
+    print("step")
+
+
+async def graphics_update(room: RsScene, time: int):
     preset.application_surface.fill(preset.c_black)
     room.onDraw(time)
     PyDisplay.update()
+    print("draw")
 
 
 async def event_collect():
@@ -70,6 +75,7 @@ def rs_startup():
 
         asyncio.run(event_collect())
         asyncio.run(scene_update(preset.RsRoom, frame_time))
+        asyncio.run(graphics_update(preset.RsRoom, frame_time))
 
         absolute_timer.tick()
 
