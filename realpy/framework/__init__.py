@@ -1,10 +1,10 @@
-import asyncio
-import sys
+import asyncio, sys
+from realpy.utility import irandom
 
 import pygame
 import pygame.constants as PyConstants
 import pygame.display as PyDisplay
-import pygame.event as PyEvent
+import pygame.fastevent as PyEvent
 from pygame.time import Clock as Clock
 
 from .. import preset
@@ -13,23 +13,13 @@ from ..scene import RsScene
 __all__ = ("rs_init", "rs_startup", "rs_quit")
 
 
-async def scene_update(room: RsScene, time: int):
-    room.onUpdate(time)
-    room.onUpdateLater(time)
-    print("step")
+async def hand_update():
+    preset.Events.clear()
 
+    # Await
+    Temp = PyEvent.get()
 
-async def graphics_update(room: RsScene, time: int):
-    preset.application_surface.fill(preset.c_black)
-    room.onDraw(time)
-    PyDisplay.update()
-    print("draw")
-
-
-async def event_collect():
-    # TODO: #13 summary events in a list for each types.
-    preset.Events = PyEvent.get()
-    for event in preset.Events:
+    for event in Temp:
         if event.type == PyConstants.QUIT:
             rs_quit()
         elif event.type == PyConstants.KEYDOWN and event.key == PyConstants.K_ESCAPE:
@@ -39,17 +29,35 @@ async def event_collect():
         elif event.type == PyConstants.MOUSEBUTTONUP:
             pass
 
+    preset.Events = Temp
     return len(preset.Events)
+
+
+async def scene_update(room: RsScene, time: float):
+    room.onUpdate(time)
+    room.onUpdateLater(time)
+
+
+async def graphics_update(room: RsScene, time: float):
+    preset.application_surface.fill("black")
+    room.onDraw(time)
+    PyDisplay.update()
+
+
+async def update_all(room: RsScene, time: float):
+    await asyncio.gather(hand_update(), scene_update(room, time), graphics_update(room, time))
 
 
 def rs_init(title: str, view_port_width: int, view_port_height: int):
     pygame.init()
     PyDisplay.init()
+    PyEvent.init()
+
     PyDisplay.set_caption(title)
     PyDisplay.set_allow_screensaver(False)
 
-    preset.Resolutions = (view_port_width, view_port_height)
-    preset.application_surface = PyDisplay.set_mode(preset.Resolutions)
+    preset.dimension = (view_port_width, view_port_height)
+    preset.application_surface = PyDisplay.set_mode(preset.dimension)
 
 
 def rs_startup():
@@ -65,19 +73,21 @@ def rs_startup():
     if not StartRoom:
         raise RuntimeError("Invalid scene.")
 
-    absolute_timer = Clock()
+    RoomCurrent: RsScene = preset.RsRoom
+    AbsoluteTimer = Clock()
+    TimeOccured: float = 0
 
     # Load rooms
     print(preset.RsRoom)
     preset.RsRoom.onAwake()
     while True:
-        frame_time: int = 0 if preset.RsRoom.paused else absolute_timer.get_time()
+        TimeOccured = 0 if preset.RsRoom.paused else AbsoluteTimer.get_time() * 0.001  # Millisecond
+        print(TimeOccured)
 
-        asyncio.run(event_collect())
-        asyncio.run(scene_update(preset.RsRoom, frame_time))
-        asyncio.run(graphics_update(preset.RsRoom, frame_time))
+        asyncio.run(update_all(RoomCurrent, TimeOccured))
 
-        absolute_timer.tick()
+        AbsoluteTimer.tick(preset.game_speed)
+        RoomCurrent = preset.RsRoom
 
 
 def rs_quit():
