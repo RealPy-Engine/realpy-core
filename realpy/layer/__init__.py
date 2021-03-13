@@ -4,38 +4,34 @@ class RsLayer(object):
         Belongs to a scene and contains game instances.
     """
 
-    def __init__(self, name: str):
+    def __init__(self, name: str=""):
         from realpy.prefab import RsInstance
 
         self.name: str = name
         self.storage: list[RsInstance] = []
 
     def __str__(self) -> str:
-        return f"Realpy Layer {self.name}"
+        return self.name
 
     def __repr__(self) -> str:
         return f"Realpy Layer {self.name} ({len(self.storage)})"
 
-    def onAwake(self):
+    def onAwake(self) -> None:
         for Instance in self.storage:
             Instance.onAwake()
 
-    def onDestroy(self):
+    def onDestroy(self) -> None:
         for Instance in self.storage:
             Instance.onDestroy()
 
-    def onUpdate(self, time: int):
+    def onUpdate(self, time: int) -> None:
         for Instance in self.storage:
             Instance.onUpdate(time)
 
-    def onUpdateLater(self, time: int):
+    def onUpdateLater(self, time: int) -> None:
         for Instance in self.storage:
             Instance.onUpdateLater(time)
 
-    def onDraw(self, time: int):
+    def onDraw(self, time: int) -> None:
         for Instance in self.storage:
             Instance.onDraw(time)
-
-    def onGUI(self, time: int):
-        for Instance in self.storage:
-            Instance.onGUI(time)

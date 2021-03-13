@@ -9,7 +9,7 @@ class RsScene(object):
         Large portion of game pipeline.
     """
 
-    def __init__(self, name: str):
+    def __init__(self, name: str=""):
         from realpy.prefab import RsInstance
 
         self.name: str = name
@@ -22,7 +22,7 @@ class RsScene(object):
         self.next: Optional[RsScene] = None
 
     def __str__(self) -> str:
-        return f"Realpy Scene {self.name}"
+        return self.name
 
     def __repr__(self) -> str:
         return f"Realpy Scene {self.name} ({len(self.layer_stack)})"
@@ -60,7 +60,3 @@ class RsScene(object):
     def onDraw(self, time: int):
         for Layer in self.layer_stack:
             Layer.onDraw(time)
-
-    def onGUI(self, time: int):
-        for Layer in self.layer_stack:
-            Layer.onGUI(time)
