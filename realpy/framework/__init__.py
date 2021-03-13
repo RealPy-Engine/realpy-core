@@ -7,7 +7,8 @@ import pygame.display as PyDisplay
 import pygame.event as PyEvent
 from pygame.time import Clock as Clock
 
-from realpy import preset, RsScene
+from .. import preset
+from ..scene import RsScene
 
 __all__ = ("rs_init", "rs_startup", "rs_quit")
 
@@ -15,8 +16,9 @@ __all__ = ("rs_init", "rs_startup", "rs_quit")
 async def scene_update(room: RsScene, time: int):
     room.onUpdate(time)
     room.onUpdateLater(time)
+    preset.application_surface.fill(preset.c_black)
     room.onDraw(time)
-    room.onGUI(time)
+    PyDisplay.update()
 
 
 async def event_collect():
@@ -65,12 +67,10 @@ def rs_startup():
     preset.RsRoom.onAwake()
     while True:
         frame_time: int = 0 if preset.RsRoom.paused else absolute_timer.get_time()
-        preset.application_surface.fill(preset.c_black)
 
         asyncio.run(event_collect())
         asyncio.run(scene_update(preset.RsRoom, frame_time))
 
-        PyDisplay.update()
         absolute_timer.tick()
 
 

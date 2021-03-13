@@ -11,37 +11,30 @@ class SPACESHIP_TYPES:
     PATROL = 0
 
 
-class oTestRoom(RsScene):
-    def __init__(self):
-        super().__init__("roomTest")
-
-    def onAwake(self):
-        super().onAwake()
-        print("Test initialized")
-
-    def onUpdate(self, time):
-        super().onUpdate(time)
-        # print("Test updating")
-
-
-class oSpaceShip(RsPrefab):
-    @staticmethod
-    def onUpdate(target, time):
-        # print("Spaceship is updating")
-        pass
-
-    @staticmethod
-    def onDraw(target, time):
-        if preset.application_surface and target.sprite_index:
-            target.sprite_index.draw(preset.application_surface, 0, target.x, target.y)
-
-
-# TODO: Make easy to create user's custom preset.
 if __name__ == "__main__":
+    # TODO: #17 Make easy to create user's custom preset.
     realpy.init("RealPy Engine", 640, 480)
 
+    TestImage = RsImage("battleship.png")
+    TestSprite = RsSprite(TestImage, 0)
+
+
+    class oTestRoom(RsScene):
+        def onAwake(self):
+            super().onAwake()
+            print("Test initialized")
+
+        def onUpdate(self, time):
+            super().onUpdate(time)
+            # print("Test updating")
+
+
+    class oSpaceShip(RsPrefab):
+        sprite_index = TestSprite
+
+
     Temp = oTestRoom()
-    TestRoom = room_register(Temp)
+    TestRoom = room_register(Temp, "roomTest")
 
     Testbed = TestRoom.add_layer_direct(RsLayer("Instances"))
     TestRoom.add_layer_direct(RsLayer("Starfield"))
@@ -49,10 +42,8 @@ if __name__ == "__main__":
     print(repr(TestRoom))
     print(repr(Testbed))
 
-    TestImage = RsImage("battleship.png")
-    TestSprite = RsSprite(TestImage, 0)
-    oSpaceShip.sprite_index = TestSprite
-    TestInstance1 = oSpaceShip.instantiate(TestRoom, Testbed, 40, 40)
+    TestInstance1 = instance_create(oSpaceShip, Testbed, 40, 40)
+    print(repr(Testbed))
     print(repr(TestInstance1))
 
     realpy.startup()
