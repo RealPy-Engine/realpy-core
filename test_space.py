@@ -26,11 +26,14 @@ if __name__ == "__main__":
 
         def onUpdate(self, time):
             super().onUpdate(time)
-            # print("Test updating")
 
 
     class oSpaceShip(RsPrefab):
         sprite_index = TestSprite
+
+        @staticmethod
+        def onUpdate(itself, time):
+            itself.image_angle += 30 * time
 
 
     Temp = oTestRoom()
@@ -39,11 +42,12 @@ if __name__ == "__main__":
     Testbed = TestRoom.add_layer_direct(RsLayer("Instances"))
     TestRoom.add_layer_direct(RsLayer("Starfield"))
     TestRoom.add_layer_direct(RsLayer("Background"))
-    print(repr(TestRoom))
-    print(repr(Testbed))
 
-    TestInstance1 = instance_create(oSpaceShip, Testbed, 40, 40)
-    print(repr(Testbed))
-    print(repr(TestInstance1))
+    instance_create(oSpaceShip, Testbed, 320, 240)
+    instance_create(oSpaceShip, Testbed, 220, 240)
+    instance_create(oSpaceShip, Testbed, 420, 240)
+    instance_create(oSpaceShip, Testbed, 320, 140)
+    instance_create(oSpaceShip, Testbed, 320, 240)
+    instance_create(oSpaceShip, Testbed, 320, 340)
 
     realpy.startup()
