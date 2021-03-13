@@ -81,7 +81,7 @@ class RsPrefab(object):
         from realpy import preset
 
         if preset.application_surface and itself.sprite_index:
-            itself.sprite_index.draw(preset.application_surface, 0, itself.x, itself.y)
+            itself.sprite_index.draw(preset.application_surface, itself.image_index, itself.x, itself.y, itself.image_scale, itself.image_angle, itself.image_alpha)
 
     @classmethod
     def instantiate(cls, scene, layer, x: float=0, y: float=0):

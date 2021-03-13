@@ -19,8 +19,10 @@ class RsInstance(object):
         self.x: float = x
         self.y: float = y
         self.sprite_index: Optional[RsSprite] = original.sprite_index
-        self.image_angle: float = 0
         self.image_index: float = 0
+        self.image_angle: float = 0
+        self.image_scale: float = 1
+        self.image_alpha: float = 1
         self.__speed: float = 0
         self.__direction: float = 0
         self.__hspeed: float = 0
