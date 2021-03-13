@@ -3,22 +3,19 @@ from typing import Optional
 from realpy.sprite import RsSprite
 
 
-class RsPrefab(type):
+class RsPrefab(object):
     """ RsPrefab
 
         A template class of game object. Contains its own sprite and hierachies.
 
         Do not instantiate this primitive prefab.
     """
+    sprite_index: Optional[RsSprite] = None
 
     def __new__(cls, *args, **kargs):
         cls.__parent: Optional[type[RsPrefab]]  = None
         cls.children: Optional[list[type[RsPrefab]]] = []
-        cls.sprite_index: Optional[RsSprite] = None
         return super().__new__(cls, *args, **kargs)
-
-    def __str__(self) -> str:
-        return str(type(self))
 
     def __repr__(self) -> str:
         SpriteCheck = f" ({self.sprite_index})" if self.sprite_index else ""
@@ -44,28 +41,47 @@ class RsPrefab(type):
             target.children.append(cls)
 
     @staticmethod
-    def onAwake(itself):
+    def onAwake(itself) -> None:
+        """onAwake(instance)
+
+            This will run on its instance. You may override it.
+        """
         pass
 
     @staticmethod
-    def onDestroy(itself):
+    def onDestroy(itself) -> None:
+        """onDestroy(instance)
+
+            This will run on its instance. You may override it.
+        """
         pass
 
     @staticmethod
-    def onUpdate(itself, time: int):
+    def onUpdate(itself, time: float):
+        """onUpdate(instance, time)
+
+            This will run on its instance. You may override it.
+        """
         pass
 
     @staticmethod
-    def onUpdateLater(itself, time: int):
+    def onUpdateLater(itself, time: float) -> None:
+        """onUpdateLater(instance, time)
+
+            This will run on its instance. You may override it.
+        """
         pass
 
     @staticmethod
-    def onDraw(itself, time: int):
-        pass
+    def onDraw(itself, time: float) -> None:
+        """onAwake(instance, time)
 
-    @staticmethod
-    def onGUI(itself, time: int):
-        pass
+            This will run on its instance. You may override it.
+        """
+        from realpy import preset
+
+        if preset.application_surface and itself.sprite_index:
+            itself.sprite_index.draw(preset.application_surface, itself.image_index, itself.x, itself.y, itself.image_scale, itself.image_angle, itself.image_alpha)
 
     @classmethod
     def instantiate(cls, scene, layer, x: float=0, y: float=0):
@@ -73,7 +89,6 @@ class RsPrefab(type):
 
             Creates a instance of game object.
         """
- 
         from .instance import RsInstance
 
         Result = RsInstance(cls, scene, layer, x, y)

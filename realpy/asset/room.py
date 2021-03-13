@@ -1,20 +1,19 @@
-from typing import Union
+from typing import Union, Optional
 
 from realpy import preset
 from realpy.scene import RsScene
 
 
-def room_register(info: Union[str, RsScene]):
-    NewRoom: RsScene
+def room_register(info: RsScene, caption: Optional[str]=None):
+    NewRoom: RsScene = info
     Name: str
-    if type(info) is str:
-        NewRoom = RsScene(info)
-        Name = info
-    elif type(info) is RsScene:
-        NewRoom = info
-        Name = info.name
+    if caption:
+        if caption is "":
+            raise RuntimeError(f"Please enter name of the scene {id(info)}")
+        NewRoom.name = caption
+        Name = caption
     else:
-        raise TypeError("No specific scene found.")
+        Name = info.name
 
     Number = len(preset.RoomOrder)
     if 0 < Number:
