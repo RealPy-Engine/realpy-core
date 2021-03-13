@@ -1,5 +1,3 @@
-from typing import Optional, Union
-
 from realpy.utility import lengthdir_x, lengthdir_y, point_distance, point_direction
 
 
@@ -10,14 +8,17 @@ class RsInstance(object):
     """
 
     def __init__(self, original, scene, layer, x: float=0, y: float=0):
+        from typing import Optional
+        from realpy import RsScene, RsLayer, RsPrefab, RsSprite
+
         self.enabled: bool = True
         self.visible: bool = True
-        self.original = original
-        self.scene = scene
-        self.layer = layer
+        self.original: type[RsPrefab] = original
+        self.scene: RsScene = scene
+        self.layer: RsLayer = layer
         self.x: float = x
         self.y: float = y
-        self.sprite_index = original.sprite_index
+        self.sprite_index: Optional[RsSprite] = original.sprite_index
         self.image_angle: float = 0
         self.image_index: float = 0
         self.__speed: float = 0
@@ -69,17 +70,34 @@ class RsInstance(object):
         self.__speed = point_distance(0, 0, self.__hspeed, self.__vspeed)
         self.__direction = point_direction(0, 0, self.__hspeed, self.__vspeed)
 
-    def onAwake(self):
+    def onAwake(self) -> None:
+        """onAwake()
+
+            Do not override it.
+        """
         self.original.onAwake(self)
 
-    def onDestroy(self):
+    def onDestroy(self) -> None:
+        """onDestroy()
+
+            Do not override it.
+        """
         self.original.onDestroy(self)
 
-    def onUpdate(self, time: int):
+    def onUpdate(self, time: int) -> None:
+        """onUpdate(time)
+
+            Do not override it.
+        """
         self.original.onUpdate(self, time)
 
-    def onUpdateLater(self, time: int):
+    def onUpdateLater(self, time: int) -> None:
+        """onUpdateLater(time)
+
+            Do not override it.
+        """
         self.original.onUpdateLater(self, time)
+
         if self.gravity_force != 0:
             self.__hspeed += lengthdir_x(self.gravity_force, self.gravity_direction)
             self.__vspeed += lengthdir_y(self.gravity_force, self.gravity_direction)
@@ -92,14 +110,15 @@ class RsInstance(object):
         if Vspeed != 0:
             self.y += Vspeed
 
-    def onDraw(self, time: int):
+    def onDraw(self, time: int) -> None:
+        """onDraw(time)
+
+            Do not override it.
+        """
         self.original.onDraw(self, time)
 
-    def onGUI(self, time: int):
-        self.original.onGUI(self, time)
-
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Realpy Instance of {str(self.original)}"
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"Instance %s at '{self.layer}' in '{self.scene}'" % id(self)
