@@ -36,6 +36,7 @@ class oSpaceShip(RsPrefab):
             target.sprite_index.draw(preset.application_surface, 0, target.x, target.y)
 
 
+# TODO: Make easy to create user's custom preset.
 if __name__ == "__main__":
     realpy.init("RealPy Engine", 640, 480)
 
