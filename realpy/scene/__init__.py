@@ -1,62 +1,53 @@
-from typing import Optional
+""" Scene
+    ---
+    `from realpy import RsScene`
+"""
+from .header import RsScene
 
-from realpy.layer import RsLayer
+__all__ = ["RsScene"]
 
 
-class RsScene(object):
-    """ RsScene(name)
+def test():
+    print("Test → Realpy Scene")
 
-        Large portion of game pipeline.
-    """
+    class PseudoLayer:
+        def __init__(self, name: str) -> None:
+            self.name: str = name
 
-    def __init__(self, name: str=""):
-        from realpy.prefab import RsInstance
+        def __str__(self) -> str:
+            return self.name
 
-        self.name: str = name
-        self.layer_stack: list[RsLayer] = []
-        self.trees: dict[str, RsLayer] = {}
-        self.paused: bool = False
-        self.EveryInstancesPot: list = []
-        self.SpecificInstancesPot: dict[int, list[RsInstance]] = {}
-        self.before: Optional[RsScene] = None
-        self.next: Optional[RsScene] = None
+        def onAwake(self):
+            print("Layer: ", id(self))
 
-    def __str__(self) -> str:
-        return self.name
 
-    def __repr__(self) -> str:
-        return f"Realpy Scene {self.name} ({len(self.layer_stack)})"
+    try:
+        print("Class of scene: ", RsScene)
+        print("Class of simulated layer: ", PseudoLayer)
 
-    def add_layer_direct(self, layer: RsLayer) -> RsLayer:
-        self.layer_stack.append(layer)
-        self.trees[layer.name] = layer
-        return layer
+        Sample = RsScene()
+        SampleLayers = [PseudoLayer("First"), PseudoLayer("Second"), PseudoLayer("Third")]
+        print("Sample scene: ", Sample)
+        print("Sample layer group: ", SampleLayers)
 
-    def layer_find(self, caption: str) -> Optional[RsLayer]:
-        return self.trees[caption]
+        Sample.add_layer_direct(*SampleLayers)
+        SampleSeek = Sample.layer_find("First")
+        print("Found scene (maybe 'First'): ", SampleSeek)
+        SampleSeek = Sample.layer_find("Fourth")
+        print("Found scene (maybe 'None'): ", SampleSeek)
 
-    def pause(self):
-        self.paused = True
+        Sample.add_layer_direct(PseudoLayer("Fifth"))
+        print("The layers: ", Sample.layer_stack)
 
-    def resume(self):
-        self.paused = False
+        Sample.onAwake()
+    except KeyError as e:
+        print("Key Error: ", e)
+        return False
+    except AttributeError as e:
+        print("Attribute Error: ", e)
+        return False
+    except Exception as e:
+        print("Error: ", e)
+        return False
+    return True
 
-    def onAwake(self):
-        for Layer in self.layer_stack:
-            Layer.onAwake()
-
-    def onDestroy(self):
-        for Layer in self.layer_stack:
-            Layer.onDestroy()
-
-    def onUpdate(self, time: float):
-        for Layer in self.layer_stack:
-            Layer.onUpdate(time)
-
-    def onUpdateLater(self, time: float):
-        for Layer in self.layer_stack:
-            Layer.onUpdateLater(time)
-
-    def onDraw(self, time: float):
-        for Layer in self.layer_stack:
-            Layer.onDraw(time)
