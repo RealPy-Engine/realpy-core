@@ -1,6 +1,6 @@
 from typing import Optional
 
-from realpy.sprite import RsSprite
+from ..sprite import RsSprite
 
 
 class RsPrefab(object):
