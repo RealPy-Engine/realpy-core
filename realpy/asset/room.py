@@ -1,7 +1,7 @@
 from typing import Union, Optional
 
-from realpy import preset
-from realpy.scene import RsScene
+from ..preset import RsPreset
+from ..scene import RsScene
 
 
 def room_register(info: RsScene, caption: Optional[str]=None):
@@ -15,46 +15,46 @@ def room_register(info: RsScene, caption: Optional[str]=None):
     else:
         Name = info.name
 
-    Number = len(preset.RoomOrder)
+    Number = len(RsPreset.RoomOrder)
     if 0 < Number:
-        LastRoom = preset.RsLastRoom
+        LastRoom = RsPreset.RsLastRoom
         if LastRoom and NewRoom:
             NewRoom.before = LastRoom
             LastRoom.next = NewRoom
     else:
-        preset.RsRoom = NewRoom
-        preset.RsLastRoom = NewRoom
+        RsPreset.RsRoom = NewRoom
+        RsPreset.RsLastRoom = NewRoom
 
-    preset.RoomOrder.append(NewRoom)
-    preset.RoomPot[Name] = NewRoom
+    RsPreset.RoomOrder.append(NewRoom)
+    RsPreset.RoomPot[Name] = NewRoom
     return NewRoom
 
 
 def room_get(id: Union[int, str]):
     if type(id) is int:
-        return preset.RoomOrder[id]
+        return RsPreset.RoomOrder[id]
     elif type(id) is str:
-        return preset.RoomPot[id]
+        return RsPreset.RoomPot[id]
 
 
 def room_set(taget: RsScene):
-    if preset.RsRoom:
-        preset.RsRoom.onDestroy()
-    preset.RsRoom = taget
-    preset.RsRoom.onAwake()
-    print("Go to " + str(preset.RsRoom))
+    if RsPreset.RsRoom:
+        RsPreset.RsRoom.onDestroy()
+    RsPreset.RsRoom = taget
+    RsPreset.RsRoom.onAwake()
+    print("Go to " + str(RsPreset.RsRoom))
 
 
 def room_goto(name: str):
     Temp = room_get(name)
     if not Temp:
         raise RuntimeError("The room " + name + " doesn't exist.")
-    elif Temp is not preset.RsRoom:
+    elif Temp is not RsPreset.RsRoom:
         room_set(Temp)
 
 
 def room_goto_next():
-    Next = preset.RsRoom.next
+    Next = RsPreset.RsRoom.next
     if Next:
         room_set(Next)
     else:
