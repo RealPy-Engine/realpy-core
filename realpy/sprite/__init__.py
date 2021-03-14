@@ -1,6 +1,8 @@
 """ Sprite
     ---
-    `from realpy import RsSprite`
+    ```
+    from realpy import RsSprite
+    ```
 """
 from .header import RsSprite
 

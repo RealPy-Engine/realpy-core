@@ -12,6 +12,7 @@ class RsSprite(object):
         ---
         Advance asset of image.
     """
+
     def __init__(self, image, mask_type: int=0, xo: int=0, yo: int=0):
         self.image = image
         self.mask_type: int = mask_type

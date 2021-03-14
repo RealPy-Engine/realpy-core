@@ -1,6 +1,8 @@
 """ Image Resource
     ---
-    `from realpy import RsImage`
+    ```
+    from realpy import RsImage
+    ```
 """
 from .header import RsImage
 
