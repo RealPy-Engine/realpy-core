@@ -4,8 +4,8 @@ from ..sprite import RsSprite
 
 
 class RsPrefab(object):
-    """ RsPrefab
-
+    """`RsPrefab`
+        ---
         A template class of game object. Contains its own sprite and hierachies.
 
         Do not instantiate this primitive prefab.
@@ -42,51 +42,51 @@ class RsPrefab(object):
 
     @staticmethod
     def onAwake(itself) -> None:
-        """onAwake(instance)
-
+        """`onAwake(instance)`
+            ---
             This will run on its instance. You may override it.
         """
         pass
 
     @staticmethod
     def onDestroy(itself) -> None:
-        """onDestroy(instance)
-
+        """`onDestroy(instance)`
+            ---
             This will run on its instance. You may override it.
         """
         pass
 
     @staticmethod
     def onUpdate(itself, time: float):
-        """onUpdate(instance, time)
-
+        """`onUpdate(instance, time)`
+            ---
             This will run on its instance. You may override it.
         """
         pass
 
     @staticmethod
     def onUpdateLater(itself, time: float) -> None:
-        """onUpdateLater(instance, time)
-
+        """`onUpdateLater(instance, time)`
+            ---
             This will run on its instance. You may override it.
         """
         pass
 
     @staticmethod
     def onDraw(itself, time: float) -> None:
-        """onAwake(instance, time)
-
+        """`onAwake(instance, time)`
+            ---
             This will run on its instance. You may override it.
         """
-        from realpy import preset
+        from realpy import RsPreset
 
-        if preset.application_surface and itself.sprite_index:
-            itself.sprite_index.draw(preset.application_surface, itself.image_index, itself.x, itself.y, itself.image_scale, itself.image_angle, itself.image_alpha)
+        if itself.sprite_index:
+            itself.sprite_index.draw(RsPreset.application_surface, itself.image_index, itself.x, itself.y, itself.image_scale, itself.image_angle, itself.image_alpha)
 
     @classmethod
     def instantiate(cls, scene, layer, x: float=0, y: float=0):
-        """instantiate(Scene, Layer, x=0, y=0)
-
+        """`instantiate(Scene, Layer, x=0, y=0)`
+            ---
             Creates a instance of game object.
         """
         from .instance import RsInstance

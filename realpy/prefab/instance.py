@@ -2,20 +2,20 @@ from ..utility import lengthdir_x, lengthdir_y, point_distance, point_direction
 
 
 class RsInstance(object):
-    """ RsInstance(Prefab, Scene, Layer, x=0, y=0)
-
+    """`RsInstance(Prefab, Scene, Layer, x, y)`
+        ---
         Derived from prefabs.
     """
 
     def __init__(self, original, scene, layer, x: float=0, y: float=0):
         from typing import Optional
-        from realpy import RsScene, RsLayer, RsPrefab, RsSprite
+        from ..sprite import RsSprite
 
         self.enabled: bool = True
         self.visible: bool = True
-        self.original: type[RsPrefab] = original
-        self.scene: RsScene = scene
-        self.layer: RsLayer = layer
+        self.original = original
+        self.scene = scene
+        self.layer = layer
         self.x: float = x
         self.y: float = y
         self.sprite_index: Optional[RsSprite] = original.sprite_index
@@ -71,29 +71,29 @@ class RsInstance(object):
         self.__direction = point_direction(0, 0, self.__hspeed, self.__vspeed)
 
     def onAwake(self) -> None:
-        """onAwake()
-
+        """`onAwake()`
+            ---
             Do not override it.
         """
         self.original.onAwake(self)
 
     def onDestroy(self) -> None:
-        """onDestroy()
-
+        """`onDestroy()`
+            ---
             Do not override it.
         """
         self.original.onDestroy(self)
 
     def onUpdate(self, time: float) -> None:
-        """onUpdate(time)
-
+        """`onUpdate(time)`
+            ---
             Do not override it.
         """
         self.original.onUpdate(self, time)
 
     def onUpdateLater(self, time: float) -> None:
-        """onUpdateLater(time)
-
+        """`onUpdateLater(time)`
+            ---
             Do not override it.
         """
         self.original.onUpdateLater(self, time)
@@ -111,8 +111,8 @@ class RsInstance(object):
             self.y += Vspeed
 
     def onDraw(self, time: float) -> None:
-        """onDraw(time)
-
+        """`onDraw(time)`
+            ---
             Do not override it.
         """
         self.original.onDraw(self, time)
