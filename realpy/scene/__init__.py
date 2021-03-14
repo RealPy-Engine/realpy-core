@@ -1,6 +1,8 @@
 """ Scene
     ---
-    `from realpy import RsScene`
+    ```
+    from realpy import RsScene
+    ```
 """
 from .header import RsScene
 
