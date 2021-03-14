@@ -4,13 +4,15 @@ from .scene import RsScene
 from .layer import RsLayer
 from .prefab import RsPrefab, RsInstance
 from .camera import RsCamera
-from .sprite import RsImage, RsSprite
+from .image import RsImage
+from .sprite import RsSprite
 
 from . import framework
 from . import preset
 
+from . import utility as RsUtility
+
 from .asset import *
-from .utility import *
 
 
 init = framework.rs_init
