@@ -13,7 +13,6 @@ __all__ = [
     "MASKS", "phy_mess", "phy_velocity"
 ]
 
-
 # General
 game_speed: int = 60
 

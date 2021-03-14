@@ -17,12 +17,10 @@ def test():
             self.width: int = w
             self.height: int = h
 
-
     class PseudoImage:
         def __init__(self) -> None:
             self.raw_data = []
             self.boundbox = PseudoRect(32, 32)
-
 
     try:
         print("Class of sprite: ", RsSprite)
