@@ -1,96 +1,66 @@
-import asyncio, sys
-from realpy.utility import irandom
+""" Framework
+    ---
+    ```
+    from realpy import RsFramework
+    ```
+"""
+from . import header as RsFramework
 
-import pygame
-import pygame.constants as PyConstants
-import pygame.display as PyDisplay
-import pygame.fastevent as PyEvent
-from pygame.time import Clock as Clock
-
-from ..preset import RsPreset
-from ..scene import RsScene
-
-__all__ = ("rs_init", "rs_startup", "rs_quit")
+__all__ = ["RsFramework"]
 
 
-async def hand_update():
-    RsPreset.Events.clear()
+def test():
+    print("Test → Realpy Framework")
 
-    # Await
-    Temp = PyEvent.get()
+    try:
+        import asyncio
+        from realpy import RsFramework, RsScene, RsLayer, RsPrefab
+        from realpy import room_register, instance_create
 
-    for event in Temp:
-        if event.type == PyConstants.QUIT:
-            rs_quit()
-        elif event.type == PyConstants.KEYDOWN and event.key == PyConstants.K_ESCAPE:
-            rs_quit()
-        elif event.type == PyConstants.MOUSEBUTTONDOWN:
-            pass  # room_goto_next()
-        elif event.type == PyConstants.MOUSEBUTTONUP:
+        print("Module of machine: ", RsFramework)
+
+        async def timeout():
+            asyncio.sleep(5)
+            raise TimeoutError
+
+
+        class oTest(RsPrefab):
             pass
 
-    RsPreset.Events = Temp
-    return len(RsPreset.Events)
 
+        asyncio.run(timeout(), debug=True)
+        RsFramework.rs_init("RealPy Engine", 300, 300)
 
-async def scene_update(room: RsScene, time: float):
-    room.onUpdate(time)
-    room.onUpdateLater(time)
+        TestRoom = room_register(RsScene("roomTest"))
+        print(repr(TestRoom))
 
+        Testbed = TestRoom.add_layer_direct(RsLayer("Instances"))
+        print(repr(Testbed))
+ 
+        TestInstance1 = instance_create(oTest, Testbed)
+        print(TestInstance1)
+        print(repr(TestInstance1))
 
-async def graphics_update(room: RsScene, time: float):
-    RsPreset.application_surface.fill("black")
-    room.onDraw(time)
-    PyDisplay.update()
-
-
-async def update_all(room: RsScene, time: float):
-    await asyncio.gather(hand_update(), scene_update(room, time), graphics_update(room, time))
-
-
-def rs_init(title: str, view_port_width: int, view_port_height: int):
-    pygame.init()
-    PyDisplay.init()
-    PyEvent.init()
-
-    PyDisplay.set_caption(title)
-    PyDisplay.set_allow_screensaver(False)
-
-    RsPreset.dimension = (view_port_width, view_port_height)
-    RsPreset.application_surface = PyDisplay.set_mode(RsPreset.dimension)
-
-
-def rs_startup():
-    # Startup
-    Rooms = RsPreset.RoomOrder
-    StartRoom = None
-    try:
-        StartRoom = Rooms[0]
-        RsPreset.RsRoom = StartRoom
-    except IndexError:
-        raise RuntimeError("No scene found.")
-
-    if not StartRoom:
-        raise RuntimeError("Invalid scene.")
-
-    RoomCurrent: RsScene = RsPreset.RsRoom
-    AbsoluteTimer = Clock()
-    TimeOccured: float = 0
-
-    # Load rooms
-    print(RsPreset.RsRoom)
-    RsPreset.RsRoom.onAwake()
-    while True:
-        TimeOccured = 0 if RsPreset.RsRoom.paused else AbsoluteTimer.get_time() * 0.001  # Millisecond
-        print(TimeOccured)
-
-        asyncio.run(update_all(RoomCurrent, TimeOccured))
-
-        AbsoluteTimer.tick(RsPreset.game_speed)
-        RoomCurrent = RsPreset.RsRoom
-
-
-def rs_quit():
-    print("Program is ended.")
-    pygame.quit()
-    sys.exit()
+        RsFramework.rs_startup()
+    except AttributeError as e:
+        print("Attribute Error: ", e)
+        return False
+    except ImportError as e:
+        print("Import Error: ", e)
+        return False
+    except SystemError as e:
+        print("System Error: ", e)
+        return False
+    except ValueError as e:
+        print("Value Error: ", e)
+        return False
+    except RuntimeError as e:
+        print("Runtime Error: ", e)
+        return False
+    except TimeoutError:
+        return True
+    except Exception as e:
+        print("Error: ", e)
+        return False
+    finally:
+        return True
