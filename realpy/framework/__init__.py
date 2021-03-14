@@ -7,14 +7,14 @@ import pygame.display as PyDisplay
 import pygame.fastevent as PyEvent
 from pygame.time import Clock as Clock
 
-from .. import preset
+from ..preset import RsPreset
 from ..scene import RsScene
 
 __all__ = ("rs_init", "rs_startup", "rs_quit")
 
 
 async def hand_update():
-    preset.Events.clear()
+    RsPreset.Events.clear()
 
     # Await
     Temp = PyEvent.get()
@@ -29,8 +29,8 @@ async def hand_update():
         elif event.type == PyConstants.MOUSEBUTTONUP:
             pass
 
-    preset.Events = Temp
-    return len(preset.Events)
+    RsPreset.Events = Temp
+    return len(RsPreset.Events)
 
 
 async def scene_update(room: RsScene, time: float):
@@ -39,7 +39,7 @@ async def scene_update(room: RsScene, time: float):
 
 
 async def graphics_update(room: RsScene, time: float):
-    preset.application_surface.fill("black")
+    RsPreset.application_surface.fill("black")
     room.onDraw(time)
     PyDisplay.update()
 
@@ -56,38 +56,38 @@ def rs_init(title: str, view_port_width: int, view_port_height: int):
     PyDisplay.set_caption(title)
     PyDisplay.set_allow_screensaver(False)
 
-    preset.dimension = (view_port_width, view_port_height)
-    preset.application_surface = PyDisplay.set_mode(preset.dimension)
+    RsPreset.dimension = (view_port_width, view_port_height)
+    RsPreset.application_surface = PyDisplay.set_mode(RsPreset.dimension)
 
 
 def rs_startup():
     # Startup
-    Rooms = preset.RoomOrder
+    Rooms = RsPreset.RoomOrder
     StartRoom = None
     try:
         StartRoom = Rooms[0]
-        preset.RsRoom = StartRoom
+        RsPreset.RsRoom = StartRoom
     except IndexError:
         raise RuntimeError("No scene found.")
 
     if not StartRoom:
         raise RuntimeError("Invalid scene.")
 
-    RoomCurrent: RsScene = preset.RsRoom
+    RoomCurrent: RsScene = RsPreset.RsRoom
     AbsoluteTimer = Clock()
     TimeOccured: float = 0
 
     # Load rooms
-    print(preset.RsRoom)
-    preset.RsRoom.onAwake()
+    print(RsPreset.RsRoom)
+    RsPreset.RsRoom.onAwake()
     while True:
-        TimeOccured = 0 if preset.RsRoom.paused else AbsoluteTimer.get_time() * 0.001  # Millisecond
+        TimeOccured = 0 if RsPreset.RsRoom.paused else AbsoluteTimer.get_time() * 0.001  # Millisecond
         print(TimeOccured)
 
         asyncio.run(update_all(RoomCurrent, TimeOccured))
 
-        AbsoluteTimer.tick(preset.game_speed)
-        RoomCurrent = preset.RsRoom
+        AbsoluteTimer.tick(RsPreset.game_speed)
+        RoomCurrent = RsPreset.RsRoom
 
 
 def rs_quit():
