@@ -8,6 +8,8 @@ from . import header as RsPreset
 
 __all__ = ["RsPreset"]
 
+
+# TODO: #22 Make a test from preset.
 def test():
     print("Test → Realpy Settings")
 
