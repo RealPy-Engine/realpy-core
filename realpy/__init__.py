@@ -1,19 +1,16 @@
 from typing import Union
 
+from .framework import RsFramework
+from .preset import RsPreset
 from .scene import RsScene
 from .layer import RsLayer
-from .prefab import RsPrefab, RsInstance
 from .image import RsImage
 from .sprite import RsSprite
-
-from . import framework
-from .preset import RsPreset
-
-from . import utility as RsUtility
-
+from .prefab import RsPrefab, RsInstance
+from .utility import RsUtility
 from .asset import *
 
 
-init = framework.rs_init
-startup = framework.rs_startup
-quit = framework.rs_quit
+init = RsFramework.rs_init
+startup = RsFramework.rs_startup
+quit = RsFramework.rs_quit
