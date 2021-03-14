@@ -17,7 +17,7 @@ __all__ = [
 game_speed: int = 60
 
 # Display
-dimension: tuple[int, int] = (640, 480)
+dimension = (640, 480)
 
 # Application surface
 application_surface: PySurface
