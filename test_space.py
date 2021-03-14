@@ -1,10 +1,8 @@
-import math
-from realpy.layer import RsLayer
-
 import realpy
-from realpy import preset
-from realpy import RsScene, RsPrefab, RsInstance, RsImage, RsSprite
-from realpy import room_register, instance_create
+
+from realpy import (
+    RsScene, RsLayer, RsPrefab, RsImage, RsSprite, room_register, instance_create
+)
 
 
 class SPACESHIP_TYPES:
@@ -15,7 +13,7 @@ if __name__ == "__main__":
     # TODO: #17 Make easy to create user's custom preset.
     realpy.init("RealPy Engine", 640, 480)
 
-    TestImage = RsImage("battleship.png")
+    TestImage = RsImage("test_battleship.png")
     TestSprite = RsSprite(TestImage, 0)
 
 
