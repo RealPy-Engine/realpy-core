@@ -1,4 +1,4 @@
-from realpy.utility import lengthdir_x, lengthdir_y, point_distance, point_direction
+from ..utility import lengthdir_x, lengthdir_y, point_distance, point_direction
 
 
 class RsInstance(object):
@@ -29,8 +29,6 @@ class RsInstance(object):
         self.__vspeed: float = 0
         self.gravity_force: float = 0
         self.gravity_direction: float = 0
-
-        layer.storage.append(self)
 
     @property
     def speed(self) -> float:
