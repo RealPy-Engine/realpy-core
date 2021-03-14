@@ -1,4 +1,6 @@
 import asyncio, sys
+from asyncio.exceptions import CancelledError
+from typing import Union
 
 import pygame
 import pygame.constants as PyConstants
@@ -12,6 +14,10 @@ from ..scene import RsScene
 __all__ = ("rs_init", "rs_startup", "rs_quit")
 
 
+class RsInteruptError(Exception):
+    pass
+
+
 async def hand_update():
     RsPreset.Events.clear()
 
@@ -20,9 +26,9 @@ async def hand_update():
 
     for event in Temp:
         if event.type == PyConstants.QUIT:
-            rs_quit()
+            raise RsInteruptError
         elif event.type == PyConstants.KEYDOWN and event.key == PyConstants.K_ESCAPE:
-            rs_quit()
+            raise RsInteruptError
         elif event.type == PyConstants.MOUSEBUTTONDOWN:
             pass  # room_goto_next()
         elif event.type == PyConstants.MOUSEBUTTONUP:
@@ -83,7 +89,12 @@ def rs_startup():
         TimeOccured = 0 if RsPreset.RsRoom.paused else AbsoluteTimer.get_time() * 0.001  # Millisecond
         print(TimeOccured)
 
-        asyncio.run(update_all(RoomCurrent, TimeOccured))
+        try:
+            asyncio.run(update_all(RoomCurrent, TimeOccured))
+        except CancelledError:
+            rs_quit()
+        except RsInteruptError:
+            rs_quit()
 
         AbsoluteTimer.tick(RsPreset.game_speed)
         RoomCurrent = RsPreset.RsRoom
