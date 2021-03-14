@@ -1,51 +1,38 @@
-from typing import Optional
-from numpy import matrixlib
-
-from pygame.surface import Surface
-from pygame import transform
-
-from .primitive import RsImage
-
-__all__ = ("RsImage", "RsSprite")
-
-
-class RsSprite(object):
-    def __init__(self, image: RsImage, mask_type: int=0, xo: int=0, yo: int=0):
-        self.image: RsImage = image
-        self.mask_type: int = mask_type
-        self.width: int = image.boundbox.width
-        self.height: int = image.boundbox.height
-        self.radius: int = max(xo, yo)
-        self.xoffset: int = xo
-        self.yoffset: int = yo
-
-    def draw(self, where: Surface, index: int, x: int, y: int, scale: float=1, orientation: float=0, alpha: float=1):
-        if 0 == scale or alpha <= 0:
-            return
-        if self.image:
-            if self.image.number == 0:
-                Image: Surface = self.image.raw_data[0]
-
-                Trx: Surface = transform.rotozoom(Image, orientation, scale)
-                Position = Trx.get_rect()
-                Position.center = (x, y)
-                where.blit(Trx, Position)
-            elif 0 < self.image.number:
-                Image: Surface = self.image.raw_data[index]
-                Position = Image.get_rect()
-                Position.center = (x, y)
-                where.blit(Image, Position)
-
-
+""" Sprite
+    ---
+    `from realpy import RsSprite`
 """
-def sprite_json_loads():
+from .header import RsSprite
+
+__all__ = ["RsSprite"]
+
+
+def test():
+    print("Test → Realpy Sprite")
+
+    class PseudoRect:
+        def __init__(self, w: int, h: int) -> None:
+            self.width: int = w
+            self.height: int = h
+
+
+    class PseudoImage:
+        def __init__(self) -> None:
+            self.raw_data = []
+            self.boundbox = PseudoRect(32, 32)
+
+
     try:
-        with open("Data\\sprite.json") as sprfile:
-            parsed = json.load(sprfile)
+        print("Class of sprite: ", RsSprite)
+        print("Class of simulated rectangle: ", PseudoRect)
+        print("Class of simulated image: ", PseudoImage)
 
-            for content in parsed:
-                sprite_load(content["path"], content["name"], content["xoffset"], content["yoffset"], content["number"])
+        SampleImage = PseudoImage()
+        Sample = RsSprite(SampleImage, 0, 16, 16)
 
-    except FileNotFoundError:
-        pass
-"""
+        print("Sample image: ", SampleImage)
+        print("Sample sprite: ", Sample)
+    except Exception as e:
+        print("Error: ", e)
+        return False
+    return True
