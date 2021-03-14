@@ -20,13 +20,11 @@ def test():
         print("Module of machine: ", RsFramework)
 
         async def timeout():
-            asyncio.sleep(5)
+            await asyncio.sleep(5)
             raise TimeoutError
-
 
         class oTest(RsPrefab):
             pass
-
 
         asyncio.run(timeout(), debug=True)
         RsFramework.rs_init("RealPy Engine", 300, 300)
@@ -36,7 +34,7 @@ def test():
 
         Testbed = TestRoom.add_layer_direct(RsLayer("Instances"))
         print(repr(Testbed))
- 
+
         TestInstance1 = instance_create(oTest, Testbed)
         print(TestInstance1)
         print(repr(TestInstance1))
@@ -44,9 +42,6 @@ def test():
         RsFramework.rs_startup()
     except AttributeError as e:
         print("Attribute Error: ", e)
-        return False
-    except ImportError as e:
-        print("Import Error: ", e)
         return False
     except SystemError as e:
         print("System Error: ", e)
