@@ -7,7 +7,7 @@ class RsInstance(object):
         Derived from prefabs.
     """
 
-    def __init__(self, original, scene, layer, x: float=0, y: float=0):
+    def __init__(self, original, scene, layer, x: float = 0, y: float = 0):
         from typing import Optional
         from ..sprite import RsSprite
 
@@ -101,7 +101,7 @@ class RsInstance(object):
         if self.gravity_force != 0:
             self.__hspeed += lengthdir_x(self.gravity_force, self.gravity_direction)
             self.__vspeed += lengthdir_y(self.gravity_force, self.gravity_direction)
-        
+
         Hspeed = self.__hspeed * time
         if Hspeed != 0:
             self.x += Hspeed

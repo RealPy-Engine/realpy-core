@@ -6,7 +6,8 @@ class RsScene(object):
         ---
         Large portion of game pipeline.
     """
-    def __init__(self, name: str=""):
+
+    def __init__(self, name: str = ""):
         self.name: str = name
         self.layer_stack: list = []
         self.trees: dict[str, Any] = {}

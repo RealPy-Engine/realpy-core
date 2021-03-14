@@ -13,7 +13,7 @@ class RsPrefab(object):
     sprite_index: Optional[RsSprite] = None
 
     def __new__(cls, *args, **kargs):
-        cls.__parent: Optional[type[RsPrefab]]  = None
+        cls.__parent: Optional[type[RsPrefab]] = None
         cls.children: Optional[list[type[RsPrefab]]] = []
         return super().__new__(cls, *args, **kargs)
 
@@ -81,10 +81,11 @@ class RsPrefab(object):
         from realpy import RsPreset
 
         if itself.sprite_index:
-            itself.sprite_index.draw(RsPreset.application_surface, itself.image_index, itself.x, itself.y, itself.image_scale, itself.image_angle, itself.image_alpha)
+            itself.sprite_index.draw(RsPreset.application_surface, itself.image_index, itself.x, itself.y,
+                                     itself.image_scale, itself.image_angle, itself.image_alpha)
 
     @classmethod
-    def instantiate(cls, scene, layer, x: float=0, y: float=0):
+    def instantiate(cls, scene, layer, x: float = 0, y: float = 0):
         """`instantiate(Scene, Layer, x=0, y=0)`
             ---
             Creates a instance of game object.
@@ -93,4 +94,3 @@ class RsPrefab(object):
 
         Result = RsInstance(cls, scene, layer, x, y)
         return Result
-

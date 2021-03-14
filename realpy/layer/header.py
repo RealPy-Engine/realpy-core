@@ -4,7 +4,7 @@ class RsLayer(object):
         Belongs to a scene and executes game instances.
     """
 
-    def __init__(self, name: str=""):
+    def __init__(self, name: str = ""):
         self.name: str = name
         self.storage: list = []
 

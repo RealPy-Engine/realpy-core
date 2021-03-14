@@ -33,4 +33,3 @@ class RsImage(object):
 
             Temp = PyImage.load(self.raw_data[0])
             self.boundbox = Temp.get_rect()
-

@@ -25,7 +25,6 @@ def test():
         def onUpdate(self, time: float):
             self.x += 5 * time
 
-
     class PseudoInstance2:
         def onAwake(self):
             print("Instance 2: ", id(self))
@@ -38,7 +37,6 @@ def test():
 
         def onUpdateLater(self, time: float):
             print("Instance 2 -> later")
-
 
     try:
         print("Class of scene: ", RsLayer)
@@ -72,4 +70,3 @@ def test():
         print("Error: ", e)
         return False
     return True
-

@@ -4,7 +4,7 @@ from ..preset import RsPreset
 from ..scene import RsScene
 
 
-def room_register(info: RsScene, caption: Optional[str]=None):
+def room_register(info: RsScene, caption: Optional[str] = None):
     NewRoom: RsScene = info
     Name: str
     if caption:

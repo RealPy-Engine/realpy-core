@@ -22,7 +22,6 @@ def test():
         def onAwake(self):
             print("Layer: ", id(self))
 
-
     try:
         print("Class of scene: ", RsScene)
         print("Class of simulated layer: ", PseudoLayer)
@@ -52,4 +51,3 @@ def test():
         print("Error: ", e)
         return False
     return True
-

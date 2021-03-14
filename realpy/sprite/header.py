@@ -13,7 +13,7 @@ class RsSprite(object):
         Advance asset of image.
     """
 
-    def __init__(self, image, mask_type: int=0, xo: int=0, yo: int=0):
+    def __init__(self, image, mask_type: int = 0, xo: int = 0, yo: int = 0):
         self.image = image
         self.mask_type: int = mask_type
         self.width: int = image.boundbox.width
@@ -22,7 +22,8 @@ class RsSprite(object):
         self.xoffset: int = xo
         self.yoffset: int = yo
 
-    def draw(self, where: Surface, index: int, x: int, y: int, scale: float=1, orientation: float=0, alpha: float=1):
+    def draw(self, where: Surface, index: int, x: int, y: int, scale: float = 1, orientation: float = 0,
+             alpha: float = 1):
         if 0 == scale or alpha <= 0:
             return
         if self.image:
