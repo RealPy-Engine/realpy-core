@@ -6,7 +6,7 @@ class RsLayer(object):
 
     def __init__(self, name: str = ""):
         self.name: str = name
-        self.storage: list = []
+        self.storage = []
 
     def __str__(self) -> str:
         return self.name
