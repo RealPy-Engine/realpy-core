@@ -8,7 +8,7 @@ def room_register(info: RsScene, caption: Optional[str] = None):
     NewRoom: RsScene = info
     Name: str
     if caption:
-        if caption is "":
+        if caption == "":
             raise RuntimeError(f"Please enter name of the scene {id(info)}")
         NewRoom.name = caption
         Name = caption
