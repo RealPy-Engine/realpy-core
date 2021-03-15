@@ -1,11 +1,11 @@
-from typing import Union
+from typing import Type, Union
 
 from ..preset import RsPreset
 from ..layer import RsLayer
 from ..prefab import RsPrefab, RsInstance
 
 
-def instance_create(gobject: type[RsPrefab], layer_id: Union[str, RsLayer], x=0, y=0) -> RsInstance:
+def instance_create(gobject: Type[RsPrefab], layer_id: Union[str, RsLayer], x=0, y=0) -> RsInstance:
     if type(layer_id) is RsLayer:
         TempLayer = layer_id
     else:

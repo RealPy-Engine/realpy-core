@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Type, Optional, List
 
 from ..sprite import RsSprite
 
@@ -13,9 +13,9 @@ class RsPrefab(object):
     sprite_index: Optional[RsSprite] = None
 
     def __new__(cls, *args, **kargs):
-        cls.__parent: Optional[type[RsPrefab]] = None
-        cls.children: Optional[list[type[RsPrefab]]] = []
-        return super().__new__(cls, *args, **kargs)
+        cls.__parent: Optional[Type[RsPrefab]] = None
+        cls.children: Optional[List[Type[RsPrefab]]] = []
+        return super(RsPrefab, cls).__new__(cls, *args, **kargs)
 
     def __repr__(self) -> str:
         SpriteCheck = f" ({self.sprite_index})" if self.sprite_index else ""

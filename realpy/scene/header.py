@@ -1,4 +1,4 @@
-from typing import Any, Optional
+from typing import Optional, Any, List, Dict
 
 
 class RsScene(object):
@@ -9,11 +9,11 @@ class RsScene(object):
 
     def __init__(self, name: str = ""):
         self.name: str = name
-        self.layer_stack: list = []
-        self.trees: dict[str, Any] = {}
+        self.layer_stack = []
+        self.trees: Dict[str, Any] = {}
         self.paused: bool = False
-        self.EveryInstancesPot: list = []
-        self.SpecificInstancesPot: dict[int, list] = {}
+        self.EveryInstancesPot = []
+        self.SpecificInstancesPot: Dict[int, List] = {}
         self.before: Optional[RsScene] = None
         self.next: Optional[RsScene] = None
 

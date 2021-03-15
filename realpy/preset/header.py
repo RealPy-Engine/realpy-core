@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Type, Optional, List, Dict
 
 from pygame.event import Event
 from pygame.surface import Surface as PySurface
@@ -25,20 +25,20 @@ application_surface: PySurface
 # Rooms
 RsRoom: Optional[RsScene] = None
 RsLastRoom: Optional[RsScene] = None
-RoomOrder: list[RsScene] = []
-RoomPot: dict[str, RsScene] = {}
+RoomOrder: List[RsScene] = []
+RoomPot: Dict[str, RsScene] = {}
 
 # Events
-Events: dict[str, Event] = {}
+Events: Dict[str, Event] = {}
 
 # Sprite texture group
-Atlas: dict[str, RsSprite] = {}
+Atlas: Dict[str, RsSprite] = {}
 
 # All game objects
-PrefabsPot: list[type[RsPrefab]] = []
+PrefabsPot: List[Type[RsPrefab]] = []
 
 # All sounds
-AudioPot: dict[str, object] = {}
+AudioPot: Dict[str, object] = {}
 
 # 10 px == 1 metre
 phy_mess: float = 10.0 / 1
