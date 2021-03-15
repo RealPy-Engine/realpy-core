@@ -1,11 +1,5 @@
 import math, random
 from typing import Union
-from numpy import matrixlib
-
-_bbbb = matrixlib.asmatrix([[1, 0], [0, 1]])
-_cccc = matrixlib.asmatrix([[5, 4], [2, 9]])
-_bbbb *= _cccc
-print(_bbbb)
 
 __all__ = [
     "sqr", "sign", "degtorad", "radtodeg", "irandom", "irandom_range", "bezier4", "choose",
