@@ -1,6 +1,7 @@
-def test_main():
-    import realpy
+import realpy
 
+
+def test_main():
     assert realpy.framework.test()
     assert realpy.scene.test()
     assert realpy.layer.test()
