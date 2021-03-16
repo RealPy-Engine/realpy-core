@@ -1,5 +1,5 @@
 def test_main():
-    import realpy
+    from .. import realpy
 
     assert realpy.framework.test()
     assert realpy.scene.test()
