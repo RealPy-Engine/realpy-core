@@ -10,14 +10,14 @@ __all__ = ["RsFramework"]
 
 
 def test():
-    print("Test → Realpy Framework")
+    print("***** Test → Realpy Framework (+Prefab and Assets) *****")
 
     try:
         import asyncio
         from realpy import RsFramework, RsScene, RsLayer, RsPrefab
         from realpy import room_register, instance_create
 
-        print("Module of machine: ", RsFramework)
+        print(">>> Module of machine: ", RsFramework)
 
         async def timeout():
             await asyncio.sleep(5)
@@ -26,8 +26,8 @@ def test():
         class oTest(RsPrefab):
             pass
 
-        asyncio.run(timeout(), debug=True)
-        RsFramework.rs_init("RealPy Engine", 300, 300)
+        RsFramework.rs_init("RealPy Engine", 200, 200)
+        asyncio.run(timeout())
 
         TestRoom = room_register(RsScene("roomTest"))
         print(repr(TestRoom))
@@ -38,8 +38,6 @@ def test():
         TestInstance1 = instance_create(oTest, Testbed)
         print(TestInstance1)
         print(repr(TestInstance1))
-
-        RsFramework.rs_startup()
     except AttributeError as e:
         print("Attribute Error: ", e)
         return False

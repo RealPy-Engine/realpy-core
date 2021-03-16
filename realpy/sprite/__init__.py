@@ -10,7 +10,7 @@ __all__ = ["RsSprite"]
 
 
 def test():
-    print("Test → Realpy Sprite")
+    print("***** Test → Realpy Sprite *****")
 
     class PseudoRect:
         def __init__(self, w: int, h: int) -> None:
@@ -23,9 +23,9 @@ def test():
             self.boundbox = PseudoRect(32, 32)
 
     try:
-        print("Class of sprite: ", RsSprite)
-        print("Class of simulated rectangle: ", PseudoRect)
-        print("Class of simulated image: ", PseudoImage)
+        print(">>> Class of sprite: ", RsSprite)
+        print(">>> Class of simulated rectangle: ", PseudoRect)
+        print(">>> Class of simulated image: ", PseudoImage)
 
         SampleImage = PseudoImage()
         Sample = RsSprite(SampleImage, 0, 16, 16)

@@ -1,14 +1,16 @@
 def test_main():
     import realpy
 
-    Result: bool = True
-    Result |= realpy.scene.test()
-    Result |= realpy.layer.test()
-    Result |= realpy.preset.test()
-    Result |= realpy.utility.test()
-    Result |= realpy.image.test()
-    Result |= realpy.sprite.test()
-    # Result |= realpy.prefab.test()
-    # Result |= realpy.asset.test()
+    assert realpy.framework.test()
+    assert realpy.scene.test()
+    assert realpy.layer.test()
+    assert realpy.preset.test()
+    assert realpy.utility.test()
+    assert realpy.image.test()
+    assert realpy.sprite.test()
+    assert realpy.utility.test()
+    print("***** Realpy Test Finished *****")
 
-    return Result
+
+if __name__ == "__main__":
+    test_main()

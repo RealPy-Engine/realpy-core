@@ -10,7 +10,7 @@ __all__ = ["RsScene"]
 
 
 def test():
-    print("Test → Realpy Scene")
+    print("***** Test → Realpy Scene *****")
 
     class PseudoLayer:
         def __init__(self, name: str) -> None:
@@ -23,15 +23,16 @@ def test():
             print("Layer: ", id(self))
 
     try:
-        print("Class of scene: ", RsScene)
-        print("Class of simulated layer: ", PseudoLayer)
+        print(">>> Class of scene: ", RsScene)
+        print(">>> Class of simulated layer: ", PseudoLayer)
 
         Sample = RsScene()
         SampleLayers = [PseudoLayer("First"), PseudoLayer("Second"), PseudoLayer("Third")]
         print("Sample scene: ", Sample)
         print("Sample layer group: ", SampleLayers)
 
-        Sample.add_layer_direct(*SampleLayers)
+        for Item in SampleLayers:
+            Sample.add_layer_direct(Item)
         SampleSeek = Sample.layer_find("First")
         print("Found scene (maybe 'First'): ", SampleSeek)
         SampleSeek = Sample.layer_find("Fourth")

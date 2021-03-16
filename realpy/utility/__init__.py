@@ -9,4 +9,5 @@ from .header import *
 
 
 def test():
+    print("***** Test → Realpy Utility *****")
     return True
