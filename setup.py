@@ -18,6 +18,7 @@ setuptools.setup(
     },
     classifiers=[
         "Programming Language :: Python :: 3",
+        "Development Status :: 3 - Alpha",
         "License :: OSI Approved :: LGPL License",
         "Operating System :: OS Independent",
     ],
