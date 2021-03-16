@@ -10,7 +10,7 @@ __all__ = ["RsLayer"]
 
 
 def test():
-    print("Test → Realpy Layer")
+    print("***** Test → Realpy Layer *****")
 
     class PseudoInstance1:
         def __init__(self) -> None:
@@ -39,9 +39,9 @@ def test():
             print("Instance 2 -> later")
 
     try:
-        print("Class of scene: ", RsLayer)
-        print("Class of simulated instance #1: ", PseudoInstance1)
-        print("Class of simulated instance #2: ", PseudoInstance2)
+        print(">>> Class of scene: ", RsLayer)
+        print(">>> Class of simulated instance #1: ", PseudoInstance1)
+        print(">>> Class of simulated instance #2: ", PseudoInstance2)
 
         Sample = RsLayer("Sample Layer")
         print("Sample layer: ", Sample)

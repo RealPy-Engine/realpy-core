@@ -12,7 +12,3 @@ from .room import (
 from .instance import (
     instance_create, instance_destroy
 )
-
-# TODO: #21 Make a test from assets.
-def test():
-    pass

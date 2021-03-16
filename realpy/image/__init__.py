@@ -10,12 +10,16 @@ __all__ = ["RsImage"]
 
 
 def test():
-    print("Test → Realpy Image")
+    print("***** Test → Realpy Image *****")
 
     try:
-        print("Class of image: ", RsImage)
+        import os, pygame
 
-        Sample_location = "test_image.png"
+        pygame.init()
+
+        print(">>> Class of image: ", RsImage)
+
+        Sample_location = os.path.dirname(__file__) + "\\test_image.png"
         print("Sample location: ", Sample_location)
 
         Sample_s = RsImage(Sample_location)

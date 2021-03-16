@@ -1,4 +1,5 @@
 import os
+from typing import List
 
 import pygame.rect as PyRect
 import pygame.image as PyImage
@@ -22,12 +23,10 @@ class RsImage(object):
             self.raw_data.append(Temp)
             self.filename = os.path.splitext(filepath)[0]
             self.boundbox = Temp.get_rect()
-        elif type(filepath) is list[str]:
+        else:
             self.number = len(filepath)
 
             for file in filepath:
                 self.raw_data.append(PyImage.load(file).convert_alpha())
             self.filename = os.path.splitext(filepath[0])[0]
-
-            Temp = PyImage.load(self.raw_data[0])
-            self.boundbox = Temp.get_rect()
+            self.boundbox = self.raw_data[0].get_rect()
