@@ -87,7 +87,9 @@ class RsPrefab(type):
         if itself.sprite_index:
             itself.sprite_index.draw(RsPreset.application_surface, itself.image_index, itself.x, itself.y, itself.image_scale, itself.image_angle, itself.image_alpha)
             from pygame import draw
-            draw.line(RsPreset.application_surface, "red", )
+            PointA = itself.boundbox[0]
+            PointB = itself.boundbox[1]
+            draw.line(RsPreset.application_surface, "red", PointA, PointB)
 
     @classmethod
     def instantiate(cls, scene, layer, x: float = 0, y: float = 0):
