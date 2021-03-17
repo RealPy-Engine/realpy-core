@@ -85,8 +85,9 @@ class RsPrefab(type):
         from realpy import RsPreset
 
         if itself.sprite_index:
-            itself.sprite_index.draw(RsPreset.application_surface, itself.image_index, itself.x, itself.y,
-                                     itself.image_scale, itself.image_angle, itself.image_alpha)
+            itself.sprite_index.draw(RsPreset.application_surface, itself.image_index, itself.x, itself.y, itself.image_scale, itself.image_angle, itself.image_alpha)
+            from pygame import draw
+            draw.line(RsPreset.application_surface, "red", )
 
     @classmethod
     def instantiate(cls, scene, layer, x: float = 0, y: float = 0):
