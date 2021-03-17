@@ -3,14 +3,18 @@ from typing import Type, Optional, List
 from ..sprite import RsSprite
 
 
-class RsPrefab(object):
+# TODO: #33 Adopt better way to instancing prefabs
+class RsPrefab(type):
     """`RsPrefab`
         ---
         A template class of game object. Contains its own sprite and hierachies.
 
         Do not instantiate this primitive prefab.
     """
+    from .instance import RsInstance
+
     sprite_index: Optional[RsSprite] = None
+    implement = RsInstance
 
     def __new__(cls, *args, **kargs):
         cls.__parent: Optional[Type[RsPrefab]] = None
@@ -81,8 +85,9 @@ class RsPrefab(object):
         from realpy import RsPreset
 
         if itself.sprite_index:
-            itself.sprite_index.draw(RsPreset.application_surface, itself.image_index, itself.x, itself.y,
-                                     itself.image_scale, itself.image_angle, itself.image_alpha)
+            itself.sprite_index.draw(RsPreset.application_surface, itself.image_index, itself.x, itself.y, itself.image_scale, itself.image_angle, itself.image_alpha)
+            from pygame import draw
+            draw.line(RsPreset.application_surface, "red", )
 
     @classmethod
     def instantiate(cls, scene, layer, x: float = 0, y: float = 0):
@@ -90,7 +95,6 @@ class RsPrefab(object):
             ---
             Creates a instance of game object.
         """
-        from .instance import RsInstance
 
-        Result = RsInstance(cls, scene, layer, x, y)
+        Result = cls.implement(cls, scene, layer, x, y)
         return Result

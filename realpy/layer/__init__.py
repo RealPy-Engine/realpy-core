@@ -46,9 +46,9 @@ def test():
         Sample = RsLayer("Sample Layer")
         print("Sample layer: ", Sample)
 
-        Instance1 = Sample.add_instance(PseudoInstance2())
-        Instance2 = Sample.add_instance(PseudoInstance1())
-        Instance3 = Sample.add_instance(PseudoInstance2())
+        Instance1 = Sample.add(PseudoInstance2())
+        Instance2 = Sample.add(PseudoInstance1())
+        Instance3 = Sample.add(PseudoInstance2())
         print("Sample Instance 1: ", Instance1)
         print("Sample Instance 2: ", Instance2)
         print("Sample Instance 3: ", Instance3)

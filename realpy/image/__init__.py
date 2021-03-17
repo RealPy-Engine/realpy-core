@@ -19,7 +19,7 @@ def test():
 
         print(">>> Class of image: ", RsImage)
 
-        Sample_location = os.path.dirname(__file__) + "\\test_image.png"
+        Sample_location = "test_image.png"
         print("Sample location: ", Sample_location)
 
         Sample_s = RsImage(Sample_location)

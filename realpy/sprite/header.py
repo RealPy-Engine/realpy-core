@@ -1,6 +1,3 @@
-from typing import Optional
-from numpy import matrixlib
-
 from pygame.surface import Surface
 from pygame import transform
 

@@ -1,3 +1,6 @@
+from typing import Optional
+from numpy.matrixlib import mat, bmat
+
 from ..utility import lengthdir_x, lengthdir_y, point_distance, point_direction
 
 
@@ -8,7 +11,6 @@ class RsInstance(object):
     """
 
     def __init__(self, original, scene, layer, x: float = 0, y: float = 0):
-        from typing import Optional
         from ..sprite import RsSprite
 
         self.enabled: bool = True
@@ -18,9 +20,9 @@ class RsInstance(object):
         self.layer = layer
         self.x: float = x
         self.y: float = y
-        self.sprite_index: Optional[RsSprite] = original.sprite_index
+        self.__sprite_index: Optional[RsSprite] = original.sprite_index
         self.image_index: float = 0
-        self.image_angle: float = 0
+        self.__image_angle: float = 0
         self.image_scale: float = 1
         self.image_alpha: float = 1
         self.__speed: float = 0
@@ -29,6 +31,18 @@ class RsInstance(object):
         self.__vspeed: float = 0
         self.gravity_force: float = 0
         self.gravity_direction: float = 0
+        if self.sprite_index:
+            sx, sw = self.sprite_index.xoffset, self.sprite_index.width
+            sy, sh = self.sprite_index.yoffset, self.sprite_index.height
+            self.boundbox = [[-sx, sw - sx], [-sy, sh - sy]]
+            self.bound_vertexes = mat([-sx, sw - sx], [-sy, sh - sy])
+        else:
+            self.boundbox = None
+            self.bound_vertexes = None
+
+    @property
+    def sprite_index(self):
+        return self.__sprite_index
 
     @property
     def speed(self) -> float:
@@ -45,6 +59,10 @@ class RsInstance(object):
     @property
     def vspeed(self) -> float:
         return self.__vspeed
+
+    @property
+    def image_angle(self) -> float:
+        return self.__image_angle
 
     @speed.setter
     def speed(self, value: float):
@@ -69,6 +87,36 @@ class RsInstance(object):
         self.__vspeed = value
         self.__speed = point_distance(0, 0, self.__hspeed, self.__vspeed)
         self.__direction = point_direction(0, 0, self.__hspeed, self.__vspeed)
+
+    @sprite_index.setter
+    def sprite_index(self, index):
+        # Update the original boundbox
+        if not index: # Free the memory
+            self.__sprite_index = None
+            del self.boundbox
+            del self.bound_vertexes
+        elif not self.__sprite_index: # Create boundbox
+            self.__sprite_index = index
+            sx, sw = self.__sprite_index.xoffset, self.__sprite_index.width
+            sy, sh = self.__sprite_index.yoffset, self.__sprite_index.height
+            self.boundbox = mat([[-sx, sw - sx], [-sy, sh - sy]])
+            self.bound_vertexes = mat([-sx, sw - sx], [-sy, sh - sy])
+            if self.__image_angle != 0: # Rotate
+                Cos = lengthdir_x(self.image_scale, self.__image_angle)
+                Sin = lengthdir_y(self.image_scale, self.__image_angle)
+                self.bound_vertexes = self.boundbox * mat([Cos, Sin], [-Sin, Cos])
+        else: # Don't update the currrent boundbox
+            self.__sprite_index = index
+
+    @image_angle.setter
+    def image_angle(self, value: float):
+        # Update the actual boundbox
+        if self.__image_angle != value:
+            self.__image_angle = value
+            if self.__sprite_index:
+                Cos = lengthdir_x(self.image_scale, value)
+                Sin = lengthdir_y(self.image_scale, value)
+                self.bound_vertexes = self.boundbox * mat([Cos, -Sin], [Sin, Cos])
 
     def onAwake(self) -> None:
         """`onAwake()`
