@@ -4,9 +4,10 @@ class RsLayer(object):
         Belongs to a scene and executes game instances.
     """
 
-    def __init__(self, name: str = ""):
+    def __init__(self, scene, name: str = ""):
         self.name: str = name
         self.storage = []
+        self.scene = scene
 
     def __str__(self) -> str:
         return self.name
@@ -14,7 +15,7 @@ class RsLayer(object):
     def __repr__(self) -> str:
         return f"Realpy Layer {self.name} ({len(self.storage)})"
 
-    def add_instance(self, instance):
+    def add(self, instance):
         self.storage.append(instance)
         return instance
 
