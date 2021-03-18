@@ -14,7 +14,7 @@ if __name__ == "__main__":
     realpy.init("RealPy Engine", 640, 480)
 
     TestImage = RsImage("test_battleship.png")
-    TestSprite = RsSprite(TestImage, 0)
+    TestSprite = RsSprite(TestImage, 0, 50, 12)
 
 
     class oTestRoom(RsScene):
@@ -42,10 +42,7 @@ if __name__ == "__main__":
     TestRoom.add_layer_direct(RsLayer("Background"))
 
     instance_create(oSpaceShip, Testbed, 320, 240)
-    instance_create(oSpaceShip, Testbed, 220, 240)
-    instance_create(oSpaceShip, Testbed, 420, 240)
-    instance_create(oSpaceShip, Testbed, 320, 140)
-    instance_create(oSpaceShip, Testbed, 320, 240)
-    instance_create(oSpaceShip, Testbed, 320, 340)
+    instance_create(oSpaceShip, Testbed, 240, 240)
+    instance_create(oSpaceShip, Testbed, 400, 240)
 
     realpy.startup()
