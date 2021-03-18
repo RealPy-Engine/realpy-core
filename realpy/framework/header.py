@@ -1,12 +1,11 @@
 import asyncio, sys
-from asyncio.exceptions import CancelledError
 from typing import Union
 
 import pygame
 import pygame.constants as PyConstants
 import pygame.display as PyDisplay
 import pygame.fastevent as PyEvent
-from pygame.time import Clock as Clock
+from pygame.time import Clock
 
 from ..preset import RsPreset
 from ..scene import RsScene
@@ -87,12 +86,9 @@ def rs_startup():
     RsPreset.RsRoom.onAwake()
     while True:
         TimeOccured = 0 if RsPreset.RsRoom.paused else AbsoluteTimer.get_time() * 0.001  # Millisecond
-        print(TimeOccured)
 
         try:
             asyncio.run(update_all(RoomCurrent, TimeOccured))
-        except CancelledError:
-            rs_quit()
         except RsInteruptError:
             rs_quit()
 
