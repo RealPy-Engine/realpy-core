@@ -22,7 +22,7 @@ def sign(x: float) -> int:
 
 
 def degtorad(degree: float) -> float:
-    return math.radians(degree * math.pi / 180)
+    return math.radians(degree)
 
 
 def radtodeg(radian: float) -> float:
