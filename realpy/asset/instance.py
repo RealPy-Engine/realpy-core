@@ -15,7 +15,7 @@ def instance_create(gobject: Type[RsPrefab], layer_id: Union[str, RsLayer], x=0,
 
     Instance = gobject.instantiate(RsPreset.RsRoom, TempLayer, x, y)
     Instance.onAwake()
-    TempLayer.add_instance(Instance)
+    TempLayer.add(Instance)
 
     TempHash = hash(gobject)
     try:
