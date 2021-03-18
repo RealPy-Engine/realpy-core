@@ -11,6 +11,8 @@ class RsSprite(object):
         Advance asset of image.
     """
 
+    __slots__ = ["image", "mask_type", "width", "height", "radius", "xoffset", "yoffset", "boundbox"]
+
     def __init__(self, image, mask_type: int = 0, xo: int = 0, yo: int = 0):
         self.image = image
         self.mask_type: int = mask_type
@@ -31,17 +33,20 @@ class RsSprite(object):
         if self.image:
             if 0 < self.image.number:
                 index = index % self.image.number
-                Image: Surface = self.image.raw_data[index]
+                Frame: Surface = self.image.raw_data[index]
+                OrgPosition = self.image.boundbox
 
                 # TODO: Use negative scale for drawing sprite.
-                Sizes = (int(scale * Image.get_width()), int(scale * Image.get_height()))
+                Sizes = (int(scale * Frame.get_width()), int(scale * Frame.get_height()))
                 Trx: Surface
-                Trx = transform.scale(Image, Sizes)
+                Trx = transform.scale(Frame, Sizes)
+                
                 if orientation != 0:
                     Trx = transform.rotate(Trx, orientation)
-                # Trx: Surface = transform.rotozoom(Image, orientation, scale)
+                #Trx = transform.rotozoom(Frame, orientation, scale)
+
                 Position = Trx.get_rect()
-                Position.center = (x - self.xoffset, y - self.yoffset)
+                Position.center = (x, y)
                 where.blit(Trx, Position)
 
 
