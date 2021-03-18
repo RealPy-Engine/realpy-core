@@ -8,13 +8,14 @@ from ..prefab import RsPrefab
 from ..sprite import RsSprite
 
 __all__ = [
-    "game_speed", "dimension", "application_surface", "RsRoom", "RsLastRoom",
+    "game_speed", "key_map", "dimension", "application_surface", "RsRoom", "RsLastRoom",
     "RoomOrder", "RoomPot", "Events", "Atlas", "PrefabsPot", "PrefabsPot", "AudioPot",
     "MASKS", "phy_mess", "phy_velocity"
 ]
 
+
 # General
-game_speed: int = 60
+game_speed: int = 30
 
 # Display
 dimension = (640, 480)
@@ -29,6 +30,7 @@ RoomOrder: List[RsScene] = []
 RoomPot: Dict[str, RsScene] = {}
 
 # Events
+key_map: Dict[int, object] = {}
 Events: Dict[str, Event] = {}
 
 # Sprite texture group
