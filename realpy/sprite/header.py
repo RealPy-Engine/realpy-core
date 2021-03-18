@@ -1,5 +1,6 @@
 from pygame.surface import Surface
 from pygame import transform
+from numpy.matrixlib import mat
 
 __all__ = ["RsSprite"]
 
@@ -19,23 +20,29 @@ class RsSprite(object):
         self.xoffset: int = xo
         self.yoffset: int = yo
 
-    def draw(self, where: Surface, index: int, x: int, y: int, scale: float = 1, orientation: float = 0,
+        bx, bex = -xo, self.width - xo
+        by, bey = -yo, self.height - yo
+        self.boundbox = [(bx, by), (bex, by), (bx, bey), (bex, bey)]
+
+    def draw(self, where: Surface, index, x, y, scale: float = 1, orientation: float = 0,
              alpha: float = 1):
         if 0 == scale or alpha <= 0:
             return
         if self.image:
-            if self.image.number == 0:
-                Image: Surface = self.image.raw_data[0]
-
-                Trx: Surface = transform.rotozoom(Image, orientation, scale)
-                Position = Trx.get_rect()
-                Position.center = (x, y)
-                where.blit(Trx, Position)
-            elif 0 < self.image.number:
+            if 0 < self.image.number:
+                index = index % self.image.number
                 Image: Surface = self.image.raw_data[index]
-                Position = Image.get_rect()
-                Position.center = (x, y)
-                where.blit(Image, Position)
+
+                # TODO: Use negative scale for drawing sprite.
+                Sizes = (int(scale * Image.get_width()), int(scale * Image.get_height()))
+                Trx: Surface
+                Trx = transform.scale(Image, Sizes)
+                if orientation != 0:
+                    Trx = transform.rotate(Trx, orientation)
+                # Trx: Surface = transform.rotozoom(Image, orientation, scale)
+                Position = Trx.get_rect()
+                Position.center = (x - self.xoffset, y - self.yoffset)
+                where.blit(Trx, Position)
 
 
 """
