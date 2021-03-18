@@ -4,7 +4,7 @@ from ..sprite import RsSprite
 
 
 # TODO: #33 Adopt better way to instancing prefabs
-class RsPrefab(type):
+class RsPrefab(object):
     """`RsPrefab`
         ---
         A template class of game object. Contains its own sprite and hierachies.
@@ -82,14 +82,8 @@ class RsPrefab(type):
             ---
             This will run on its instance. You may override it.
         """
-        from realpy import RsPreset
 
-        if itself.sprite_index:
-            itself.sprite_index.draw(RsPreset.application_surface, itself.image_index, itself.x, itself.y, itself.image_scale, itself.image_angle, itself.image_alpha)
-            from pygame import draw
-            PointA = itself.boundbox[0]
-            PointB = itself.boundbox[1]
-            draw.line(RsPreset.application_surface, "red", PointA, PointB)
+        itself.draw_self()
 
     @classmethod
     def instantiate(cls, scene, layer, x: float = 0, y: float = 0):
