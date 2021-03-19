@@ -1,7 +1,7 @@
 import realpy
 
 from realpy import (
-    RsScene, RsLayer, RsPrefab, RsImage, RsSprite, room_register, instance_create
+    RsScene, RsLayer, RsPrefab, RsImage, RsSprite, RsPreset, room_register, instance_create
 )
 
 
@@ -12,9 +12,10 @@ class SPACESHIP_TYPES:
 if __name__ == "__main__":
     # TODO: #17 Make easy to create user's custom preset.
     realpy.init("RealPy Engine", 640, 480)
+    RsPreset.debug = True
 
     TestImage = RsImage("test_battleship.png")
-    TestSprite = RsSprite(TestImage, 0)
+    TestSprite = RsSprite(TestImage, 0, 50, 24)
 
 
     class oTestRoom(RsScene):
@@ -30,7 +31,13 @@ if __name__ == "__main__":
         sprite_index = TestSprite
 
         @staticmethod
+        def onAwake(itself) -> None:
+            itself.vspeed = 20
+            itself.friction = 2
+        
+        @staticmethod
         def onUpdate(itself, time):
+            print("Speed: ", itself.speed, " Vspeed: ", itself.vspeed)
             itself.image_angle += 30 * time
 
 
@@ -42,7 +49,7 @@ if __name__ == "__main__":
     TestRoom.add_layer_direct(RsLayer("Background"))
 
     instance_create(oSpaceShip, Testbed, 320, 240)
-    instance_create(oSpaceShip, Testbed, 240, 240)
-    instance_create(oSpaceShip, Testbed, 400, 240)
+    # instance_create(oSpaceShip, Testbed, 240, 240)
+    # instance_create(oSpaceShip, Testbed, 400, 240)
 
     realpy.startup()

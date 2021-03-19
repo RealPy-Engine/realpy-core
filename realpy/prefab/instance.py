@@ -1,8 +1,7 @@
 from copy import copy
 from typing import Optional
 
-from numpy.matrixlib import mat, bmat
-from pygame import Surface
+from numpy.matrixlib import mat
 
 from ..sprite import RsSprite
 from ..utility import lengthdir_x, lengthdir_y, point_distance, point_direction
@@ -22,6 +21,7 @@ class RsInstance(object):
         self.layer = layer
         self.x: float = x
         self.y: float = y
+        self.__use_collision: bool = original.use_collision
         self.__sprite_index: Optional[RsSprite] = original.sprite_index
         # self.__image: Optional[Surface] = None
         self.image_index: float = 0
@@ -43,6 +43,10 @@ class RsInstance(object):
     @property
     def sprite_index(self) -> Optional[RsSprite]:
         return self.__sprite_index
+
+    @property
+    def can_collide(self) -> bool:
+        return self.__use_collision
 
     @property
     def speed(self) -> float:
@@ -97,10 +101,11 @@ class RsInstance(object):
             del self.bound_vertexes
         elif not self.__sprite_index: # Create boundbox
             self.__sprite_index = index
-            self.boundbox = copy(index.boundbox)
-            self.bound_vertexes = copy(index.boundbox)
-            if self.__image_angle != 0: # Rotate
-                self._set_vertex_boundary(self.__image_angle)
+            if self.can_collide: # Use only at it can collide with other
+                self.boundbox = copy(index.boundbox)
+                self.bound_vertexes = copy(index.boundbox)
+                if self.__image_angle != 0: # Rotate
+                    self._set_vertex_boundary(self.__image_angle)
         else: # Don't update the currrent boundbox
             self.__sprite_index = index
 
@@ -109,7 +114,7 @@ class RsInstance(object):
         # Update the actual boundbox
         if self.__image_angle != value:
             self.__image_angle = value
-            if self.__sprite_index:
+            if self.can_collide and self.__sprite_index:
                 self._set_vertex_boundary(value)
 
     def onAwake(self) -> None:
@@ -140,19 +145,28 @@ class RsInstance(object):
         """
         self.original.onUpdateLater(self, time)
 
-        if self.friction != 0:
-            if 0 < self.speed:
-                self.speed = max(0, self.speed - self.friction)
-            elif self.speed < 0:
-                self.speed = min(0, self.speed + self.friction)
+        if self.speed != 0:
+            Hspeed: float; Vspeed: float
+            if self.friction != 0:
+                Fx = lengthdir_x(self.friction, self.direction)
+                Fy = lengthdir_y(self.friction, self.direction)
+                if 0 < self.speed:
+                    Hspeed = self.__hspeed * time - 0.5 * time * time * Fx
+                    Vspeed = self.__vspeed * time - 0.5 * time * time * Fy
+                    self.speed = max(0, self.speed - self.friction * time)
+                else:
+                    Hspeed = self.__hspeed * time + 0.5 * time * time * Fx
+                    Vspeed = self.__vspeed * time + 0.5 * time * time * Fy
+                    self.speed = min(0, self.speed + self.friction * time)
+            else:
+                Hspeed = self.__hspeed * time
+                Vspeed = self.__vspeed * time
 
-        Hspeed = self.__hspeed * time
-        if Hspeed != 0:
-            self.x += Hspeed
+            if Hspeed != 0:
+                self.x += Hspeed
 
-        Vspeed = self.__vspeed * time
-        if Vspeed != 0:
-            self.y += Vspeed
+            if Vspeed != 0:
+                self.y += Vspeed
 
     def onDraw(self, time: float) -> None:
         """`onDraw(time)`
@@ -172,15 +186,17 @@ class RsInstance(object):
 
         if self.sprite_index:
             self.sprite_index.draw(RsPreset.application_surface, self.image_index, self.x, self.y, self.image_scale, self.image_angle, self.image_alpha)
-            from pygame import draw
+            
+            if self.can_collide:
+                from pygame import draw
 
-            if RsPreset.debug:
-                where = RsPreset.application_surface
-                draw.line(where, "red", self.bound_vertexes[0], self.bound_vertexes[1])
-                draw.line(where, "red", self.bound_vertexes[1], self.bound_vertexes[3])
-                draw.line(where, "red", self.bound_vertexes[3], self.bound_vertexes[2])
-                draw.line(where, "red", self.bound_vertexes[2], self.bound_vertexes[0])
-                draw.circle(where, "red", (self.x, self.y), 8)
+                if RsPreset.debug:
+                    where = RsPreset.application_surface
+                    draw.line(where, "red", self.bound_vertexes[0], self.bound_vertexes[1])
+                    draw.line(where, "red", self.bound_vertexes[1], self.bound_vertexes[3])
+                    draw.line(where, "red", self.bound_vertexes[3], self.bound_vertexes[2])
+                    draw.line(where, "red", self.bound_vertexes[2], self.bound_vertexes[0])
+                    draw.circle(where, "red", (self.x, self.y), 8)
             return True
         else:
             return False
