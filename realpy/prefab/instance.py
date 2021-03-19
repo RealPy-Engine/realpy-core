@@ -22,7 +22,7 @@ class RsInstance(object):
         self.y: float = y
         self.__use_collision: bool = original.use_collision
         self.__sprite_index = original.sprite_index
-        self.__guild = []
+        self.__department = []
         self.image_index: float = 0
         self.__image_angle: float = 0
         self.image_scale: float = 1

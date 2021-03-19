@@ -53,22 +53,23 @@ def point_direction(X1: float, Y1: float, X2: float, Y2: float) -> float:
 
 
 def line_interact(Sx1: float, Sy1: float, Sx2: float, Sy2: float, Dx1: float, Dy1: float, Dx2: float, Dy2: float, Seg: bool) -> float:
-    ua = 0
-    ux = Sx2 - Sx1
-    uy = Sy2 - Sy1
-    vx = Dx2 - Dx1
-    vy = Dy2 - Dy1
+    Sx = Sx2 - Sx1
+    Sy = Sy2 - Sy1
+    Dx = Dx2 - Dx1
+    Dy = Dy2 - Dy1
     wx = Sx1 - Dx1
     wy = Sy1 - Dy1
-    ud = vy * ux - vx * uy
+
+    ua = 0
+    ud = Dy * Sx - Dx * Sy
 
     if ud != 0:
-        ua = (vx * wy - vy * wx) / ud
+        ua = (Dx * wy - Dy * wx) / ud
         if Seg:
             if ua < 0 or ua > 1:
                 return 0
 
-            ub = (ux * wy - uy * wx) / ud
+            ub = (Sx * wy - Sy * wx) / ud
             if ub < 0 or ub > 1:
                 return 0
     return ua
