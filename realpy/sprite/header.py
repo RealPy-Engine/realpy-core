@@ -1,4 +1,3 @@
-from typing import Any, Optional, Tuple
 from pygame.surface import Surface
 from pygame import transform
 
@@ -14,7 +13,7 @@ class RsSprite(object):
     """
 
     __slots__ = ["image", "mask_type", "width", "height", "radius", "xoffset", "yoffset", "boundbox",
-    "center_distance", "center_angle"]
+                 "center_distance", "center_angle"]
 
     def __init__(self, image, mask_type: int = 0, xo: int = 0, yo: int = 0):
         assert image
@@ -56,7 +55,7 @@ class RsSprite(object):
 
                 if orientation != 0:
                     Trx = transform.rotate(Trx, orientation)
-                #Trx = transform.rotozoom(Frame, orientation, scale)
+                # Trx = transform.rotozoom(Frame, orientation, scale)
 
                 Position = Trx.get_rect()
                 if self.center_distance != 0:

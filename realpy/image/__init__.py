@@ -42,14 +42,14 @@ def test():
     except FileNotFoundError as e:
         print("FileNotFound Error: ", e)
         return False
+    except PermissionError as e:
+        print("Permission Error: ", e)
+        return False
     except OSError as e:
         print("OS Error: ", e)
         return False
     except AttributeError as e:
         print("Attribute Error: ", e)
-        return False
-    except PermissionError as e:
-        print("Permission Error: ", e)
         return False
     except RuntimeError as e:
         print("Runtime Error: ", e)

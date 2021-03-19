@@ -16,11 +16,10 @@ class RsImage(object):
         self.boundbox = PyRect.Rect(0, 0, 0, 0)
 
         if not isinstance(filepath, tuple):
-            filepath = (filepath, )
+            filepath = (filepath,)
 
         self.number = len(filepath)
         for file in filepath:
             self.raw_data.append(PyImage.load(file).convert_alpha())
         self.filename = os.path.basename(filepath[0])
         self.boundbox = self.raw_data[0].get_rect()
- 
