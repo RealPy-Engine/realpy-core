@@ -1,3 +1,4 @@
+from typing import Any, Optional, Tuple
 from pygame.surface import Surface
 from pygame import transform
 
@@ -40,9 +41,9 @@ class RsSprite(object):
 
     def draw(self, where: Surface, index, x, y, scale: float = 1, orientation: float = 0,
              alpha: float = 1, *, xflip: bool = False, yflip: bool = False):
-        if 0 == scale or alpha <= 0:
+        if scale <= 0 or alpha <= 0:
             return
-        if self.image:
+        elif self.image:
             if 0 < self.image.number:
                 index = index % self.image.number
                 Frame: Surface = self.image.raw_data[index]
@@ -68,6 +69,7 @@ class RsSprite(object):
                     Position.center = (x + Lx, y + Ly)
                 else:
                     Position.center = (x, y)
+
                 where.blit(Trx, Position)
 
 
