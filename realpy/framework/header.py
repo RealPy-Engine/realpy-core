@@ -17,6 +17,13 @@ class RsInteruptError(Exception):
     pass
 
 
+class RsIONode:
+    category: int = 0
+    pressed: bool = False
+    x, y = 0, 0
+    force: float = 0
+
+
 async def hand_update():
     RsPreset.Events.clear()
 
@@ -99,4 +106,4 @@ def rs_startup():
 def rs_quit():
     print("Program is ended.")
     pygame.quit()
-    sys.exit()
+    sys.exit(0)
