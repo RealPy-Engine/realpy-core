@@ -32,13 +32,16 @@ if __name__ == "__main__":
 
         @staticmethod
         def onAwake(itself) -> None:
-            itself.vspeed = 20
-            itself.friction = 2
+            itself.speed = 20
+            itself.direction = 315
+            # itself.friction = 5
+            itself.image_angle = 315
         
         @staticmethod
         def onUpdate(itself, time):
-            print("Speed: ", itself.speed, " Vspeed: ", itself.vspeed)
-            itself.image_angle += 30 * time
+            if 0 < itself.speed:
+                print("Speed: ", itself.speed, " Vspeed: ", itself.vspeed)
+            #itself.image_angle += 30 * time
 
 
     Temp = oTestRoom()
