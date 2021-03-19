@@ -3,7 +3,7 @@ from typing import Union
 
 __all__ = [
     "sqr", "sign", "degtorad", "radtodeg", "irandom", "irandom_range", "bezier4", "choose",
-    "distribute", "probability_test", "lengthdir_x", "lengthdir_y",
+    "distribute", "probability_test", "lengthdir_x", "lengthdir_y", "line_interact",
     "point_distance", "point_direction"
 ]
 
@@ -50,6 +50,28 @@ def point_distance(X1: float, Y1: float, X2: float, Y2: float) -> float:
 
 def point_direction(X1: float, Y1: float, X2: float, Y2: float) -> float:
     return radtodeg(math.atan2(Y2 - Y1, X1 - X2))
+
+
+def line_interact(Sx1: float, Sy1: float, Sx2: float, Sy2: float, Dx1: float, Dy1: float, Dx2: float, Dy2: float, Seg: bool) -> float:
+    ua = 0
+    ux = Sx2 - Sx1
+    uy = Sy2 - Sy1
+    vx = Dx2 - Dx1
+    vy = Dy2 - Dy1
+    wx = Sx1 - Dx1
+    wy = Sy1 - Dy1
+    ud = vy * ux - vx * uy
+
+    if ud != 0:
+        ua = (vx * wy - vy * wx) / ud
+        if Seg:
+            if ua < 0 or ua > 1:
+                return 0
+
+            ub = (ux * wy - uy * wx) / ud
+            if ub < 0 or ub > 1:
+                return 0
+    return ua
 
 
 def irandom(n: Union[int, float]) -> int:
