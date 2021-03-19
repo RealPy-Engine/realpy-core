@@ -1,7 +1,5 @@
 from typing import Type, Optional, List
 
-from ..sprite import RsSprite
-
 
 # TODO: #33 Adopt better way to instancing prefabs
 class RsPrefab(object):
@@ -13,12 +11,12 @@ class RsPrefab(object):
     """
     from .instance import RsInstance
 
-    sprite_index: Optional[RsSprite] = None
+    sprite_index = None
+    __parent = None
+    children = []
     implement = RsInstance
 
     def __new__(cls, *args, **kargs):
-        cls.__parent: Optional[Type[RsPrefab]] = None
-        cls.children: Optional[List[Type[RsPrefab]]] = []
         return super(RsPrefab, cls).__new__(cls, *args, **kargs)
 
     def __repr__(self) -> str:
