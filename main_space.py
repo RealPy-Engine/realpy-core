@@ -12,7 +12,7 @@ class SPACESHIP_TYPES:
 if __name__ == "__main__":
     # TODO: #17 Make easy to create user's custom preset.
     realpy.init("RealPy Engine", 640, 480)
-    RsPreset.debug = True
+    realpy._debug_set(True)
 
     TestImage = RsImage("test_battleship.png")
     TestSprite = RsSprite(TestImage, 0, 50, 24)
@@ -32,10 +32,10 @@ if __name__ == "__main__":
 
         @staticmethod
         def onAwake(itself) -> None:
-            itself.speed = 20
-            itself.direction = 315
-            # itself.friction = 5
-            itself.image_angle = 315
+            itself.speed = 70
+            itself.direction = 200
+            itself.friction = 10
+            itself.image_angle = itself.direction
         
         @staticmethod
         def onUpdate(itself, time):

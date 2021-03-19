@@ -11,3 +11,7 @@ from .asset import *
 init = RsFramework.rs_init
 startup = RsFramework.rs_startup
 quit = RsFramework.rs_quit
+
+
+def _debug_set(flag: bool):
+    RsPreset.debug = flag
