@@ -1,3 +1,6 @@
+from copy import copy
+
+
 class RsLayer(object):
     """`RsLayer(name)`
         ---
@@ -8,6 +11,7 @@ class RsLayer(object):
         self.scene = scene
         self.name: str = name
         self.storage = []
+        self.__atomic_storage = None
 
     def __str__(self) -> str:
         return self.name
@@ -27,14 +31,17 @@ class RsLayer(object):
         for Instance in self.storage:
             Instance.onDestroy()
 
+    def onReady(self) -> None:
+        self.__atomic_storage = copy(self.storage)
+
     def onUpdate(self, time: float) -> None:
-        for Instance in self.storage:
+        for Instance in self.__atomic_storage:
             Instance.onUpdate(time)
 
     def onUpdateLater(self, time: float) -> None:
-        for Instance in self.storage:
+        for Instance in self.__atomic_storage:
             Instance.onUpdateLater(time)
 
     def onDraw(self, time: float) -> None:
-        for Instance in self.storage:
+        for Instance in self.__atomic_storage:
             Instance.onDraw(time)

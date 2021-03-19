@@ -29,33 +29,34 @@ class RsScene(object):
         return layer
 
     def layer_find(self, caption: str):
-        try:
-            return self.trees[caption]
-        except KeyError:
-            return None
+        return self.trees[caption]
 
-    def pause(self):
+    def pause(self) -> None:
         self.paused = True
 
-    def resume(self):
+    def resume(self) -> None:
         self.paused = False
 
-    def onAwake(self):
+    def onAwake(self) -> None:
         for Layer in self.layer_stack:
             Layer.onAwake()
 
-    def onDestroy(self):
+    def onDestroy(self) -> None:
         for Layer in self.layer_stack:
             Layer.onDestroy()
 
-    def onUpdate(self, time: float):
+    def onReady(self) -> None:
+        for Layer in self.layer_stack:
+            Layer.onReady()
+
+    def onUpdate(self, time: float) -> None:
         for Layer in self.layer_stack:
             Layer.onUpdate(time)
 
-    def onUpdateLater(self, time: float):
+    def onUpdateLater(self, time: float) -> None:
         for Layer in self.layer_stack:
             Layer.onUpdateLater(time)
 
-    def onDraw(self, time: float):
+    def onDraw(self, time: float) -> None:
         for Layer in self.layer_stack:
             Layer.onDraw(time)
