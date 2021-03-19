@@ -13,7 +13,7 @@ def test():
     print("***** Test → Realpy Image *****")
 
     try:
-        import os, pygame
+        import pygame
 
         pygame.init()
 
