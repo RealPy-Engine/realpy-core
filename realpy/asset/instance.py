@@ -2,10 +2,15 @@ from typing import Type, Union
 
 from ..preset import RsPreset
 from ..layer import RsLayer
-from ..prefab import RsPrefab
+from ..prefab import RsPrefab, RsInstance
 
 
-def instance_create(gobject: Type[RsPrefab], layer_id: Union[str, RsLayer], x=0, y=0):
+def instance_create(prefab: Type[RsPrefab], layer_id: Union[str, RsLayer], x=0, y=0) -> RsInstance:
+    """`instantiate(Scene, Layer, x=0, y=0)`
+        ---
+        Creates a instance of game object.
+    """
+
     if type(layer_id) is RsLayer:
         TempLayer = layer_id
     else:
@@ -13,11 +18,11 @@ def instance_create(gobject: Type[RsPrefab], layer_id: Union[str, RsLayer], x=0,
         if not TempLayer:
             raise RuntimeError("The specific layer are not found.")
 
-    Instance = gobject.instantiate(RsPreset.RsRoom, TempLayer, x, y)
+    Instance = RsInstance(prefab, RsPreset.RsRoom, TempLayer, x, y)
     Instance.onAwake()
     TempLayer.add(Instance)
 
-    TempHash = hash(gobject)
+    TempHash = hash(prefab)
     try:
         if not RsPreset.RsRoom.SpecificInstancesPot[TempHash]:
             RsPreset.RsRoom.SpecificInstancesPot[TempHash] = []

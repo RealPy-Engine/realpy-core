@@ -9,13 +9,10 @@ class RsPrefab(object):
         Do not instantiate this primitive prefab.
     """
 
-    from .instance import RsInstance
-
     sprite_index = None
     __parent = None
     children: List[Type] = []
     use_collision: bool = True
-    implement = RsInstance
 
     def __repr__(self) -> str:
         SpriteCheck = f" ({self.sprite_index})" if self.sprite_index else ""
@@ -80,13 +77,3 @@ class RsPrefab(object):
         """
 
         itself.draw_self()
-
-    @classmethod
-    def instantiate(cls, scene, layer, x: float = 0, y: float = 0):
-        """`instantiate(Scene, Layer, x=0, y=0)`
-            ---
-            Creates a instance of game object.
-        """
-
-        Result = cls.implement(cls, scene, layer, x, y)
-        return Result
