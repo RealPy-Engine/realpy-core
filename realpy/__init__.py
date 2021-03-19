@@ -4,7 +4,7 @@ from .scene import RsScene
 from .layer import RsLayer
 from .image import RsImage
 from .sprite import RsSprite
-from .prefab import RsPrefab, RsInstance
+from .prefab import RsPrefab
 from .utility import RsUtility
 from .asset import *
 

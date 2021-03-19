@@ -2,10 +2,10 @@ from typing import Type, Union
 
 from ..preset import RsPreset
 from ..layer import RsLayer
-from ..prefab import RsPrefab, RsInstance
+from ..prefab import RsPrefab
 
 
-def instance_create(gobject: Type[RsPrefab], layer_id: Union[str, RsLayer], x=0, y=0) -> RsInstance:
+def instance_create(gobject: Type[RsPrefab], layer_id: Union[str, RsLayer], x=0, y=0):
     if type(layer_id) is RsLayer:
         TempLayer = layer_id
     else:
@@ -28,6 +28,6 @@ def instance_create(gobject: Type[RsPrefab], layer_id: Union[str, RsLayer], x=0,
     return Instance
 
 
-def instance_destroy(target: RsInstance):
+def instance_destroy(target):
     target.onDestroy()
     del target
