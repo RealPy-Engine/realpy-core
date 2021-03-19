@@ -5,9 +5,9 @@ class RsLayer(object):
     """
 
     def __init__(self, scene, name: str = ""):
+        self.scene = scene
         self.name: str = name
         self.storage = []
-        self.scene = scene
 
     def __str__(self) -> str:
         return self.name
