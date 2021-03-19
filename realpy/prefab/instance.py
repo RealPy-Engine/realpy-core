@@ -2,6 +2,7 @@ from copy import copy
 from typing import Optional
 
 from numpy.matrixlib import mat, bmat
+from pygame import Surface
 
 from ..sprite import RsSprite
 from ..utility import lengthdir_x, lengthdir_y, point_distance, point_direction
@@ -22,6 +23,7 @@ class RsInstance(object):
         self.x: float = x
         self.y: float = y
         self.__sprite_index: Optional[RsSprite] = original.sprite_index
+        # self.__image: Optional[Surface] = None
         self.image_index: float = 0
         self.__image_angle: float = 0
         self.image_scale: float = 1
@@ -172,12 +174,13 @@ class RsInstance(object):
             self.sprite_index.draw(RsPreset.application_surface, self.image_index, self.x, self.y, self.image_scale, self.image_angle, self.image_alpha)
             from pygame import draw
 
-            where = RsPreset.application_surface
-            draw.line(where, "red", self.bound_vertexes[0], self.bound_vertexes[1])
-            draw.line(where, "red", self.bound_vertexes[1], self.bound_vertexes[3])
-            draw.line(where, "red", self.bound_vertexes[3], self.bound_vertexes[2])
-            draw.line(where, "red", self.bound_vertexes[2], self.bound_vertexes[0])
-            draw.circle(where, "red", (self.x, self.y), 8)
+            if RsPreset.debug:
+                where = RsPreset.application_surface
+                draw.line(where, "red", self.bound_vertexes[0], self.bound_vertexes[1])
+                draw.line(where, "red", self.bound_vertexes[1], self.bound_vertexes[3])
+                draw.line(where, "red", self.bound_vertexes[3], self.bound_vertexes[2])
+                draw.line(where, "red", self.bound_vertexes[2], self.bound_vertexes[0])
+                draw.circle(where, "red", (self.x, self.y), 8)
             return True
         else:
             return False
@@ -185,10 +188,7 @@ class RsInstance(object):
     def _set_vertex_boundary(self, angle: float) -> None:
         Cos = lengthdir_x(self.image_scale, angle)
         Sin = lengthdir_y(self.image_scale, angle)
-        # XOffCos = lengthdir_x(self.__sprite_index.xoffset, angle)
-        # YOffCos = lengthdir_y(self.__sprite_index.yoffset, angle)
 
-        TempTransitioner = (self.x, self.y)
         TempRotator = mat([[Cos, Sin], [-Sin, Cos]])
         for i in range(0, 4):
             TempPoint = ((self.boundbox[i] * TempRotator).tolist())[0]
