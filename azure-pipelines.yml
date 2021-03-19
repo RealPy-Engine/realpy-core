@@ -26,6 +26,5 @@ steps:
 
 - script: |
     pip install pytest pytest-azurepipelines
-    pip install realpy
     pytest
   displayName: 'pytest'
