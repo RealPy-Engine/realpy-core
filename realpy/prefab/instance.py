@@ -1,9 +1,8 @@
 from copy import copy
-from typing import Optional
+from typing import Any, Type, Optional
 
-from numpy.matrixlib import mat
+from numpy import mat
 
-from ..sprite import RsSprite
 from ..utility import lengthdir_x, lengthdir_y, point_distance, point_direction
 
 
@@ -13,7 +12,7 @@ class RsInstance(object):
         Derived from prefabs.
     """
 
-    def __init__(self, original, scene, layer, x: float = 0, y: float = 0):
+    def __init__(self, original: Type[Any], scene, layer, x: float = 0, y: float = 0):
         self.enabled: bool = True
         self.visible: bool = True
         self.original = original
@@ -22,9 +21,8 @@ class RsInstance(object):
         self.x: float = x
         self.y: float = y
         self.__use_collision: bool = original.use_collision
-        self.__sprite_index: Optional[RsSprite] = original.sprite_index
-        self.__image = None
-        self.__image_updated: bool = False
+        self.__sprite_index = original.sprite_index
+        self.__guild = []
         self.image_index: float = 0
         self.__image_angle: float = 0
         self.image_scale: float = 1
@@ -42,7 +40,7 @@ class RsInstance(object):
             self.bound_vertexes = None
 
     @property
-    def sprite_index(self) -> Optional[RsSprite]:
+    def sprite_index(self):
         return self.__sprite_index
 
     @property
@@ -94,7 +92,7 @@ class RsInstance(object):
         self.__direction = point_direction(0, 0, self.__hspeed, self.__vspeed)
 
     @sprite_index.setter
-    def sprite_index(self, index: Optional[RsSprite]):
+    def sprite_index(self, index):
         # Update the original boundbox
         if not index: # Free the memory
             self.__sprite_index = None
@@ -176,10 +174,10 @@ class RsInstance(object):
         self.original.onDraw(self, time)
 
     def __str__(self) -> str:
-        return f"Realpy Instance of {str(self.original)}"
+        return f"Realpy Instance of {self.original}"
 
     def __repr__(self) -> str:
-        return f"Instance %s at '{self.layer}' in '{self.scene}'" % id(self)
+        return f"Instance {id(self)} at '{self.layer}' in '{self.scene}'"
 
     def draw_self(self) -> bool:
         from ..preset import RsPreset

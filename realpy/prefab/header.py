@@ -1,7 +1,6 @@
 from typing import Type, Optional, List
 
 
-# TODO: #33 Adopt better way to instancing prefabs
 class RsPrefab(object):
     """`RsPrefab`
         ---
@@ -9,16 +8,14 @@ class RsPrefab(object):
 
         Do not instantiate this primitive prefab.
     """
+
     from .instance import RsInstance
 
     sprite_index = None
     __parent = None
-    children = []
-    implement = RsInstance
+    children: List[Type] = []
     use_collision: bool = True
-
-    def __new__(cls, *args, **kargs):
-        return super(RsPrefab, cls).__new__(cls, *args, **kargs)
+    implement = RsInstance
 
     def __repr__(self) -> str:
         SpriteCheck = f" ({self.sprite_index})" if self.sprite_index else ""
@@ -31,7 +28,7 @@ class RsPrefab(object):
 
     @parent.setter
     @classmethod
-    def parent(cls, target):
+    def parent(cls, target: Optional[Type]):
         if not target:
             if cls.__parent:
                 cls.__parent.children.remove(cls)
@@ -49,7 +46,6 @@ class RsPrefab(object):
             ---
             This will run on its instance. You may override it.
         """
-
         pass
 
     @staticmethod
@@ -58,7 +54,6 @@ class RsPrefab(object):
             ---
             This will run on its instance. You may override it.
         """
-
         pass
 
     @staticmethod
@@ -67,7 +62,6 @@ class RsPrefab(object):
             ---
             This will run on its instance. You may override it.
         """
-
         pass
 
     @staticmethod
@@ -76,7 +70,6 @@ class RsPrefab(object):
             ---
             This will run on its instance. You may override it.
         """
-
         pass
 
     @staticmethod
