@@ -49,6 +49,7 @@ class RsPrefab(object):
             ---
             This will run on its instance. You may override it.
         """
+
         pass
 
     @staticmethod
@@ -57,6 +58,7 @@ class RsPrefab(object):
             ---
             This will run on its instance. You may override it.
         """
+
         pass
 
     @staticmethod
@@ -65,6 +67,7 @@ class RsPrefab(object):
             ---
             This will run on its instance. You may override it.
         """
+
         pass
 
     @staticmethod
@@ -73,6 +76,7 @@ class RsPrefab(object):
             ---
             This will run on its instance. You may override it.
         """
+
         pass
 
     @staticmethod
