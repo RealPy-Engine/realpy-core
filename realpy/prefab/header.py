@@ -15,6 +15,7 @@ class RsPrefab(object):
     __parent = None
     children = []
     implement = RsInstance
+    use_collision: bool = True
 
     def __new__(cls, *args, **kargs):
         return super(RsPrefab, cls).__new__(cls, *args, **kargs)
