@@ -14,4 +14,4 @@ quit = RsFramework.rs_quit
 
 
 def _debug_set(flag: bool):
-    RsPreset.debug = flag
+    RsPreset._realpy_debug = flag
