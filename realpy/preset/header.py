@@ -10,12 +10,14 @@ from ..sprite import RsSprite
 __all__ = [
     "game_speed", "key_map", "dimension", "application_surface", "RsRoom", "RsLastRoom",
     "RoomOrder", "RoomPot", "Events", "Atlas", "PrefabsPot", "PrefabsPot", "AudioPot",
-    "MASKS", "phy_mess", "phy_velocity"
+    "MASKS", "phy_mess", "phy_velocity",
+    "debug"
 ]
 
 
 # General
 game_speed: int = 30
+debug: bool = False
 
 # Display
 dimension = (640, 480)
