@@ -1,6 +1,7 @@
 from pygame.surface import Surface
 from pygame import transform
-from numpy.matrixlib import mat
+
+from ..utility import lengthdir_x, lengthdir_y, point_distance, point_direction
 
 __all__ = ["RsSprite"]
 
@@ -11,9 +12,11 @@ class RsSprite(object):
         Advance asset of image.
     """
 
-    __slots__ = ["image", "mask_type", "width", "height", "radius", "xoffset", "yoffset", "boundbox"]
+    __slots__ = ["image", "mask_type", "width", "height", "radius", "xoffset", "yoffset", "boundbox",
+    "center_distance", "center_angle"]
 
     def __init__(self, image, mask_type: int = 0, xo: int = 0, yo: int = 0):
+        assert image
         self.image = image
         self.mask_type: int = mask_type
         self.width: int = image.boundbox.width
@@ -22,31 +25,49 @@ class RsSprite(object):
         self.xoffset: int = xo
         self.yoffset: int = yo
 
+        HalfX, HalfY = int(self.width * 0.5), int(self.height * 0.5)
+
+        if self.xoffset == HalfX and self.yoffset == HalfY:
+            self.center_distance = 0
+            self.center_angle = 0
+        else:
+            self.center_distance = point_distance(xo, yo, HalfX, HalfY)
+            self.center_angle = point_direction(xo, yo, HalfX, HalfY)
+
         bx, bex = -xo, self.width - xo
         by, bey = -yo, self.height - yo
         self.boundbox = [(bx, by), (bex, by), (bx, bey), (bex, bey)]
 
     def draw(self, where: Surface, index, x, y, scale: float = 1, orientation: float = 0,
-             alpha: float = 1):
+             alpha: float = 1, *, xflip: bool = False, yflip: bool = False):
         if 0 == scale or alpha <= 0:
             return
         if self.image:
             if 0 < self.image.number:
                 index = index % self.image.number
                 Frame: Surface = self.image.raw_data[index]
-                OrgPosition = self.image.boundbox
 
-                # TODO: Use negative scale for drawing sprite.
                 Sizes = (int(scale * Frame.get_width()), int(scale * Frame.get_height()))
                 Trx: Surface
                 Trx = transform.scale(Frame, Sizes)
-                
+                if xflip or yflip:
+                    Trx = transform.flip(Trx, xflip, yflip)
+
                 if orientation != 0:
                     Trx = transform.rotate(Trx, orientation)
                 #Trx = transform.rotozoom(Frame, orientation, scale)
 
                 Position = Trx.get_rect()
-                Position.center = (x, y)
+                if self.center_distance != 0:
+                    Lx = -lengthdir_x(self.center_distance, self.center_angle + orientation) * scale
+                    if xflip:
+                        Lx *= -1
+                    Ly = -lengthdir_y(self.center_distance, self.center_angle + orientation) * scale
+                    if yflip:
+                        Ly *= -1
+                    Position.center = (x + Lx, y + Ly)
+                else:
+                    Position.center = (x, y)
                 where.blit(Trx, Position)
 
 

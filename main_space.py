@@ -14,7 +14,7 @@ if __name__ == "__main__":
     realpy.init("RealPy Engine", 640, 480)
 
     TestImage = RsImage("test_battleship.png")
-    TestSprite = RsSprite(TestImage, 0, 50, 24)
+    TestSprite = RsSprite(TestImage, 0)
 
 
     class oTestRoom(RsScene):
