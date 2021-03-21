@@ -1,10 +1,10 @@
 """ Prefab
     ---
     ```
-    from realpy import RsPrefab
+    from realpy import RsGameObject
     ```
 """
-from .header import RsPrefab
+from .backend import RsGameObject
 from .instance import RsInstance
 
-__all__ = ["RsPrefab", "RsInstance"]
+__all__ = ["RsGameObject", "RsInstance"]

@@ -2,10 +2,10 @@ from typing import List, Type, Union
 
 from ..preset import RsPreset
 from ..layer import RsLayer
-from ..prefab import RsPrefab, RsInstance
+from ..prefab import RsGameObject, RsInstance
 
 
-def instance_create(prefab: Type[RsPrefab], layer_id: Union[str, RsLayer], x=0, y=0) -> RsInstance:
+def instance_create(prefab: Type[RsGameObject], layer_id: Union[str, RsLayer], x=0, y=0) -> RsInstance:
     """`instance_create(Scene, Layer, x=0, y=0)`
         ---
         Creates an instance of game object.
@@ -28,7 +28,7 @@ def instance_create(prefab: Type[RsPrefab], layer_id: Union[str, RsLayer], x=0, 
     return Instance
 
 
-def _instance_register(prefab: Type[RsPrefab], instance: RsInstance):
+def _instance_register(prefab: Type[RsGameObject], instance: RsInstance):
     TempHash = hash(prefab)
     Where: List
     try:
@@ -43,12 +43,12 @@ def _instance_register(prefab: Type[RsPrefab], instance: RsInstance):
     instance.department.append(Where)
     instance.department.append(RsPreset.RsRoom.EveryInstancesPot)
 
-    Recursive_condition = (issubclass(prefab, RsPrefab) and prefab is not RsPrefab)
-    if RsPreset._realpy_debug:
+    Recursive_condition = (issubclass(prefab, RsGameObject) and prefab is not RsGameObject)
+    if RsPreset.debug_get():
         print(Recursive_condition, "from", prefab)
         print(f"An instance is appended to {Where} of {prefab}.")
     if Recursive_condition:
-        _instance_register(prefab.__base__, instance)
+        _instance_register(prefab.__class__, instance)
 
 
 def instance_destroy(target: RsInstance):

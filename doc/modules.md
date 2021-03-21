@@ -15,7 +15,7 @@ from realpy import RsLayer
 ## Prefab
 
 ```python
-from realpy import RsPrefab
+from realpy import RsGameObject
 ```
 
 ## Object

@@ -189,7 +189,7 @@ class RsInstance(object):
             Where = RsPreset.application_surface
             self.sprite_index.draw(Where, self.image_index, self.x, self.y, self.image_scale, self.image_angle, self.image_alpha)
 
-            if RsPreset._realpy_debug and self.can_collide:
+            if RsPreset.debug_get() and self.can_collide:
                 from pygame import draw
                 draw.line(Where, "red", self.bound_vertexes[0], self.bound_vertexes[1])
                 draw.line(Where, "red", self.bound_vertexes[1], self.bound_vertexes[3])

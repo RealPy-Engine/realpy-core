@@ -1,14 +1,14 @@
 import realpy
 
 from realpy import (
-    RsScene, RsLayer, RsPrefab, RsImage, RsSprite, RsPreset, room_register, instance_create
+    RsScene, RsLayer, RsGameObject, RsImage, RsSprite, RsPreset, room_register, instance_create
 )
 
 
 if __name__ == "__main__":
     # TODO: #17 Make easy to create user's custom preset.
     realpy.init("RealPy Engine", 640, 480)
-    realpy._debug_set(True)
+    realpy.debug_set(True)
 
     TestImage = RsImage("test_battleship.png")
     TestSprite = RsSprite(TestImage, 0, 50, 24)
@@ -23,7 +23,7 @@ if __name__ == "__main__":
             super().onUpdate(time)
 
 
-    class oSpaceShip(RsPrefab):
+    class oSpaceShip(RsGameObject):
         pass
 
 
