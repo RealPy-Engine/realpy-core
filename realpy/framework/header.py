@@ -33,8 +33,10 @@ async def hand_update():
     for event in Temp:
         if event.type == PyConstants.QUIT:
             raise RsInteruptError
+            break
         elif event.type == PyConstants.KEYDOWN and event.key == PyConstants.K_ESCAPE:
             raise RsInteruptError
+            break
         elif event.type == PyConstants.MOUSEBUTTONDOWN:
             pass  # room_goto_next()
         elif event.type == PyConstants.MOUSEBUTTONUP:
