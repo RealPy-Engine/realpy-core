@@ -12,8 +12,9 @@ class RsSprite(object):
         Advance asset of image.
     """
 
-    __slots__ = ["image", "mask_type", "width", "height", "radius", "xoffset", "yoffset", "boundbox",
-                 "center_distance", "center_angle"]
+    __slots__ = [
+        "image", "mask_type", "width", "height", "radius", "xoffset", "yoffset", "boundbox", "center_distance", "center_angle", "using_custom_offset"
+    ]
 
     def __init__(self, image, mask_type: int = 0, xo: int = 0, yo: int = 0):
         assert image
@@ -24,6 +25,7 @@ class RsSprite(object):
         self.radius: int = max(xo, yo)
         self.xoffset: int = xo
         self.yoffset: int = yo
+        self.using_custom_offset: bool = False
 
         HalfX, HalfY = int(self.width * 0.5), int(self.height * 0.5)
 
@@ -33,6 +35,7 @@ class RsSprite(object):
         else:
             self.center_distance = point_distance(xo, yo, HalfX, HalfY)
             self.center_angle = point_direction(xo, yo, HalfX, HalfY)
+            self.using_custom_offset = True
 
         bx, bex = -xo, self.width - xo
         by, bey = -yo, self.height - yo
@@ -58,7 +61,7 @@ class RsSprite(object):
                 # Trx = transform.rotozoom(Frame, orientation, scale)
 
                 Position = Trx.get_rect()
-                if self.center_distance != 0:
+                if self.using_custom_offset:
                     Lx = -lengthdir_x(self.center_distance, self.center_angle + orientation) * scale
                     if xflip:
                         Lx *= -1
