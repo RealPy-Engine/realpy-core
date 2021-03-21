@@ -14,7 +14,7 @@ def test():
 
     try:
         import asyncio
-        from realpy import RsFramework, RsScene, RsLayer, RsPrefab
+        from realpy import RsFramework, RsScene, RsLayer, RsGameObject
         from realpy import room_register, instance_create
 
         print(">>> Module of machine: ", RsFramework)
@@ -23,7 +23,7 @@ def test():
             await asyncio.sleep(5)
             raise TimeoutError
 
-        class oTest(RsPrefab):
+        class oTest(RsGameObject):
             pass
 
         RsFramework.rs_init("RealPy Engine", 200, 200)

@@ -98,7 +98,7 @@ def rs_startup():
         TimeOccured = 0 if RsPreset.RsRoom.paused else AbsoluteTimer.get_time() * 0.001  # Millisecond
 
         try:
-            asyncio.run(update_all(RoomCurrent, TimeOccured), debug=RsPreset._realpy_debug)
+            asyncio.run(update_all(RoomCurrent, TimeOccured), debug=RsPreset.debug_get())
         except RsInteruptError:
             rs_quit()
 
