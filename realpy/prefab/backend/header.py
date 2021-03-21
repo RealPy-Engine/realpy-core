@@ -6,6 +6,7 @@ class RsGameObject(object):
         Do not instantiate it.
     """
 
+    name: str = ""
     sprite_index = None
     use_collision: bool = True
 

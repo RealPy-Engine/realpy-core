@@ -7,8 +7,37 @@ from .instance import RsInstance
 class RsPrefab(object):
     """`RsPrefab`
         ---
-        Big behavior object.
+        Predefined behavior object.
     """
 
-    type_api: Type = RsGameObject
-    type_instance: Type = RsInstance
+    trait_api = RsGameObject
+    trait_instance = RsInstance
+
+    def onAwake(self):
+        """`onAwake(instance)`
+            ---
+            This will run on its instance. You may override it.
+        """
+        return self.trait_api.onAwake
+
+    def onDestroy(self) -> None:
+        """`onDestroy(instance)`
+            ---
+            This will run on its instance. You may override it.
+        """
+        pass
+
+    def onUpdate(self, time: float):
+        """`onUpdate(instance, time)`
+            ---
+            This will run on its instance. You may override it.
+        """
+        pass
+
+    def onUpdateLater(self, time: float) -> None:
+        """`onUpdateLater(instance, time)`
+            ---
+            This will run on its instance. You may override it.
+        """
+        pass
+

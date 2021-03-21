@@ -1,7 +1,7 @@
 import realpy
 
 from realpy import (
-    RsScene, RsLayer, RsGameObject, RsImage, RsSprite
+    RsScene, RsLayer, RsPrefab, RsGameObject, RsImage, RsSprite
 )
 
 
@@ -21,6 +21,10 @@ if __name__ == "__main__":
 
         def onUpdate(self, time):
             super().onUpdate(time)
+
+
+    class ofSpaceShip(RsPrefab):
+        pass
 
 
     class oSpaceShip(RsGameObject):
