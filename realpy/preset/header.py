@@ -32,7 +32,7 @@ def debug_get() -> bool:
 dimension = (640, 480)
 
 # Application surface
-application_surface: PySurface
+application_surface: Optional[PySurface] = None
 
 # Rooms
 RsRoom: Optional[RsScene] = None

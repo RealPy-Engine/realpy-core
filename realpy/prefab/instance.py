@@ -185,8 +185,8 @@ class RsInstance(object):
     def draw_self(self) -> bool:
         from ..preset import RsPreset
 
-        if self.sprite_index:
-            Where = RsPreset.application_surface
+        Where = RsPreset.application_surface
+        if Where and self.sprite_index:
             self.sprite_index.draw(Where, self.image_index, self.x, self.y, self.image_scale, self.image_angle, self.image_alpha)
 
             if RsPreset.debug_get() and self.can_collide:
