@@ -1,7 +1,7 @@
 import realpy
 
 from realpy import (
-    RsScene, RsLayer, RsGameObject, RsImage, RsSprite, RsPreset, room_register, instance_create
+    RsScene, RsLayer, RsGameObject, RsImage, RsSprite
 )
 
 
@@ -50,14 +50,14 @@ if __name__ == "__main__":
 
 
     Temp = oTestRoom()
-    TestRoom = room_register(Temp, "roomTest")
+    TestRoom = realpy.room_register(Temp, "roomTest")
 
     Testbed = TestRoom.add_layer_direct(RsLayer("Instances"))
     TestRoom.add_layer_direct(RsLayer("Starfield"))
     TestRoom.add_layer_direct(RsLayer("Background"))
 
-    instance_create(oEnemyBattleship, Testbed, 320, 240)
-    # instance_create(oEnemyBattleship, Testbed, 240, 240)
-    # instance_create(oEnemyBattleship, Testbed, 400, 240)
+    realpy.instance_create(oEnemyBattleship, Testbed, 320, 240)
+    # realpy.instance_create(oEnemyBattleship, Testbed, 240, 240)
+    # realpy.instance_create(oEnemyBattleship, Testbed, 400, 240)
 
     realpy.startup()

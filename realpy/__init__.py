@@ -1,11 +1,12 @@
 from .framework import RsFramework
-from .preset import RsPreset
 from .scene import RsScene
 from .layer import RsLayer
 from .image import RsImage
 from .sprite import RsSprite
 from .prefab import RsGameObject
-from .utility import RsUtility
+
+from .preset import *
+from .utility import *
 from .asset import *
 
 init = RsFramework.rs_init

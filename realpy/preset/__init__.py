@@ -4,9 +4,8 @@
     from realpy import RsPreset
     ```
 """
+from .header import *
 from . import header as RsPreset
-
-__all__ = ["RsPreset"]
 
 
 # TODO: #22 Make a test from preset.
