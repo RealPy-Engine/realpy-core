@@ -1,4 +1,4 @@
-from typing import Type, Union
+from typing import List, Type, Union
 
 from ..preset import RsPreset
 from ..layer import RsLayer
@@ -6,33 +6,51 @@ from ..prefab import RsPrefab, RsInstance
 
 
 def instance_create(prefab: Type[RsPrefab], layer_id: Union[str, RsLayer], x=0, y=0) -> RsInstance:
-    """`instantiate(Scene, Layer, x=0, y=0)`
+    """`instance_create(Scene, Layer, x=0, y=0)`
         ---
-        Creates a instance of game object.
+        Creates an instance of game object.
     """
 
     if type(layer_id) is RsLayer:
         TempLayer = layer_id
     else:
-        TempLayer = RsPreset.RsRoom.layer_find(str(layer_id))
-        if not TempLayer:
-            raise RuntimeError("The specific layer are not found.")
+        try:
+            TempLayer = RsPreset.RsRoom.layer_find(str(layer_id))
+        except KeyError:
+            raise RuntimeError(f"The specific layer '{layer_id}' not found.")
 
     Instance = RsInstance(prefab, RsPreset.RsRoom, TempLayer, x, y)
     Instance.onAwake()
     TempLayer.add(Instance)
 
-    TempHash = hash(prefab)
-    try:
-        if not RsPreset.RsRoom.SpecificInstancesPot[TempHash]:
-            RsPreset.RsRoom.SpecificInstancesPot[TempHash] = []
-    except KeyError:
-        RsPreset.RsRoom.SpecificInstancesPot[TempHash] = []
-    RsPreset.RsRoom.SpecificInstancesPot[TempHash].append(Instance)
+    _instance_register(prefab, Instance)
 
     return Instance
 
 
-def instance_destroy(target):
+def _instance_register(prefab: Type[RsPrefab], instance: RsInstance):
+    TempHash = hash(prefab)
+    Where: List
+    try:
+        Where = RsPreset.RsRoom.SpecificInstancesPot[TempHash]
+    except KeyError:
+        RsPreset.RsRoom.SpecificInstancesPot[TempHash] = []
+        Where = RsPreset.RsRoom.SpecificInstancesPot[TempHash]
+
+    Where.append(instance)
+    RsPreset.RsRoom.EveryInstancesPot.append(instance)
+
+    instance.department.append(Where)
+    instance.department.append(RsPreset.RsRoom.EveryInstancesPot)
+
+    Recursive_condition = (issubclass(prefab, RsPrefab) and prefab is not RsPrefab)
+    if RsPreset._realpy_debug:
+        print(Recursive_condition, "from", prefab)
+        print(f"An instance is appended to {Where} of {prefab}.")
+    if Recursive_condition:
+        _instance_register(prefab.__base__, instance)
+
+
+def instance_destroy(target: RsInstance):
     target.onDestroy()
     del target
