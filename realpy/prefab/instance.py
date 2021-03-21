@@ -1,7 +1,5 @@
 from copy import copy
-from typing import Any, Type, Optional
-
-from numpy import mat
+from typing import Any, List, Type
 
 from ..utility import lengthdir_x, lengthdir_y, point_distance, point_direction
 
@@ -22,7 +20,7 @@ class RsInstance(object):
         self.y: float = y
         self.__use_collision: bool = original.use_collision
         self.__sprite_index = original.sprite_index
-        self.__department = []
+        self.department: List[List] = []
         self.image_index: float = 0
         self.__image_angle: float = 0
         self.image_scale: float = 1
@@ -38,6 +36,10 @@ class RsInstance(object):
         else:
             self.boundbox = None
             self.bound_vertexes = None
+
+    def __del__(self):
+        for Group in self.department:
+            Group.remove(self)
 
     @property
     def sprite_index(self):
@@ -94,16 +96,16 @@ class RsInstance(object):
     @sprite_index.setter
     def sprite_index(self, index):
         # Update the original boundbox
-        if not index: # Free the memory
+        if not index:  # Free the memory
             self.__sprite_index = None
             del self.boundbox
             del self.bound_vertexes
-        elif not self.__sprite_index: # Create boundbox
+        elif not self.__sprite_index:  # Create boundbox
             self.__sprite_index = index
-            if self.can_collide: # Use only at it can collide with other
+            if self.can_collide:  # Use only at it can collide with other
                 self.boundbox = copy(index.boundbox)
                 self.bound_vertexes = copy(index.boundbox)
-        else: # Don't update the currrent boundbox
+        else:  # Don't update the currrent boundbox
             self.__sprite_index = index
 
     @image_angle.setter
@@ -141,7 +143,8 @@ class RsInstance(object):
         self.original.onUpdateLater(self, time)
 
         if self.speed != 0:
-            Hspeed: float; Vspeed: float
+            Hspeed: float
+            Vspeed: float
             if self.friction != 0:
                 Fx = lengthdir_x(self.friction, self.direction)
                 Fy = lengthdir_y(self.friction, self.direction)
@@ -163,8 +166,8 @@ class RsInstance(object):
             if Vspeed != 0:
                 self.y += Vspeed
 
-            if self.can_collide and self.__sprite_index:
-                self._set_vertex_boundary(self.__image_angle)
+        if self.can_collide and self.__sprite_index:
+             self._set_vertex_boundary(self.__image_angle)
 
     def onDraw(self, time: float) -> None:
         """`onDraw(time)`
@@ -185,16 +188,14 @@ class RsInstance(object):
         if self.sprite_index:
             Where = RsPreset.application_surface
             self.sprite_index.draw(Where, self.image_index, self.x, self.y, self.image_scale, self.image_angle, self.image_alpha)
-            
-            if self.can_collide:
-                from pygame import draw
 
-                if RsPreset.debug:
-                    draw.line(Where, "red", self.bound_vertexes[0], self.bound_vertexes[1])
-                    draw.line(Where, "red", self.bound_vertexes[1], self.bound_vertexes[3])
-                    draw.line(Where, "red", self.bound_vertexes[3], self.bound_vertexes[2])
-                    draw.line(Where, "red", self.bound_vertexes[2], self.bound_vertexes[0])
-                    draw.circle(Where, "red", (self.x, self.y), 8)
+            if RsPreset._realpy_debug and self.can_collide:
+                from pygame import draw
+                draw.line(Where, "red", self.bound_vertexes[0], self.bound_vertexes[1])
+                draw.line(Where, "red", self.bound_vertexes[1], self.bound_vertexes[3])
+                draw.line(Where, "red", self.bound_vertexes[3], self.bound_vertexes[2])
+                draw.line(Where, "red", self.bound_vertexes[2], self.bound_vertexes[0])
+                draw.circle(Where, "red", (self.x, self.y), 8)
             return True
         else:
             return False
@@ -203,11 +204,14 @@ class RsInstance(object):
         Cos = lengthdir_x(self.image_scale, angle)
         Sin = lengthdir_y(self.image_scale, angle)
 
-        TempRotator = mat([[Cos, Sin], [-Sin, Cos]])
+        # TempRotator = mat([[Cos, Sin], [-Sin, Cos]])
         for i in range(0, 4):
-            TempPoint = ((self.boundbox[i] * TempRotator).tolist())[0]
-            TempA = round(self.x + TempPoint[0])
-            TempB = round(self.y + TempPoint[1])
-            # print("Point(", i, ") - ", TempPoint, " -> (", TempA, ", ", TempB, ")")
+            TempPoint = self.boundbox[i]
+            TempA = TempPoint[0]
+            TempB = TempPoint[1]
+            # TempPoint = ((self.boundbox[i] * TempRotator).tolist())[0]
+            TempX = round(self.x + TempA * Cos - TempB * Sin)
+            TempY = round(self.y + TempA * Sin + TempB * Cos)
+            # print("Point(", i, ") - ", TempPoint, " -> (", TempX, ", ", TempY, ")")
 
-            self.bound_vertexes[i] = (TempA, TempB)
+            self.bound_vertexes[i] = (TempX, TempY)

@@ -21,6 +21,7 @@ class RsLayer(object):
 
     def add(self, instance):
         self.storage.append(instance)
+        instance.department.append(self.storage)
         return instance
 
     def onAwake(self) -> None:
