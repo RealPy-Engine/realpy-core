@@ -2,10 +2,11 @@ from typing import List, Optional, Type, Union
 
 from ..preset import RsPreset
 from ..layer import RsLayer
-from ..prefab import RsPrefab, RsInstance
+from ..prefab import RsPrefab
+from ..prefab.instance import RsInstance
 
 
-def instance_create(prefab: Type[RsPrefab], layer_id: Union[str, RsLayer], x=0, y=0) -> RsInstance:
+def instance_create(prefab: Type[RsPrefab], layer_id: Union[str, RsLayer], x=0, y=0):
     """`instance_create(Scene, Layer, x=0, y=0)`
         ---
         Creates an instance of game object.
@@ -19,7 +20,7 @@ def instance_create(prefab: Type[RsPrefab], layer_id: Union[str, RsLayer], x=0, 
         except KeyError:
             raise RuntimeError(f"The specific layer '{layer_id}' not found.")
 
-    Instance = RsInstance(prefab, RsPreset.RsRoom, TempLayer, x, y)
+    Instance = prefab.trait_instance(prefab, RsPreset.RsRoom, TempLayer, x, y)
     Instance.onAwake()
     TempLayer.add(Instance)
 
