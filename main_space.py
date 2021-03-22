@@ -1,7 +1,7 @@
 import realpy
 
 from realpy import (
-    RsScene, RsLayer, RsPrefab, RsGameObject, RsImage, RsSprite
+    RsScene, RsLayer, RsPrefab, RsPrefab, RsImage, RsSprite
 )
 
 
@@ -27,7 +27,7 @@ if __name__ == "__main__":
         pass
 
 
-    class oSpaceShip(RsGameObject):
+    class oSpaceShip(RsPrefab):
         pass
 
 
@@ -46,8 +46,8 @@ if __name__ == "__main__":
             # itself.image_angle = itself.direction
             pass
         
-        @staticmethod
-        def onUpdate(itself, time):
+
+        def onUpdate(self, itself, time):
             if 0 < itself.speed:
                 print("Speed: ", itself.speed, " Vspeed: ", itself.vspeed)
             itself.image_angle += 30 * time

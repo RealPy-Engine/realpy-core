@@ -4,7 +4,7 @@ from pygame.event import Event
 from pygame.surface import Surface as PySurface
 
 from ..scene import RsScene
-from ..prefab import RsGameObject
+from ..prefab import RsPrefab
 from ..sprite import RsSprite
 
 __all__ = [
@@ -48,7 +48,7 @@ Events: Dict[str, Event] = {}
 Atlas: Dict[str, RsSprite] = {}
 
 # All game objects
-PrefabsPot: List[Type[RsGameObject]] = []
+PrefabsPot: List[Type[RsPrefab]] = []
 
 # All sounds
 AudioPot: Dict[str, object] = {}
