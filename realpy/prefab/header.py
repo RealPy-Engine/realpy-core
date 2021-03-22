@@ -35,7 +35,7 @@ class RsPrefab(object):
         pass
 
     @staticmethod
-    def onUpdate(itself, time: float):
+    def onUpdate(itself, time: float) -> None:
         """`onUpdate(instance, time)`
             ---
             This will run on its instance. You may override it.

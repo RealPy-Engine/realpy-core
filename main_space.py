@@ -23,10 +23,6 @@ if __name__ == "__main__":
             super().onUpdate(time)
 
 
-    class ofSpaceShip(RsPrefab):
-        pass
-
-
     class oSpaceShip(RsPrefab):
         pass
 
@@ -46,8 +42,8 @@ if __name__ == "__main__":
             # itself.image_angle = itself.direction
             pass
         
-
-        def onUpdate(self, itself, time):
+        @staticmethod
+        def onUpdate(itself, time):
             if 0 < itself.speed:
                 print("Speed: ", itself.speed, " Vspeed: ", itself.vspeed)
             itself.image_angle += 30 * time
