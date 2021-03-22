@@ -1,11 +1,11 @@
-from typing import List, Type, Union
+from typing import List, Optional, Type, Union
 
 from ..preset import RsPreset
 from ..layer import RsLayer
-from ..prefab import RsGameObject, RsInstance
+from ..prefab import RsPrefab, RsInstance
 
 
-def instance_create(prefab: Type[RsGameObject], layer_id: Union[str, RsLayer], x=0, y=0) -> RsInstance:
+def instance_create(prefab: Type[RsPrefab], layer_id: Union[str, RsLayer], x=0, y=0) -> RsInstance:
     """`instance_create(Scene, Layer, x=0, y=0)`
         ---
         Creates an instance of game object.
@@ -28,7 +28,34 @@ def instance_create(prefab: Type[RsGameObject], layer_id: Union[str, RsLayer], x
     return Instance
 
 
-def _instance_register(prefab: Type[RsGameObject], instance: RsInstance):
+def instance_number(prefab: Type[RsPrefab]) -> int:
+    TempHash = hash(prefab)
+    Pot: List
+    try:
+        Pot = RsPreset.RsRoom.SpecificInstancesPot[TempHash]
+    except KeyError:
+        return 0
+    return len(Pot)
+
+
+def instance_find(prefab: Type[RsPrefab], index: int) -> Optional[RsInstance]:
+    TempHash = hash(prefab)
+    Pot: List
+    try:
+        Pot = RsPreset.RsRoom.SpecificInstancesPot[TempHash]
+    except KeyError:
+        return None
+    return Pot[index]
+
+
+def _instance_register(prefab: Type[RsPrefab], instance: RsInstance):
+    if issubclass(prefab, RsPrefab) and prefab is not RsPrefab:
+        RsPreset.RsRoom.EveryInstancesPot.append(instance)
+        instance.department.append(RsPreset.RsRoom.EveryInstancesPot)
+        _instance_register_recursive(prefab, instance)
+
+
+def _instance_register_recursive(prefab: Type[RsPrefab], instance: RsInstance):
     TempHash = hash(prefab)
     Where: List
     try:
@@ -38,17 +65,15 @@ def _instance_register(prefab: Type[RsGameObject], instance: RsInstance):
         Where = RsPreset.RsRoom.SpecificInstancesPot[TempHash]
 
     Where.append(instance)
-    RsPreset.RsRoom.EveryInstancesPot.append(instance)
-
     instance.department.append(Where)
-    instance.department.append(RsPreset.RsRoom.EveryInstancesPot)
 
-    Recursive_condition = (issubclass(prefab, RsGameObject) and prefab is not RsGameObject)
+    Recursive_condition = (issubclass(prefab, RsPrefab) and prefab is not RsPrefab)
     if RsPreset.debug_get():
         print(Recursive_condition, "from", prefab)
         print(f"An instance is appended to {Where} of {prefab}.")
     if Recursive_condition:
-        _instance_register(prefab.__class__, instance)
+        print("Goto ", prefab.__base__)
+        _instance_register(prefab.__base__, instance)
 
 
 def instance_destroy(target: RsInstance):
