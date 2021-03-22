@@ -10,5 +10,5 @@ from .room import (
 )
 
 from .instance import (
-    instance_create, instance_destroy
+    instance_create, instance_destroy, instance_number, instance_find
 )
