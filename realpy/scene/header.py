@@ -45,10 +45,6 @@ class RsScene(object):
         for Layer in self.layer_stack:
             Layer.onDestroy()
 
-    def onReady(self) -> None:
-        for Layer in self.layer_stack:
-            Layer.onReady()
-
     def onUpdate(self, time: float) -> None:
         for Layer in self.layer_stack:
             Layer.onUpdate(time)

@@ -47,7 +47,6 @@ async def hand_update():
 
 
 async def scene_update(room: RsScene, time: float):
-    room.onReady()
     room.onUpdate(time)
     room.onUpdateLater(time)
 
