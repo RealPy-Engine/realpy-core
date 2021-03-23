@@ -18,6 +18,9 @@ class RsActor(object):
         for Group in self.department:
             Group.remove(self)
 
+    def attach(self, ogroup: List):
+        self.department.append(ogroup)
+
     def onAwake(self) -> None:
         pass
 
@@ -64,6 +67,34 @@ class RsInstance(RsActor):
         else:
             self.boundbox = None
             self.bound_vertexes = None
+
+    def acceleration(self, velocity, direction):
+        from realpy.utility import lengthdir_x, lengthdir_y, point_distance, point_direction
+
+        Vx = lengthdir_x(velocity, direction)
+        Vy = lengthdir_y(velocity, direction)
+        self.__hspeed += Vx
+        self.__vspeed += Vy
+        self.__speed = point_distance(0, 0, self.__hspeed, self.__vspeed)
+        self.__direction = point_direction(0, 0, self.__hspeed, self.__vspeed)
+
+    def draw_self(self) -> bool:
+        from realpy import RsPreset
+
+        Where = RsPreset.application_surface
+        if Where and self.sprite_index:
+            self.sprite_index.draw(Where, self.image_index, self.x, self.y, self.image_scale, self.image_angle, self.image_alpha)
+
+            if RsPreset.debug_get() and self.can_collide:
+                from pygame import draw
+                draw.line(Where, "red", self.bound_vertexes[0], self.bound_vertexes[1])
+                draw.line(Where, "red", self.bound_vertexes[1], self.bound_vertexes[3])
+                draw.line(Where, "red", self.bound_vertexes[3], self.bound_vertexes[2])
+                draw.line(Where, "red", self.bound_vertexes[2], self.bound_vertexes[0])
+                draw.circle(Where, "red", (self.x, self.y), 8)
+            return True
+        else:
+            return False
 
     @property
     def sprite_index(self):
@@ -217,34 +248,6 @@ class RsInstance(RsActor):
 
     def __repr__(self) -> str:
         return f"Instance {id(self)} at '{self.layer}' in '{self.scene}'"
-
-    def acceleration(self, velocity, direction):
-        from realpy.utility import lengthdir_x, lengthdir_y, point_distance, point_direction
-
-        Vx = lengthdir_x(velocity, direction)
-        Vy = lengthdir_y(velocity, direction)
-        self.__hspeed += Vx
-        self.__vspeed += Vy
-        self.__speed = point_distance(0, 0, self.__hspeed, self.__vspeed)
-        self.__direction = point_direction(0, 0, self.__hspeed, self.__vspeed)
-
-    def draw_self(self) -> bool:
-        from realpy import RsPreset
-
-        Where = RsPreset.application_surface
-        if Where and self.sprite_index:
-            self.sprite_index.draw(Where, self.image_index, self.x, self.y, self.image_scale, self.image_angle, self.image_alpha)
-
-            if RsPreset.debug_get() and self.can_collide:
-                from pygame import draw
-                draw.line(Where, "red", self.bound_vertexes[0], self.bound_vertexes[1])
-                draw.line(Where, "red", self.bound_vertexes[1], self.bound_vertexes[3])
-                draw.line(Where, "red", self.bound_vertexes[3], self.bound_vertexes[2])
-                draw.line(Where, "red", self.bound_vertexes[2], self.bound_vertexes[0])
-                draw.circle(Where, "red", (self.x, self.y), 8)
-            return True
-        else:
-            return False
 
     def _set_vertex_boundary(self, angle: float) -> None:
         from realpy.utility import lengthdir_x, lengthdir_y
