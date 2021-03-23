@@ -3,7 +3,7 @@ from .scene import RsScene
 from .layer import RsLayer
 from .image import RsImage
 from .sprite import RsSprite
-from .prefab import RsPrefab, RsPrefab
+from .behavior import RsPrefab, RsPrefab
 
 from .preset import *
 from .utility import *

@@ -57,7 +57,7 @@ if __name__ == "__main__":
     TestRoom.add_layer_direct(RsLayer("Background"))
 
     realpy.instance_create(oEnemyBattleship, Testbed, 320, 240)
-    # realpy.instance_create(oEnemyBattleship, Testbed, 240, 240)
-    # realpy.instance_create(oEnemyBattleship, Testbed, 400, 240)
+    realpy.instance_create(oEnemyBattleship, Testbed, 240, 240)
+    realpy.instance_create(oEnemyBattleship, Testbed, 400, 240)
 
     realpy.startup()

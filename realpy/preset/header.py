@@ -4,7 +4,7 @@ from pygame.event import Event
 from pygame.surface import Surface as PySurface
 
 from ..scene import RsScene
-from ..prefab import RsPrefab
+from ..behavior import RsPrefab
 from ..sprite import RsSprite
 
 __all__ = [

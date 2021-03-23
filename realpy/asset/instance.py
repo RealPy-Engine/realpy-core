@@ -2,8 +2,7 @@ from typing import List, Optional, Type, Union
 
 from ..preset import RsPreset
 from ..layer import RsLayer
-from ..prefab import RsPrefab
-from ..prefab.instance import RsActor, RsInstance
+from ..behavior import RsPrefab, RsActor, RsInstance
 
 
 def actor_create(actor_type: Type[RsActor], layer_id: Union[str, RsLayer], x=0, y=0):
@@ -24,9 +23,8 @@ def actor_create(actor_type: Type[RsActor], layer_id: Union[str, RsLayer], x=0, 
     Instance.onAwake()
     Place.add(Instance)
 
-    _instance_register(prefab, Instance)
-
     return Instance
+
 
 def instance_create(prefab: Type[RsPrefab], layer_id: Union[str, RsLayer], x=0, y=0):
     """`instance_create(Scene, Layer, x=0, y=0)`
@@ -99,6 +97,6 @@ def _instance_register_recursive(prefab: Type[RsPrefab], instance: RsInstance):
         _instance_register(prefab.__base__, instance)
 
 
-def instance_destroy(target: RsInstance):
+def instance_destroy(target: Union[RsActor, RsInstance]):
     target.onDestroy()
     del target

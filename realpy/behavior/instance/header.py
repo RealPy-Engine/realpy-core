@@ -68,6 +68,12 @@ class RsInstance(RsActor):
             self.boundbox = None
             self.bound_vertexes = None
 
+    def find_collision(self, prefab: Type[Any]):
+        ...
+
+    def collide_check(self, other):
+        ...
+
     def acceleration(self, velocity, direction):
         from realpy.utility import lengthdir_x, lengthdir_y, point_distance, point_direction
 
