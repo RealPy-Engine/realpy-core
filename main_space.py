@@ -1,3 +1,4 @@
+from realpy.asset.instance import collide_anyone
 import realpy
 
 from realpy import (
@@ -48,6 +49,10 @@ if __name__ == "__main__":
                 print("Speed: ", itself.speed, " Vspeed: ", itself.vspeed)
             itself.image_angle += 30 * time
 
+            Who = collide_anyone(itself, oEnemyBattleship)
+            if Who:
+                print(id(itself), "is collided with", id(Who))
+
 
     Temp = oTestRoom()
     TestRoom = realpy.room_register(Temp, "roomTest")
@@ -57,7 +62,7 @@ if __name__ == "__main__":
     TestRoom.add_layer_direct(RsLayer("Background"))
 
     realpy.instance_create(oEnemyBattleship, Testbed, 320, 240)
-    realpy.instance_create(oEnemyBattleship, Testbed, 240, 240)
-    realpy.instance_create(oEnemyBattleship, Testbed, 400, 240)
+    realpy.instance_create(oEnemyBattleship, Testbed, 240, 200)
+    realpy.instance_create(oEnemyBattleship, Testbed, 400, 280)
 
     realpy.startup()

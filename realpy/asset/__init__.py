@@ -11,5 +11,6 @@ from .room import (
 
 from .instance import (
     instance_create, instance_destroy, instance_number, instance_find,
-    actor_create
+    actor_create,
+    collide_anyone
 )

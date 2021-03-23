@@ -1,5 +1,5 @@
 from copy import copy
-from typing import Any, List, Type
+from typing import Any, List, Optional, Tuple, Type
 
 
 class RsInstance(object):
@@ -9,16 +9,22 @@ class RsInstance(object):
     """
 
     def __init__(self, original: Type[Any], scene, layer, x: float = 0, y: float = 0):
+        from pygame.surface import Surface
+        from realpy.scene import RsScene
+        from realpy.layer import RsLayer
+        from realpy.sprite import RsSprite
+
         self.enabled: bool = True
-        self.scene = scene
-        self.layer = layer
+        self.scene: RsScene = scene
+        self.layer: RsLayer = layer
         self.department: List[List] = []
         self.visible: bool = True
         self.original = original
         self.x: float = x
         self.y: float = y
         self.__use_collision: bool = original.use_collision
-        self.__sprite_index = original.sprite_index
+        self.__sprite_index: Optional[RsSprite] = original.sprite_index
+        self.__image: Optional[Surface] = None
         self.image_index: float = 0
         self.__image_angle: float = 0
         self.image_scale: float = 1
@@ -28,6 +34,8 @@ class RsInstance(object):
         self.__hspeed: float = 0
         self.__vspeed: float = 0
         self.friction: float = 0
+        self.boundbox: Optional[List[Tuple[int, int]]]
+        self.bound_vertexes: Optional[List[Tuple[int, int]]]
         if self.__sprite_index:
             self.boundbox = copy(self.__sprite_index.boundbox)
             self.bound_vertexes = copy(self.__sprite_index.boundbox)
@@ -58,12 +66,6 @@ class RsInstance(object):
     def attach(self, ogroup: List):
         self.department.append(ogroup)
 
-    def find_collision(self, prefab: Type[Any]):
-        ...
-
-    def collide_check(self, other):
-        ...
-
     def acceleration(self, velocity, direction):
         from realpy.utility import lengthdir_x, lengthdir_y, point_distance, point_direction
 
@@ -79,7 +81,10 @@ class RsInstance(object):
 
         Where = RsPreset.application_surface
         if Where and self.sprite_index:
-            self.sprite_index.draw(Where, self.image_index, self.x, self.y, self.image_scale, self.image_angle, self.image_alpha)
+            self.__image = self.sprite_index.draw(Where, self.image_index, self.x, self.y, self.image_scale, self.image_angle, self.image_alpha).convert_alpha()
+            Rect = self.__image.get_rect()
+            # Rect.x = int(self.x)
+            # Rect.y = int(self.y)
 
             if RsPreset.debug_get() and self.can_collide:
                 from pygame import draw
@@ -93,12 +98,16 @@ class RsInstance(object):
             return False
 
     @property
+    def can_collide(self) -> bool:
+        return self.__use_collision
+
+    @property
     def sprite_index(self):
         return self.__sprite_index
 
     @property
-    def can_collide(self) -> bool:
-        return self.__use_collision
+    def current_image(self):
+        return self.__image
 
     @property
     def speed(self) -> float:
@@ -158,6 +167,7 @@ class RsInstance(object):
         # Update the original boundbox
         if not index:  # Free the memory
             self.__sprite_index = None
+            del self.__image
             del self.boundbox
             del self.bound_vertexes
         elif not self.__sprite_index:  # Create boundbox
@@ -179,6 +189,7 @@ class RsInstance(object):
             ---
             Do not override it.
         """
+        from realpy import RsPreset
         from realpy.utility import lengthdir_x, lengthdir_y
 
         Method = self.original.onUpdateLater
@@ -209,7 +220,7 @@ class RsInstance(object):
             if Vspeed != 0:
                 self.y += Vspeed
 
-        if self.can_collide and self.__sprite_index:
+        if self.can_collide and self.__sprite_index and RsPreset.debug_get():
              self._set_vertex_boundary(self.__image_angle)
 
     def onDraw(self, time: float) -> None:

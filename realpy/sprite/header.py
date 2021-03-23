@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pygame.surface import Surface
 from pygame import transform
 
@@ -22,7 +24,7 @@ class RsSprite(object):
         self.mask_type: int = mask_type
         self.width: int = image.boundbox.width
         self.height: int = image.boundbox.height
-        self.radius: int = max(xo, yo)
+        self.radius: int = max(self.width, self.height)
         self.xoffset: int = xo
         self.yoffset: int = yo
         self.using_custom_offset: bool = False
@@ -42,9 +44,9 @@ class RsSprite(object):
         self.boundbox = [(bx, by), (bex, by), (bx, bey), (bex, bey)]
 
     def draw(self, where: Surface, index, x, y, scale: float = 1, orientation: float = 0,
-             alpha: float = 1, *, xflip: bool = False, yflip: bool = False):
+             alpha: float = 1, *, xflip: bool = False, yflip: bool = False) -> Optional[Surface]:
         if scale <= 0 or alpha <= 0:
-            return
+            return None
         elif self.image:
             if 0 < self.image.number:
                 index = index % self.image.number
@@ -73,6 +75,8 @@ class RsSprite(object):
                     Position.center = (x, y)
 
                 where.blit(Trx, Position)
+                return Trx
+        return None
 
 
 """
