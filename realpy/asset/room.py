@@ -37,7 +37,7 @@ def room_get(id: Union[int, str]):
         return RsPreset.RoomPot[id]
 
 
-def room_set(taget: RsScene):
+def _room_set(taget: RsScene):
     if RsPreset.RsRoom:
         RsPreset.RsRoom.onDestroy()
     RsPreset.RsRoom = taget
@@ -50,12 +50,12 @@ def room_goto(name: str):
     if not Temp:
         raise RuntimeError("The room " + name + " doesn't exist.")
     elif Temp is not RsPreset.RsRoom:
-        room_set(Temp)
+        _room_set(Temp)
 
 
 def room_goto_next():
     Next = RsPreset.RsRoom.next
     if Next:
-        room_set(Next)
+        _room_set(Next)
     else:
         raise RuntimeError("The next room doesn't exist.\n")
