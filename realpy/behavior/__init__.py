@@ -5,6 +5,7 @@
     ```
 """
 from .header import RsPrefab
-from .instance import RsActor, RsInstance
+from .actor import RsActor
+from .instance import RsInstance
 
 __all__ = ["RsPrefab", "RsActor", "RsInstance"]

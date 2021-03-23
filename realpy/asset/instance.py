@@ -20,7 +20,9 @@ def actor_create(actor_type: Type[RsActor], layer_id: Union[str, RsLayer], x=0, 
             raise RuntimeError(f"The specific layer '{layer_id}' not found.")
 
     Instance = actor_type(Place.scene, Place)
-    Instance.onAwake()
+    Method = Instance.onAwake
+    if Method:
+        Method()
     Place.add(Instance)
 
     return Instance
@@ -41,7 +43,9 @@ def instance_create(prefab: Type[RsPrefab], layer_id: Union[str, RsLayer], x=0, 
             raise RuntimeError(f"The specific layer '{layer_id}' not found.")
 
     Instance = prefab.trait_instance(prefab, Place.scene, Place, x, y)
-    Instance.onAwake()
+    Method = Instance.onAwake
+    if Method:
+        Method()
     Place.add(Instance)
 
     _instance_register(prefab, Instance)
@@ -98,5 +102,7 @@ def _instance_register_recursive(prefab: Type[RsPrefab], instance: RsInstance):
 
 
 def instance_destroy(target: Union[RsActor, RsInstance]):
-    target.onDestroy()
+    Method = target.onDestroy
+    if Method:
+        Method()
     del target

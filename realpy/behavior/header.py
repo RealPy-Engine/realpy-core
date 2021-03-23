@@ -7,6 +7,19 @@ class RsPrefab(object):
         Predefined behavior object.
 
         Do not instantiate it.
+
+        ### How to make flow methods
+        - onAwake
+        - onDestroy
+        - onUpdate
+        - onUpdateLater
+        - onDraw
+
+        ```
+        @staticmethod
+        def onDraw(itself, time: float) -> None:
+            pass
+        ```
     """
 
     name: str = ""
@@ -14,47 +27,16 @@ class RsPrefab(object):
     use_collision: bool = True
     trait_instance = RsInstance
 
-    def __repr__(self) -> str:
-        SpriteCheck = f" ({self.sprite_index})" if self.sprite_index else ""
-        return f"Prefab" + SpriteCheck + f" of {type(self)}"
+    onAwake = None
+    onDestroy = None
+    onUpdate = None
+    onUpdateLater = None
+    onDraw = None
 
     @staticmethod
-    def onAwake(itself) -> None:
-        """`onAwake(instance)`
+    def onTest(itself, time: float) -> None:
+        """`onTest(instance, time)`
             ---
             This will run on its instance. You may override it.
         """
         pass
-
-    @staticmethod
-    def onDestroy(itself) -> None:
-        """`onDestroy(instance)`
-            ---
-            This will run on its instance. You may override it.
-        """
-        pass
-
-    @staticmethod
-    def onUpdate(itself, time: float) -> None:
-        """`onUpdate(instance, time)`
-            ---
-            This will run on its instance. You may override it.
-        """
-        pass
-
-    @staticmethod
-    def onUpdateLater(itself, time: float) -> None:
-        """`onUpdateLater(instance, time)`
-            ---
-            This will run on its instance. You may override it.
-        """
-        pass
-
-    @staticmethod
-    def onDraw(itself, time: float) -> None:
-        """`onAwake(instance, time)`
-            ---
-            This will run on its instance. You may override it.
-        """
-
-        itself.draw_self()
