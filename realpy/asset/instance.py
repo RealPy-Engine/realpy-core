@@ -3,8 +3,30 @@ from typing import List, Optional, Type, Union
 from ..preset import RsPreset
 from ..layer import RsLayer
 from ..prefab import RsPrefab
-from ..prefab.instance import RsInstance
+from ..prefab.instance import RsActor, RsInstance
 
+
+def actor_create(actor_type: Type[RsActor], layer_id: Union[str, RsLayer], x=0, y=0):
+    """`actor_create(Scene, Layer)`
+        ---
+        Creates an simple behavior object.
+    """
+
+    if type(layer_id) is RsLayer:
+        Place = layer_id
+    else:
+        try:
+            Place = RsPreset.RsRoom.layer_find(str(layer_id))
+        except KeyError:
+            raise RuntimeError(f"The specific layer '{layer_id}' not found.")
+
+    Instance = actor_type(Place.scene, Place)
+    Instance.onAwake()
+    Place.add(Instance)
+
+    _instance_register(prefab, Instance)
+
+    return Instance
 
 def instance_create(prefab: Type[RsPrefab], layer_id: Union[str, RsLayer], x=0, y=0):
     """`instance_create(Scene, Layer, x=0, y=0)`
@@ -13,16 +35,16 @@ def instance_create(prefab: Type[RsPrefab], layer_id: Union[str, RsLayer], x=0, 
     """
 
     if type(layer_id) is RsLayer:
-        TempLayer = layer_id
+        Place = layer_id
     else:
         try:
-            TempLayer = RsPreset.RsRoom.layer_find(str(layer_id))
+            Place = RsPreset.RsRoom.layer_find(str(layer_id))
         except KeyError:
             raise RuntimeError(f"The specific layer '{layer_id}' not found.")
 
-    Instance = prefab.trait_instance(prefab, RsPreset.RsRoom, TempLayer, x, y)
+    Instance = prefab.trait_instance(prefab, Place.scene, Place, x, y)
     Instance.onAwake()
-    TempLayer.add(Instance)
+    Place.add(Instance)
 
     _instance_register(prefab, Instance)
 
@@ -66,7 +88,7 @@ def _instance_register_recursive(prefab: Type[RsPrefab], instance: RsInstance):
         Where = RsPreset.RsRoom.SpecificInstancesPot[TempHash]
 
     Where.append(instance)
-    instance.department.append(Where)
+    instance.attach(Where)
 
     Recursive_condition = (issubclass(prefab, RsPrefab) and prefab is not RsPrefab)
     if RsPreset.debug_get():

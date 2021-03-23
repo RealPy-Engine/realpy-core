@@ -1,1 +1,1 @@
-from .header import RsInstance
+from .header import RsActor, RsInstance
