@@ -29,7 +29,10 @@ class RsScene(object):
         return layer
 
     def layer_find(self, caption: str):
-        return self.trees[caption]
+        try:
+            return self.trees[caption]
+        except KeyError:
+            return None
 
     def pause(self) -> None:
         self.paused = True
