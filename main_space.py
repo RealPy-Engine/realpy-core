@@ -42,7 +42,7 @@ if __name__ == "__main__":
             # itself.friction = 10
             # itself.image_angle = itself.direction
             pass
-        
+
         @staticmethod
         def onUpdate(itself, time):
             if 0 < itself.speed:
