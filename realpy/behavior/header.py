@@ -8,13 +8,14 @@ class RsPrefab(object):
 
         Do not instantiate it.
 
-        ### How to make flow methods
-        - onAwake
-        - onDestroy
-        - onUpdate
-        - onUpdateLater
-        - onDraw
+        ### List of flow methods
+        - `onAwake()`
+        - `onDestroy()`
+        - `onUpdate(delta_time)`
+        - `onUpdateLater(delta_time)`
+        - `onDraw(delta_time)`
 
+        ### Specification
         ```
         @staticmethod
         def onDraw(itself, time: float) -> None:
