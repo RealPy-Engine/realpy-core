@@ -1,5 +1,4 @@
-import asyncio
-from typing import List, Optional, Tuple, Type, Union
+from typing import List, Optional, Type, Union
 
 import pygame.mask as PyMask
 
@@ -21,8 +20,6 @@ def collide_anyone(instance: RsInstance, prefab: Type[RsPrefab]) -> Optional[RsI
         return None
 
     Checker = PyMask.from_surface(instance.current_image)
-    CheckRect = instance.current_image.get_rect()
-    CheckRect.x = int(instance.x)
 
     Other: RsInstance
     for Other in Pot:
@@ -32,18 +29,40 @@ def collide_anyone(instance: RsInstance, prefab: Type[RsPrefab]) -> Optional[RsI
             continue
 
         OtherChecker = PyMask.from_surface(Other.current_image)
-
-        xOffset = int(Other.x - instance.x)
-        yOffset = int(Other.y - instance.y)
-        Result = Checker.overlap(OtherChecker, (xOffset, yOffset))
-        if Result:
+        Check = Checker.overlap(OtherChecker, (int(Other.x - instance.x), int(Other.y - instance.y)))
+        if Check:
             return Other
 
     return None
 
 
 def collide_all(instance: RsInstance, prefab: Type[RsPrefab]) -> Optional[List[RsInstance]]:
-    ...
+    TempHash = hash(prefab)
+    Pot: List
+    try:
+        Pot = RsPreset.RsRoom.SpecificInstancesPot[TempHash]
+    except KeyError:
+        return None
+
+    if len(Pot) == 0 or not instance.enabled or not instance.visible or not instance.can_collide or not instance.current_image:
+        return None
+
+    Result: List[RsInstance] = []
+    Checker = PyMask.from_surface(instance.current_image)
+
+    Other: RsInstance
+    for Other in Pot:
+        if Other == instance:
+            continue
+        if not Other.enabled or not Other.visible or not Other.can_collide or not Other.current_image:
+            continue
+
+        OtherChecker = PyMask.from_surface(Other.current_image)
+        Check = Checker.overlap(OtherChecker, (int(Other.x - instance.x), int(Other.y - instance.y)))
+        if Check:
+            Result.append(Other)
+
+    return Result
 
 
 def actor_create(actor_type: Type[RsActor], layer_id: Union[str, RsLayer], x=0, y=0):
