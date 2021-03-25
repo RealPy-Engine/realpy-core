@@ -5,14 +5,14 @@ import pygame.mask as PyMask
 from ..preset import RsPreset
 from ..layer import RsLayer
 from ..behavior import RsPrefab, RsActor, RsInstance
-from ..utility import *
+from ..arithmetic import *
 
 
 def collide_anyone(instance: RsInstance, prefab: Type[RsPrefab]) -> Optional[RsInstance]:
     TempHash = hash(prefab)
     Pot: List
     try:
-        Pot = RsPreset.RsRoom.SpecificInstancesPot[TempHash]
+        Pot = RsPreset.room.SpecificInstancesPot[TempHash]
     except KeyError:
         return None
 
@@ -40,7 +40,7 @@ def collide_all(instance: RsInstance, prefab: Type[RsPrefab]) -> Optional[List[R
     TempHash = hash(prefab)
     Pot: List
     try:
-        Pot = RsPreset.RsRoom.SpecificInstancesPot[TempHash]
+        Pot = RsPreset.room.SpecificInstancesPot[TempHash]
     except KeyError:
         return None
 
@@ -75,7 +75,7 @@ def actor_create(actor_type: Type[RsActor], layer_id: Union[str, RsLayer], x=0, 
         Place = layer_id
     else:
         try:
-            Place = RsPreset.RsRoom.layer_find(str(layer_id))
+            Place = RsPreset.room.layer_find(str(layer_id))
         except KeyError:
             raise RuntimeError(f"The specific layer '{layer_id}' not found.")
 
@@ -98,7 +98,7 @@ def instance_create(prefab: Type[RsPrefab], layer_id: Union[str, RsLayer], x=0, 
         Place = layer_id
     else:
         try:
-            Place = RsPreset.RsRoom.layer_find(str(layer_id))
+            Place = RsPreset.room.layer_find(str(layer_id))
         except KeyError:
             raise RuntimeError(f"The specific layer '{layer_id}' not found.")
 
@@ -117,7 +117,7 @@ def instance_number(prefab: Type[RsPrefab]) -> int:
     TempHash = hash(prefab)
     Pot: List
     try:
-        Pot = RsPreset.RsRoom.SpecificInstancesPot[TempHash]
+        Pot = RsPreset.room.SpecificInstancesPot[TempHash]
     except KeyError:
         return 0
     return len(Pot)
@@ -127,7 +127,7 @@ def instance_find(prefab: Type[RsPrefab], index: int) -> Optional[RsInstance]:
     TempHash = hash(prefab)
     Pot: List
     try:
-        Pot = RsPreset.RsRoom.SpecificInstancesPot[TempHash]
+        Pot = RsPreset.room.SpecificInstancesPot[TempHash]
     except KeyError:
         return None
     return Pot[index]
@@ -135,8 +135,8 @@ def instance_find(prefab: Type[RsPrefab], index: int) -> Optional[RsInstance]:
 
 def _instance_register(prefab: Type[RsPrefab], instance: RsInstance):
     if issubclass(prefab, RsPrefab) and prefab is not RsPrefab:
-        RsPreset.RsRoom.EveryInstancesPot.append(instance)
-        instance.department.append(RsPreset.RsRoom.EveryInstancesPot)
+        RsPreset.room.EveryInstancesPot.append(instance)
+        instance.department.append(RsPreset.room.EveryInstancesPot)
         _instance_register_recursive(prefab, instance)
 
 
@@ -144,10 +144,10 @@ def _instance_register_recursive(prefab: Type[RsPrefab], instance: RsInstance):
     TempHash = hash(prefab)
     Where: List
     try:
-        Where = RsPreset.RsRoom.SpecificInstancesPot[TempHash]
+        Where = RsPreset.room.SpecificInstancesPot[TempHash]
     except KeyError:
-        RsPreset.RsRoom.SpecificInstancesPot[TempHash] = []
-        Where = RsPreset.RsRoom.SpecificInstancesPot[TempHash]
+        RsPreset.room.SpecificInstancesPot[TempHash] = []
+        Where = RsPreset.room.SpecificInstancesPot[TempHash]
 
     Where.append(instance)
     instance.attach(Where)

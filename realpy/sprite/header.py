@@ -3,7 +3,7 @@ from typing import Optional
 from pygame.surface import Surface
 from pygame import transform
 
-from ..utility import lengthdir_x, lengthdir_y, point_distance, point_direction
+from ..arithmetic import lengthdir_x, lengthdir_y, point_distance, point_direction
 
 __all__ = ["RsSprite"]
 

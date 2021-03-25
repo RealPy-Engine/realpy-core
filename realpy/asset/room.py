@@ -17,13 +17,13 @@ def room_register(info: RsScene, caption: Optional[str] = None):
 
     Number = len(RsPreset.RoomOrder)
     if 0 < Number:
-        LastRoom = RsPreset.RsLastRoom
+        LastRoom = RsPreset.room_last
         if LastRoom and NewRoom:
             NewRoom.before = LastRoom
             LastRoom.next = NewRoom
     else:
-        RsPreset.RsRoom = NewRoom
-        RsPreset.RsLastRoom = NewRoom
+        RsPreset.room = NewRoom
+    RsPreset.room_last = NewRoom
 
     RsPreset.RoomOrder.append(NewRoom)
     RsPreset.RoomPot[Name] = NewRoom
@@ -38,23 +38,23 @@ def room_get(id: Union[int, str]):
 
 
 def _room_set(taget: RsScene):
-    if RsPreset.RsRoom:
-        RsPreset.RsRoom.onDestroy()
-    RsPreset.RsRoom = taget
-    RsPreset.RsRoom.onAwake()
-    print("Go to " + str(RsPreset.RsRoom))
+    if RsPreset.room:
+        RsPreset.room.onDestroy()
+    RsPreset.room = taget
+    RsPreset.room.onAwake()
+    print("Go to " + str(RsPreset.room))
 
 
 def room_goto(name: str):
     Temp = room_get(name)
     if not Temp:
         raise RuntimeError("The room " + name + " doesn't exist.")
-    elif Temp is not RsPreset.RsRoom:
+    elif Temp is not RsPreset.room:
         _room_set(Temp)
 
 
 def room_goto_next():
-    Next = RsPreset.RsRoom.next
+    Next = RsPreset.room.next
     if Next:
         _room_set(Next)
     else:

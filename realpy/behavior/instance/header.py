@@ -67,7 +67,7 @@ class RsInstance(object):
         self.department.append(ogroup)
 
     def acceleration(self, velocity, direction):
-        from realpy.utility import lengthdir_x, lengthdir_y, point_distance, point_direction
+        from realpy.arithmetic import lengthdir_x, lengthdir_y, point_distance, point_direction
 
         Vx = lengthdir_x(velocity, direction)
         Vy = lengthdir_y(velocity, direction)
@@ -128,7 +128,7 @@ class RsInstance(object):
 
     @speed.setter
     def speed(self, value: float):
-        from realpy.utility import lengthdir_x, lengthdir_y
+        from realpy.arithmetic import lengthdir_x, lengthdir_y
 
         self.__speed = value
         self.__hspeed = lengthdir_x(value, self.__direction)
@@ -136,7 +136,7 @@ class RsInstance(object):
 
     @direction.setter
     def direction(self, value: float):
-        from realpy.utility import lengthdir_x, lengthdir_y
+        from realpy.arithmetic import lengthdir_x, lengthdir_y
 
         self.__direction = value
         if self.__speed != 0:
@@ -145,7 +145,7 @@ class RsInstance(object):
 
     @hspeed.setter
     def hspeed(self, value: float):
-        from realpy.utility import point_distance, point_direction
+        from realpy.arithmetic import point_distance, point_direction
 
         self.__hspeed = value
         self.__speed = point_distance(0, 0, self.__hspeed, self.__vspeed)
@@ -153,7 +153,7 @@ class RsInstance(object):
 
     @vspeed.setter
     def vspeed(self, value: float):
-        from realpy.utility import point_distance, point_direction
+        from realpy.arithmetic import point_distance, point_direction
 
         self.__vspeed = value
         self.__speed = point_distance(0, 0, self.__hspeed, self.__vspeed)
@@ -187,7 +187,7 @@ class RsInstance(object):
             Do not override it.
         """
         from realpy import RsPreset
-        from realpy.utility import lengthdir_x, lengthdir_y
+        from realpy.arithmetic import lengthdir_x, lengthdir_y
 
         Method = self.original.onUpdateLater
         if Method:
@@ -239,7 +239,7 @@ class RsInstance(object):
         return f"Instance {id(self)} at '{self.layer}' in '{self.scene}'"
 
     def _set_vertex_boundary(self, angle: float) -> None:
-        from realpy.utility import lengthdir_x, lengthdir_y
+        from realpy.arithmetic import lengthdir_x, lengthdir_y
 
         Cos = lengthdir_x(self.image_scale, angle)
         Sin = lengthdir_y(self.image_scale, angle)

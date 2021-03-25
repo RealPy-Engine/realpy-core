@@ -6,7 +6,6 @@ def test_main():
     assert realpy.scene.test()
     assert realpy.image.test()
     assert realpy.sprite.test()
-    assert realpy.utility.test()
     print("***** Realpy Test Finished *****")
 
 

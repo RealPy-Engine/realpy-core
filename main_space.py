@@ -1,4 +1,5 @@
-from realpy.asset.instance import collide_anyone
+import pygame.constants as PyConstants
+
 import realpy
 
 from realpy import (
@@ -7,13 +8,11 @@ from realpy import (
 
 
 if __name__ == "__main__":
-    # TODO: #17 Make easy to create user's custom preset.
-    realpy.init("RealPy Engine", 640, 480)
+    realpy.rs_init("RealPy Engine", 640, 480)
     realpy.debug_set(True)
 
     TestImage = RsImage("main_battleship.png")
     TestSprite = RsSprite(TestImage, 0, 50, 24)
-
 
     class oTestRoom(RsScene):
         def onAwake(self):
@@ -22,6 +21,10 @@ if __name__ == "__main__":
 
         def onUpdate(self, time):
             super().onUpdate(time)
+
+            EscapeCheck = realpy.KeyEvents.get(PyConstants.K_ESCAPE)
+            if EscapeCheck == PyConstants.KEYDOWN:
+                raise realpy.RsInteruptError
 
 
     class oSpaceShip(RsPrefab):
@@ -49,7 +52,7 @@ if __name__ == "__main__":
                 print("Speed: ", itself.speed, " Vspeed: ", itself.vspeed)
             itself.image_angle += 30 * time
 
-            Who = collide_anyone(itself, oEnemyBattleship)
+            Who = realpy.collide_anyone(itself, oEnemyBattleship)
             if Who:
                 print(id(itself), "is collided with", id(Who))
 
@@ -65,4 +68,4 @@ if __name__ == "__main__":
     realpy.instance_create(oEnemyBattleship, Testbed, 240, 200)
     realpy.instance_create(oEnemyBattleship, Testbed, 400, 280)
 
-    realpy.startup()
+    realpy.rs_startup()
