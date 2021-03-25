@@ -3,8 +3,6 @@ from typing import Optional
 from pygame.surface import Surface
 from pygame import transform
 
-from ..arithmetic import lengthdir_x, lengthdir_y, point_distance, point_direction
-
 __all__ = ["RsSprite"]
 
 
@@ -19,6 +17,8 @@ class RsSprite(object):
     ]
 
     def __init__(self, image, mask_type: int = 0, xo: int = 0, yo: int = 0):
+        from ..arithmetic import point_distance, point_direction
+
         assert image
         self.image = image
         self.mask_type: int = mask_type
@@ -45,6 +45,8 @@ class RsSprite(object):
 
     def draw(self, where: Surface, index, x, y, scale: float = 1, orientation: float = 0,
              alpha: float = 1, *, xflip: bool = False, yflip: bool = False) -> Optional[Surface]:
+        from ..arithmetic import lengthdir_x, lengthdir_y
+
         if scale <= 0 or alpha <= 0:
             return None
         elif self.image:
