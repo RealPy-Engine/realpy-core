@@ -25,7 +25,6 @@ def test():
             print("x of - Sample Instance 2:", TestInstance2.x)
             raise TimeoutError
 
-
         class oSampleObject1(RsPrefab):
             @staticmethod
             def onAwake(itself):
@@ -38,7 +37,6 @@ def test():
             @staticmethod
             def onUpdate(itself, time: float):
                 itself.x += 5 * time
-
 
         class oSampleObject2(RsPrefab):
             @staticmethod
@@ -56,7 +54,6 @@ def test():
             @staticmethod
             def onUpdateLater(itself, time: float):
                 print("Instance 2 -> later")
-
 
         print(">>> Class of prefab #1: ", oSampleObject1)
         print(">>> Class of prefab #2: ", oSampleObject2)

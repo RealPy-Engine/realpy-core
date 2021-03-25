@@ -81,7 +81,8 @@ class RsInstance(object):
 
         Where = RsPreset.application_surface
         if Where and self.sprite_index:
-            self.__image = self.sprite_index.draw(Where, self.image_index, self.x, self.y, self.image_scale, self.image_angle, self.image_alpha).convert_alpha()
+            self.__image = self.sprite_index.draw(Where, self.image_index, self.x, self.y, self.image_scale,
+                                                  self.image_angle, self.image_alpha).convert_alpha()
 
             if RsPreset.debug_get() and self.can_collide:
                 from pygame import draw
@@ -218,7 +219,7 @@ class RsInstance(object):
                 self.y += Vspeed
 
         if self.can_collide and self.__sprite_index and RsPreset.debug_get():
-             self._set_vertex_boundary(self.__image_angle)
+            self._set_vertex_boundary(self.__image_angle)
 
     def onDraw(self, time: float) -> None:
         """`onDraw(time)`

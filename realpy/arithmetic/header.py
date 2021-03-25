@@ -53,7 +53,8 @@ def point_direction(x1: float, y1: float, x2: float, y2: float) -> float:
     return radtodeg(math.atan2(y2 - y1, x1 - x2))
 
 
-def line_interact(Sx1: float, Sy1: float, Sx2: float, Sy2: float, Dx1: float, Dy1: float, Dx2: float, Dy2: float, Seg: bool) -> float:
+def line_interact(Sx1: float, Sy1: float, Sx2: float, Sy2: float, Dx1: float, Dy1: float, Dx2: float, Dy2: float,
+                  Seg: bool) -> float:
     Sx = Sx2 - Sx1
     Sy = Sy2 - Sy1
     Dx = Dx2 - Dx1

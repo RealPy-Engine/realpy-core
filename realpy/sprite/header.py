@@ -1,7 +1,7 @@
 from typing import Optional
 
-from pygame.surface import Surface
 from pygame import transform
+from pygame.surface import Surface
 
 __all__ = ["RsSprite"]
 
@@ -13,7 +13,8 @@ class RsSprite(object):
     """
 
     __slots__ = [
-        "image", "mask_type", "width", "height", "radius", "xoffset", "yoffset", "boundbox", "center_distance", "center_angle", "using_custom_offset"
+        "image", "mask_type", "width", "height", "radius", "xoffset", "yoffset", "boundbox", "center_distance",
+        "center_angle", "using_custom_offset"
     ]
 
     def __init__(self, image, mask_type: int = 0, xo: int = 0, yo: int = 0):
