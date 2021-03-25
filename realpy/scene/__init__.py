@@ -12,8 +12,7 @@ __all__ = ["RsScene"]
 def test():
     print("***** Test → Realpy Scene *****")
 
-    from realpy.behavior.instance import RsInstance
-    from realpy import RsLayer
+    from realpy.layer import RsLayer
 
     try:
         print(">>> Class of scene: ", RsScene)
