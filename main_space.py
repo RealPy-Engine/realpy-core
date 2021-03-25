@@ -11,7 +11,7 @@ if __name__ == "__main__":
     realpy.init("RealPy Engine", 640, 480)
     realpy.debug_set(True)
 
-    TestImage = RsImage("test_battleship.png")
+    TestImage = RsImage("main_battleship.png")
     TestSprite = RsSprite(TestImage, 0, 50, 24)
 
 
