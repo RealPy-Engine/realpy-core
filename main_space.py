@@ -1,5 +1,3 @@
-import pygame.constants as PyConstants
-
 import realpy
 
 from realpy import (
@@ -22,8 +20,14 @@ if __name__ == "__main__":
         def onUpdate(self, time):
             super().onUpdate(time)
 
-            EscapeCheck = realpy.KeyEvents.get(PyConstants.K_ESCAPE)
-            if EscapeCheck == PyConstants.KEYDOWN:
+            if realpy.keyboard_check_pressed(realpy.VK_A):
+               print("<A")
+            if realpy.keyboard_check(realpy.VK_A):
+               print("~~ A ~~")
+            if realpy.keyboard_check_released(realpy.VK_A):
+               print("A>")
+
+            if realpy.keyboard_check_released(realpy.VK_ESCAPE):
                 raise realpy.RsInteruptError
 
 
@@ -65,7 +69,7 @@ if __name__ == "__main__":
     TestRoom.add_layer_direct(RsLayer("Background"))
 
     realpy.instance_create(oEnemyBattleship, Testbed, 320, 240)
-    realpy.instance_create(oEnemyBattleship, Testbed, 240, 200)
-    realpy.instance_create(oEnemyBattleship, Testbed, 400, 280)
+    # realpy.instance_create(oEnemyBattleship, Testbed, 240, 200)
+    # realpy.instance_create(oEnemyBattleship, Testbed, 400, 280)
 
     realpy.rs_startup()
