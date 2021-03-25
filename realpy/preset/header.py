@@ -1,20 +1,22 @@
-from typing import Type, Optional, List, Dict
+from typing import Optional, List, Dict
 
 from pygame.surface import Surface as PySurface
 
 from ..scene import RsScene
-from ..behavior import RsPrefab
-from ..sprite import RsSprite
 
 __all__ = [
-    "game_speed", "dimension", "application_surface",
+    "game_speed", "mouse_x", "mouse_y",
+    "dimension", "application_surface",
     "room", "room_last", "room_order", "room_all",
-    "MouseEvents", "KeyEvents", "ControllerEvents", "OtherEvents", "RsInteruptError", 
+    "MouseEvents", "KeyEvents", "ControllerEvents", "OtherEvents", "RsInteruptError",
     "debug_set", "debug_get"
 ]
 
 # General
 game_speed: int = 30
+mouse_x: int = 0
+mouse_y: int = 0
+
 _realpy_debug: bool = False
 
 
@@ -42,9 +44,10 @@ room_all: Dict[str, RsScene] = {}
 
 # Events
 MouseEvents = {}
-KeyEvents = {}
+KeyEvents: Dict[int, int] = {}
 ControllerEvents = {}
 OtherEvents = []
+
 
 class RsInteruptError(Exception):
     pass
