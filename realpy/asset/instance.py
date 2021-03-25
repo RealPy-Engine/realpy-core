@@ -2,10 +2,9 @@ from typing import List, Optional, Type, Union
 
 import pygame.mask as PyMask
 
-from ..preset import RsPreset
-from ..layer import RsLayer
 from ..behavior import RsPrefab, RsActor, RsInstance
-from ..arithmetic import *
+from ..layer import RsLayer
+from ..preset import RsPreset
 
 
 def collide_anyone(instance: RsInstance, prefab: Type[RsPrefab]) -> Optional[RsInstance]:
@@ -44,7 +43,9 @@ def collide_all(instance: RsInstance, prefab: Type[RsPrefab]) -> Optional[List[R
     except KeyError:
         return None
 
-    if len(Pot) == 0 or not instance.enabled or not instance.visible or not instance.can_collide or not instance.current_image:
+    if len(
+            Pot) == 0 or not instance.enabled or not instance.visible or not instance.can_collide or not \
+            instance.current_image:
         return None
 
     Result: List[RsInstance] = []

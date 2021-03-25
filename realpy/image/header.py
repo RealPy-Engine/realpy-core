@@ -1,8 +1,8 @@
 import os
 from typing import List, Tuple, Union
 
-import pygame.rect as PyRect
 import pygame.image as PyImage
+import pygame.rect as PyRect
 
 
 class RsImage(object):
