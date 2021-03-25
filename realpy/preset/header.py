@@ -8,10 +8,8 @@ from ..sprite import RsSprite
 
 __all__ = [
     "game_speed", "dimension", "application_surface",
-    "room", "room_last", "RoomOrder", "RoomPot",
-    "key_map", "MouseEvents", "KeyEvents", "ControllerEvents", "OtherEvents", "RsInteruptError", 
-
-    "Atlas", "PrefabsPot", "PrefabsPot", "AudioPot",
+    "room", "room_last", "room_order", "room_all",
+    "MouseEvents", "KeyEvents", "ControllerEvents", "OtherEvents", "RsInteruptError", 
     "debug_set", "debug_get"
 ]
 
@@ -39,11 +37,10 @@ application_surface: Optional[PySurface] = None
 # Rooms
 room: Optional[RsScene] = None
 room_last: Optional[RsScene] = None
-RoomOrder: List[RsScene] = []
-RoomPot: Dict[str, RsScene] = {}
+room_order: List[RsScene] = []
+room_all: Dict[str, RsScene] = {}
 
 # Events
-key_map: Dict[int, object] = {}
 MouseEvents = {}
 KeyEvents = {}
 ControllerEvents = {}
@@ -51,13 +48,3 @@ OtherEvents = []
 
 class RsInteruptError(Exception):
     pass
-
-
-# Sprite texture group
-Atlas: Dict[str, RsSprite] = {}
-
-# All game objects
-PrefabsPot: List[Type[RsPrefab]] = []
-
-# All sounds
-AudioPot: Dict[str, object] = {}

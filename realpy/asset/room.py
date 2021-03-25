@@ -15,7 +15,7 @@ def room_register(info: RsScene, caption: Optional[str] = None):
     else:
         Name = info.name
 
-    Number = len(RsPreset.RoomOrder)
+    Number = len(RsPreset.room_order)
     if 0 < Number:
         LastRoom = RsPreset.room_last
         if LastRoom and NewRoom:
@@ -25,16 +25,16 @@ def room_register(info: RsScene, caption: Optional[str] = None):
         RsPreset.room = NewRoom
     RsPreset.room_last = NewRoom
 
-    RsPreset.RoomOrder.append(NewRoom)
-    RsPreset.RoomPot[Name] = NewRoom
+    RsPreset.room_order.append(NewRoom)
+    RsPreset.room_all[Name] = NewRoom
     return NewRoom
 
 
 def room_get(id: Union[int, str]):
     if type(id) is int:
-        return RsPreset.RoomOrder[id]
+        return RsPreset.room_order[id]
     elif type(id) is str:
-        return RsPreset.RoomPot[id]
+        return RsPreset.room_all[id]
 
 
 def _room_set(taget: RsScene):

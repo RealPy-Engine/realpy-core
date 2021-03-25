@@ -72,7 +72,7 @@ def rs_startup():
     from realpy.scene import RsScene
 
     # Startup
-    Rooms = RsPreset.RoomOrder
+    Rooms = RsPreset.room_order
     StartRoom = None
     try:
         StartRoom = Rooms[0]
