@@ -1,9 +1,10 @@
-import math, random
+import math
+import random
 from typing import Union
 
 __all__ = [
     "sqr", "sign", "degtorad", "radtodeg", "irandom", "irandom_range", "bezier4", "choose",
-    "distribute", "probability_test", "lengthdir_x", "lengthdir_y",
+    "distribute", "probability_test", "lengthdir_x", "lengthdir_y", "line_interact",
     "point_distance", "point_direction"
 ]
 
@@ -22,7 +23,7 @@ def sign(x: float) -> int:
 
 
 def degtorad(degree: float) -> float:
-    return math.radians(degree * math.pi / 180)
+    return math.radians(degree)
 
 
 def radtodeg(radian: float) -> float:
@@ -44,12 +45,36 @@ def lengthdir_y(length: float, direction: float):
     return -math.sin(degtorad(direction)) * length
 
 
-def point_distance(X1: float, Y1: float, X2: float, Y2: float) -> float:
-    return math.dist([X1, Y1], [X2, Y2])
+def point_distance(x1: float, y1: float, x2: float, y2: float) -> float:
+    return math.dist([x1, y1], [x2, y2])
 
 
-def point_direction(X1: float, Y1: float, X2: float, Y2: float) -> float:
-    return radtodeg(math.atan2(Y2 - Y1, X1 - X2))
+def point_direction(x1: float, y1: float, x2: float, y2: float) -> float:
+    return radtodeg(math.atan2(y2 - y1, x1 - x2))
+
+
+def line_interact(Sx1: float, Sy1: float, Sx2: float, Sy2: float, Dx1: float, Dy1: float, Dx2: float, Dy2: float,
+                  Seg: bool) -> float:
+    Sx = Sx2 - Sx1
+    Sy = Sy2 - Sy1
+    Dx = Dx2 - Dx1
+    Dy = Dy2 - Dy1
+    wx = Sx1 - Dx1
+    wy = Sy1 - Dy1
+
+    ua = 0
+    ud = Dy * Sx - Dx * Sy
+
+    if ud != 0:
+        ua = (Dx * wy - Dy * wx) / ud
+        if Seg:
+            if ua < 0 or ua > 1:
+                return 0
+
+            ub = (Sx * wy - Sy * wx) / ud
+            if ub < 0 or ub > 1:
+                return 0
+    return ua
 
 
 def irandom(n: Union[int, float]) -> int:
@@ -67,8 +92,8 @@ def distribute(x1: float, x2: float, ratio: float) -> float:
         return x2
 
 
-def probability_test(max: Union[int, float]) -> bool:
-    return bool(irandom(max - 1) == 0)
+def probability_test(max_value: Union[int, float]) -> bool:
+    return bool(irandom(max_value - 1) == 0)
 
 
 def choose(*args):

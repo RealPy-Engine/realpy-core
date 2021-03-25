@@ -18,10 +18,10 @@ from realpy import RsLayer
 from realpy import RsPrefab
 ```
 
-## Object
+## Flow Object
 
 ```python
-from realpy import RsInstance, RsDirtyInstance
+from realpy import RsActor
 ```
 
 ## Raw Image
@@ -46,11 +46,11 @@ realpy.method()
 ## Global Containers
 
 ```python
-from realpy import preset
+from realpy import RsPreset
 ```
 
 ## Utilities
 
 ```python
-from realpy import utility
+from realpy import RsUtility
 ```

@@ -15,47 +15,47 @@ def room_register(info: RsScene, caption: Optional[str] = None):
     else:
         Name = info.name
 
-    Number = len(RsPreset.RoomOrder)
+    Number = len(RsPreset.room_order)
     if 0 < Number:
-        LastRoom = RsPreset.RsLastRoom
+        LastRoom = RsPreset.room_last
         if LastRoom and NewRoom:
             NewRoom.before = LastRoom
             LastRoom.next = NewRoom
     else:
-        RsPreset.RsRoom = NewRoom
-        RsPreset.RsLastRoom = NewRoom
+        RsPreset.room = NewRoom
+    RsPreset.room_last = NewRoom
 
-    RsPreset.RoomOrder.append(NewRoom)
-    RsPreset.RoomPot[Name] = NewRoom
+    RsPreset.room_order.append(NewRoom)
+    RsPreset.room_all[Name] = NewRoom
     return NewRoom
 
 
 def room_get(id: Union[int, str]):
     if type(id) is int:
-        return RsPreset.RoomOrder[id]
+        return RsPreset.room_order[id]
     elif type(id) is str:
-        return RsPreset.RoomPot[id]
+        return RsPreset.room_all[id]
 
 
-def room_set(taget: RsScene):
-    if RsPreset.RsRoom:
-        RsPreset.RsRoom.onDestroy()
-    RsPreset.RsRoom = taget
-    RsPreset.RsRoom.onAwake()
-    print("Go to " + str(RsPreset.RsRoom))
+def _room_set(taget: RsScene):
+    if RsPreset.room:
+        RsPreset.room.onDestroy()
+    RsPreset.room = taget
+    RsPreset.room.onAwake()
+    print("Go to " + str(RsPreset.room))
 
 
 def room_goto(name: str):
     Temp = room_get(name)
     if not Temp:
         raise RuntimeError("The room " + name + " doesn't exist.")
-    elif Temp is not RsPreset.RsRoom:
-        room_set(Temp)
+    elif Temp is not RsPreset.room:
+        _room_set(Temp)
 
 
 def room_goto_next():
-    Next = RsPreset.RsRoom.next
+    Next = RsPreset.room.next
     if Next:
-        room_set(Next)
+        _room_set(Next)
     else:
         raise RuntimeError("The next room doesn't exist.\n")

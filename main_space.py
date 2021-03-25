@@ -1,21 +1,16 @@
 import realpy
 
 from realpy import (
-    RsScene, RsLayer, RsPrefab, RsImage, RsSprite, room_register, instance_create
+    RsScene, RsLayer, RsPrefab, RsPrefab, RsImage, RsSprite
 )
 
 
-class SPACESHIP_TYPES:
-    PATROL = 0
-
-
 if __name__ == "__main__":
-    # TODO: #17 Make easy to create user's custom preset.
-    realpy.init("RealPy Engine", 640, 480)
+    realpy.rs_init("RealPy Engine", 640, 480)
+    realpy.debug_set(True)
 
-    TestImage = RsImage("test_battleship.png")
-    TestSprite = RsSprite(TestImage, 0)
-
+    TestImage = RsImage("main_battleship.png")
+    TestSprite = RsSprite(TestImage, 0, 50, 24)
 
     class oTestRoom(RsScene):
         def onAwake(self):
@@ -25,27 +20,56 @@ if __name__ == "__main__":
         def onUpdate(self, time):
             super().onUpdate(time)
 
+            if realpy.keyboard_check_pressed(realpy.VK_A):
+               print("<A")
+            if realpy.keyboard_check(realpy.VK_A):
+               print("~~ A ~~")
+            if realpy.keyboard_check_released(realpy.VK_A):
+               print("A>")
+
+            if realpy.keyboard_check_released(realpy.VK_ESCAPE):
+                raise realpy.RsInteruptError
+
 
     class oSpaceShip(RsPrefab):
+        pass
+
+
+    class oEnemyParent(oSpaceShip):
+        pass
+
+
+    class oEnemyBattleship(oEnemyParent):
         sprite_index = TestSprite
 
         @staticmethod
+        def onAwake(itself) -> None:
+            # itself.speed = 70
+            # itself.direction = 200
+            # itself.friction = 10
+            # itself.image_angle = itself.direction
+            pass
+
+        @staticmethod
         def onUpdate(itself, time):
+            if 0 < itself.speed:
+                print("Speed: ", itself.speed, " Vspeed: ", itself.vspeed)
             itself.image_angle += 30 * time
+
+            Who = realpy.collide_anyone(itself, oEnemyBattleship)
+            if Who:
+                print(id(itself), "is collided with", id(Who))
 
 
     Temp = oTestRoom()
-    TestRoom = room_register(Temp, "roomTest")
+    TestRoom = realpy.room_register(Temp, "roomTest")
 
     Testbed = TestRoom.add_layer_direct(RsLayer("Instances"))
     TestRoom.add_layer_direct(RsLayer("Starfield"))
     TestRoom.add_layer_direct(RsLayer("Background"))
 
-    instance_create(oSpaceShip, Testbed, 320, 240)
-    instance_create(oSpaceShip, Testbed, 220, 240)
-    instance_create(oSpaceShip, Testbed, 420, 240)
-    instance_create(oSpaceShip, Testbed, 320, 140)
-    instance_create(oSpaceShip, Testbed, 320, 240)
-    instance_create(oSpaceShip, Testbed, 320, 340)
+    realpy.instance_create(oEnemyBattleship, Testbed, 320, 240)
+    # realpy.instance_create(oEnemyBattleship, Testbed, 240, 200)
+    # realpy.instance_create(oEnemyBattleship, Testbed, 400, 280)
 
-    realpy.startup()
+    realpy.rs_startup()
