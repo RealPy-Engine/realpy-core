@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="realpy-iconer",  # Replace with your own username
-    version="1.0.0",
+    version="0.9.9",
     author="Iconerworks",
     author_email="yoyofa2@hotmail.com",
     description="2D game engine",
