@@ -1,13 +1,9 @@
-import realpy
-
-from realpy import (
-    RsScene, RsLayer, RsPrefab, RsPrefab, RsImage, RsSprite
-)
+from realpy import *
 
 
 if __name__ == "__main__":
-    realpy.rs_init("RealPy Engine", 640, 480)
-    realpy.debug_set(True)
+    rs_init("RealPy Engine", 640, 480)
+    debug_set(True)
 
     TestImage = RsImage("main_battleship.png")
     TestSprite = RsSprite(TestImage, 0, 50, 24)
@@ -20,15 +16,15 @@ if __name__ == "__main__":
         def onUpdate(self, time):
             super().onUpdate(time)
 
-            if realpy.keyboard_check_pressed(realpy.VK_A):
+            if keyboard_check_pressed(VK_A):
                print("<A")
-            if realpy.keyboard_check(realpy.VK_A):
+            if keyboard_check(VK_A):
                print("~~ A ~~")
-            if realpy.keyboard_check_released(realpy.VK_A):
+            if keyboard_check_released(VK_A):
                print("A>")
 
-            if realpy.keyboard_check_released(realpy.VK_ESCAPE):
-                raise realpy.RsInteruptError
+            if keyboard_check_released(VK_ESCAPE):
+                raise RsInteruptError
 
 
     class oSpaceShip(RsPrefab):
@@ -56,20 +52,20 @@ if __name__ == "__main__":
                 print("Speed: ", itself.speed, " Vspeed: ", itself.vspeed)
             itself.image_angle += 30 * time
 
-            Who = realpy.collide_anyone(itself, oEnemyBattleship)
+            Who = collide_anyone(itself, oEnemyBattleship)
             if Who:
                 print(id(itself), "is collided with", id(Who))
 
 
     Temp = oTestRoom()
-    TestRoom = realpy.room_register(Temp, "roomTest")
+    TestRoom = room_register(Temp, "roomTest")
 
     Testbed = TestRoom.add_layer_direct(RsLayer("Instances"))
     TestRoom.add_layer_direct(RsLayer("Starfield"))
     TestRoom.add_layer_direct(RsLayer("Background"))
 
-    realpy.instance_create(oEnemyBattleship, Testbed, 320, 240)
-    # realpy.instance_create(oEnemyBattleship, Testbed, 240, 200)
-    # realpy.instance_create(oEnemyBattleship, Testbed, 400, 280)
+    instance_create(oEnemyBattleship, Testbed, 320, 240)
+    # instance_create(oEnemyBattleship, Testbed, 240, 200)
+    # instance_create(oEnemyBattleship, Testbed, 400, 280)
 
-    realpy.rs_startup()
+    rs_startup()
