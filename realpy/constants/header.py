@@ -6,6 +6,9 @@ phy_velocity: float = (((1000.0 / 60.0) / 60.0) * phy_mess)
 MB_LEFT = 1
 MB_MIDDLE = 2
 MB_RIGHT = 3
+MB_WHEEL = MB_MIDDLE
+MB_WHEEL_UP = 4
+MB_WHEEL_DOWN = 5
 
 # Virtual keys
 VK_LEFT = 1073741904
