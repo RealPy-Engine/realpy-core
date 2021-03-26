@@ -26,27 +26,21 @@ class RsLayer(object):
         return f"Realpy Layer {self.name} ({len(self.storage)})"
 
     def add(self, instance):
-        self.storage.append(instance)
         instance.attach(self.storage)
 
         if instance.onAwake:
-            self.storage_awake.append(instance)
             instance.attach(self.storage_awake)
 
         if instance.onDestroy:
-            self.storage_destroy.append(instance)
             instance.attach(self.storage_destroy)
 
         if instance.onUpdate:
-            self.storage_update.append(instance)
             instance.attach(self.storage_update)
 
         if instance.onUpdateLater:
-            self.storage_updatelater.append(instance)
             instance.attach(self.storage_updatelater)
 
         if instance.onDraw:
-            self.storage_draw.append(instance)
             instance.attach(self.storage_draw)
 
         return instance
