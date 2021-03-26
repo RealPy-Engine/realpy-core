@@ -2,13 +2,12 @@ from typing import List
 
 
 class RsActor(object):
-    """`RsActor(Prefab, Scene, Layer)`
+    """`RsActor(Prefab, Layer)`
         ---
     """
 
-    def __init__(self, scene, layer):
+    def __init__(self, layer):
         self.enabled: bool = True
-        self.scene = scene
         self.layer = layer
         self.department: List[List] = []
         self.onAwake = None
@@ -22,4 +21,5 @@ class RsActor(object):
             Group.remove(self)
 
     def attach(self, ogroup: List):
+        ogroup.append(self)
         self.department.append(ogroup)

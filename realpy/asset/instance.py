@@ -43,8 +43,7 @@ def collide_all(instance: RsInstance, prefab: Type[RsPrefab]) -> Optional[List[R
     except KeyError:
         return None
 
-    if len(
-            Pot) == 0 or not instance.enabled or not instance.visible or not instance.can_collide or not \
+    if len(Pot) == 0 or not instance.enabled or not instance.visible or not instance.can_collide or not \
             instance.current_image:
         return None
 
@@ -66,48 +65,62 @@ def collide_all(instance: RsInstance, prefab: Type[RsPrefab]) -> Optional[List[R
     return Result
 
 
-def actor_create(actor_type: Type[RsActor], layer_id: Union[str, RsLayer], x=0, y=0):
+def actor_create(actor_type: Type[RsActor], layer_id: Optional[Union[str, RsLayer]]) -> RsActor:
     """`actor_create(Scene, Layer)`
         ---
         Creates an simple behavior object.
     """
 
-    if type(layer_id) is RsLayer:
-        Place = layer_id
-    else:
-        try:
+    Instance: RsActor
+    if layer_id:
+        Place: Optional[RsLayer]
+        if isinstance(layer_id, RsLayer):
+            Place = layer_id
+        else:
             Place = RsPreset.room.layer_find(str(layer_id))
-        except KeyError:
-            raise RuntimeError(f"The specific layer '{layer_id}' not found.")
 
-    Instance = actor_type(Place.scene, Place)
-    Method = Instance.onAwake
-    if Method:
-        Method()
-    Place.add(Instance)
+        if Place:
+            Instance = actor_type(Place)
+            Method = Instance.onAwake
+            if Method:
+                Method()
+            Place.add(Instance)
+        else:
+            raise RuntimeError("The specific layer not exists.")
+    else:
+        Instance = actor_type(None)
+        Method = Instance.onAwake
+        if Method:
+            Method()
 
     return Instance
 
 
-def instance_create(prefab: Type[RsPrefab], layer_id: Union[str, RsLayer], x=0, y=0):
+def instance_create(prefab: Type[RsPrefab], layer_id: Optional[Union[str, RsLayer]], x=0, y=0) -> RsInstance:
     """`instance_create(Scene, Layer, x=0, y=0)`
         ---
         Creates an instance of game object.
     """
 
-    if type(layer_id) is RsLayer:
-        Place = layer_id
-    else:
-        try:
+    Instance: RsInstance
+    if layer_id:
+        Place: Optional[RsLayer]
+        if isinstance(layer_id, RsLayer):
+            Place = layer_id
+        else:
             Place = RsPreset.room.layer_find(str(layer_id))
-        except KeyError:
-            raise RuntimeError(f"The specific layer '{layer_id}' not found.")
 
-    Instance = prefab.trait_instance(prefab, Place.scene, Place, x, y)
+        if Place:
+            Instance = prefab.trait_instance(prefab, Place, x, y)
+            Place.add(Instance)
+        else:
+            raise RuntimeError(f"The specific layer '{layer_id}' not found.")
+    else:
+        Instance = prefab.trait_instance(prefab, None, x, y)
+
     Method = Instance.onAwake
     if Method:
         Method()
-    Place.add(Instance)
 
     _instance_register(prefab, Instance)
 
@@ -136,8 +149,7 @@ def instance_find(prefab: Type[RsPrefab], index: int) -> Optional[RsInstance]:
 
 def _instance_register(prefab: Type[RsPrefab], instance: RsInstance):
     if issubclass(prefab, RsPrefab) and prefab is not RsPrefab:
-        RsPreset.room.EveryInstancesPot.append(instance)
-        instance.department.append(RsPreset.room.EveryInstancesPot)
+        instance.attach(RsPreset.room.EveryInstancesPot)
         _instance_register_recursive(prefab, instance)
 
 
@@ -150,7 +162,6 @@ def _instance_register_recursive(prefab: Type[RsPrefab], instance: RsInstance):
         RsPreset.room.SpecificInstancesPot[TempHash] = []
         Where = RsPreset.room.SpecificInstancesPot[TempHash]
 
-    Where.append(instance)
     instance.attach(Where)
 
     Recursive_condition = (issubclass(prefab, RsPrefab) and prefab is not RsPrefab)
