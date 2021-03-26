@@ -4,7 +4,7 @@ from realpy.preset import RsPreset
 
 # TODO: #40 input wrapper functions
 def keyboard_check(key: int) -> bool:
-    Place = RsPreset.KeyEvents.get(key)
+    Place = RsPreset.event_key.get(key)
     if Place and Place == INPUT_STATES.ING or Place == INPUT_STATES.PRESSED:
         return True
     else:
@@ -12,7 +12,7 @@ def keyboard_check(key: int) -> bool:
 
 
 def keyboard_check_pressed(key: int) -> bool:
-    Place = RsPreset.KeyEvents.get(key)
+    Place = RsPreset.event_key.get(key)
     if Place and Place == INPUT_STATES.PRESSED:
         return True
     else:
@@ -20,7 +20,7 @@ def keyboard_check_pressed(key: int) -> bool:
 
 
 def keyboard_check_released(key: int) -> bool:
-    Place = RsPreset.KeyEvents.get(key)
+    Place = RsPreset.event_key.get(key)
     if Place and Place == INPUT_STATES.RELEASED:
         return True
     else:
@@ -28,7 +28,7 @@ def keyboard_check_released(key: int) -> bool:
 
 
 def mouse_check(button: int) -> bool:
-    Place = RsPreset.MouseEvents.get(button)
+    Place = RsPreset.event_mouse.get(button)
     if Place and Place == INPUT_STATES.ING or Place == INPUT_STATES.PRESSED:
         return True
     else:
@@ -36,7 +36,7 @@ def mouse_check(button: int) -> bool:
 
 
 def mouse_check_pressed(button: int) -> bool:
-    Place = RsPreset.MouseEvents.get(button)
+    Place = RsPreset.event_mouse.get(button)
     if Place and Place == INPUT_STATES.PRESSED:
         return True
     else:
@@ -44,7 +44,7 @@ def mouse_check_pressed(button: int) -> bool:
 
 
 def mouse_check_released(button: int) -> bool:
-    Place = RsPreset.MouseEvents.get(button)
+    Place = RsPreset.event_mouse.get(button)
     if Place and Place == INPUT_STATES.RELEASED:
         return True
     else:

@@ -26,7 +26,7 @@ async def proceed_ing(where, pack):
             Upk = where.pop()
             if pack.get(Upk) == INPUT_STATES.RELEASED:
                 pack[Upk] = INPUT_STATES.NONE
-                break
+                continue
             pack[Upk] = INPUT_STATES.ING
             print("Start at later:", Upk)
         except IndexError:
@@ -51,18 +51,18 @@ async def hand_update():
     from realpy.constants import INPUT_STATES
     from realpy.preset import RsPreset
 
-    RsPreset.OtherEvents.clear()
+    RsPreset.event_others.clear()
 
     # Await
     Temp = PyEvent.get()
     Len = len(Temp)
 
-    await asyncio.gather(proceed_ing(mouse_igniter, RsPreset.MouseEvents),
-    proceed_ing(key_igniter, RsPreset.KeyEvents),
-    proceed_ing(controller_igniter, RsPreset.ControllerEvents),
-    proceed_done(mouse_proceed, RsPreset.MouseEvents),
-    proceed_done(key_proceed, RsPreset.KeyEvents),
-    proceed_done(controller_proceed, RsPreset.ControllerEvents))
+    await asyncio.gather(proceed_ing(mouse_igniter, RsPreset.event_mouse),
+    proceed_ing(key_igniter, RsPreset.event_key),
+    proceed_ing(controller_igniter, RsPreset.event_controller),
+    proceed_done(mouse_proceed, RsPreset.event_mouse),
+    proceed_done(key_proceed, RsPreset.event_key),
+    proceed_done(controller_proceed, RsPreset.event_controller))
 
     if 0 < Len:
         for event in Temp:
@@ -71,78 +71,78 @@ async def hand_update():
 
             elif event.type == PyConstants.KEYDOWN:
                 Seed: int = event.key
-                Place = RsPreset.KeyEvents.get(Seed)
+                Place = RsPreset.event_key.get(Seed)
 
                 if Place:  # Key can be able to be None
-                    if Place == INPUT_STATES.NONE:
-                        RsPreset.KeyEvents[Seed] = INPUT_STATES.PRESSED
+                    if Place == INPUT_STATES.NONE:  # Normal
+                        RsPreset.event_key[Seed] = INPUT_STATES.PRESSED
                         print("Pressed:", Seed)
-                    elif Place == INPUT_STATES.RELEASED:
-                        RsPreset.KeyEvents[Seed] = INPUT_STATES.NONE
+                    elif Place == INPUT_STATES.RELEASED:  # Should not happen
+                        RsPreset.event_key[Seed] = INPUT_STATES.NONE
                         print("Cleaned in Press:", Seed)
-                    else:
-                        RsPreset.KeyEvents[Seed] = INPUT_STATES.ING
+                    else:  # It may not be runned
+                        RsPreset.event_key[Seed] = INPUT_STATES.ING
                         print("Pressing:", Seed)
                 else:  # Add a new key
                     key_igniter.append(Seed)
-                    RsPreset.KeyEvents[Seed] = INPUT_STATES.PRESSED
+                    RsPreset.event_key[Seed] = INPUT_STATES.PRESSED
                     print("New Press:", Seed)
 
             elif event.type == PyConstants.KEYUP:
                 Seed = event.key
-                Place = RsPreset.KeyEvents.get(Seed)
+                Place = RsPreset.event_key.get(Seed)
 
                 if Place:
-                    if Place == INPUT_STATES.RELEASED:
-                        RsPreset.KeyEvents[Seed] = INPUT_STATES.NONE
+                    if Place == INPUT_STATES.RELEASED: # Should not happen
+                        RsPreset.event_key[Seed] = INPUT_STATES.NONE
                         print("Cleaned:", Seed)
                     elif Place != INPUT_STATES.NONE:
-                        key_proceed.append(Seed)  # clear later
-                        RsPreset.KeyEvents[Seed] = INPUT_STATES.RELEASED
+                        key_proceed.append(Seed)  # Clear later
+                        RsPreset.event_key[Seed] = INPUT_STATES.RELEASED
                         print("Released:", Seed)
                 else:
-                    RsPreset.KeyEvents[Seed] = INPUT_STATES.NONE
+                    RsPreset.event_key[Seed] = INPUT_STATES.NONE
 
             elif event.type == PyConstants.MOUSEBUTTONDOWN:
                 Seed: int = event.button
-                Place = RsPreset.MouseEvents.get(Seed)
+                Place = RsPreset.event_mouse.get(Seed)
                 RsPreset.mouse_x, RsPreset.mouse_y = event.pos
 
-                if Place:  # Key can be able to be None
+                if Place:
                     if Place == INPUT_STATES.NONE:
-                        RsPreset.MouseEvents[Seed] = INPUT_STATES.PRESSED
+                        RsPreset.event_mouse[Seed] = INPUT_STATES.PRESSED
                         print("Clicked:", Seed)
                     elif Place == INPUT_STATES.RELEASED:
-                        RsPreset.MouseEvents[Seed] = INPUT_STATES.NONE
+                        RsPreset.event_mouse[Seed] = INPUT_STATES.NONE
                         print("Cleaned in Click:", Seed)
                     else:
-                        RsPreset.MouseEvents[Seed] = INPUT_STATES.ING
+                        RsPreset.event_mouse[Seed] = INPUT_STATES.ING
                         print("Clicking:", Seed)
                 else:
                     mouse_igniter.append(Seed)
-                    RsPreset.MouseEvents[Seed] = INPUT_STATES.PRESSED
+                    RsPreset.event_mouse[Seed] = INPUT_STATES.PRESSED
                     print("New Click:", Seed)
 
             elif event.type == PyConstants.MOUSEBUTTONUP:
                 Seed = event.button
-                Place = RsPreset.MouseEvents.get(Seed)
+                Place = RsPreset.event_mouse.get(Seed)
                 RsPreset.mouse_x, RsPreset.mouse_y = event.pos
 
                 if Place:
                     if Place == INPUT_STATES.RELEASED:
-                        RsPreset.MouseEvents[Seed] = INPUT_STATES.NONE
+                        RsPreset.event_mouse[Seed] = INPUT_STATES.NONE
                         print("Cleaned:", Seed)
                     elif Place != INPUT_STATES.NONE:
-                        mouse_proceed.append(Seed)  # clear later
-                        RsPreset.MouseEvents[Seed] = INPUT_STATES.RELEASED
+                        mouse_proceed.append(Seed)  # Clear later
+                        RsPreset.event_mouse[Seed] = INPUT_STATES.RELEASED
                         print("Declicked:", Seed)
                 else:
-                    RsPreset.MouseEvents[Seed] = INPUT_STATES.NONE
+                    RsPreset.event_mouse[Seed] = INPUT_STATES.NONE
 
             elif event.type == PyConstants.MOUSEMOTION:
                 RsPreset.mouse_x, RsPreset.mouse_y = event.pos
             else:
-                RsPreset.OtherEvents.append(event)
+                RsPreset.event_others.append(event)
 
 
 async def scene_update(room, time: float):

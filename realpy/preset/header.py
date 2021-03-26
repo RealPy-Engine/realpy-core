@@ -8,9 +8,10 @@ __all__ = [
     "game_speed", "mouse_x", "mouse_y",
     "dimension", "application_surface",
     "room", "room_last", "room_order", "room_all",
-    "MouseEvents", "KeyEvents", "ControllerEvents", "OtherEvents", "RsInteruptError",
+    "event_mouse", "event_key", "event_controller", "event_others", "RsInteruptError",
     "debug_set", "debug_get"
 ]
+
 
 # General
 game_speed: int = 30
@@ -43,10 +44,10 @@ room_order: List[RsScene] = []
 room_all: Dict[str, RsScene] = {}
 
 # Events
-MouseEvents = {}
-KeyEvents: Dict[int, int] = {}
-ControllerEvents = {}
-OtherEvents = []
+event_mouse: Dict[int, int] = {}
+event_key: Dict[int, int] = {}
+event_controller: Dict[int, int] = {}
+event_others = []
 
 
 class RsInteruptError(Exception):
