@@ -68,7 +68,7 @@ def collide_all(instance: RsInstance, prefab: Type[RsPrefab]) -> Optional[List[R
 def actor_create(actor_type: Type[RsActor], layer_id: Optional[Union[str, RsLayer]]) -> RsActor:
     """`actor_create(Scene, Layer)`
         ---
-        Creates an simple behavior object.
+        Creates an simple behavior instance.
     """
 
     Instance: RsActor
@@ -114,7 +114,7 @@ def instance_create(prefab: Type[RsPrefab], layer_id: Optional[Union[str, RsLaye
             Instance = prefab.trait_instance(prefab, Place, x, y)
             Place.add(Instance)
         else:
-            raise RuntimeError(f"The specific layer '{layer_id}' not found.")
+            raise RuntimeError(f"The specific layer '{layer_id}' not exists.")
     else:
         Instance = prefab.trait_instance(prefab, None, x, y)
 
