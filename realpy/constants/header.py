@@ -155,4 +155,5 @@ class INPUT_STATES:
 
 class MASKS:
     RECTANGLE = 0
+    PRECISE = 1
     CIRCLE = 2
