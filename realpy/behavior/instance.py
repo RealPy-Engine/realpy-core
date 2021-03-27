@@ -79,8 +79,8 @@ class RsInstance(object):
 
         Where = RsPreset.application_surface
         if Where and self.sprite_index:
-            self.__image = self.sprite_index.draw(Where, self.image_index, self.x, self.y, self.image_scale,
-                                                  self.image_angle, self.image_alpha).convert_alpha()
+            self.__image = self.sprite_index.draw(Where, self.image_index, self.x, self.y,
+            self.image_scale, self.image_angle, self.image_alpha).convert_alpha()
 
             if RsPreset.debug_get() and self.can_collide:
                 from pygame import draw
