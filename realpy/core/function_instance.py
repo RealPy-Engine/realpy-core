@@ -2,9 +2,9 @@ from typing import List, Optional, Type, Union
 
 import pygame.mask as PyMask
 
-from ..behavior import RsPrefab, RsActor, RsInstance
-from ..layer import RsLayer
-from ..preset import RsPreset
+from .behavior import RsPrefab, RsActor, RsInstance
+from .layer import RsLayer
+from .preset import RsPreset
 
 
 def collide_anyone(instance: RsInstance, prefab: Type[RsPrefab]) -> Optional[RsInstance]:

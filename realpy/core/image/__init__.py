@@ -1,3 +1,9 @@
+""" Image Resource
+    ---
+    ```
+    from realpy import RsImage
+    ```
+"""
 import os
 from typing import List, Tuple, Union
 

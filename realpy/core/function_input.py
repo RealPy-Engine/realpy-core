@@ -1,8 +1,7 @@
-from realpy.constants import INPUT_STATES
-from realpy.preset import RsPreset
+from .constants import INPUT_STATES
+from .preset import RsPreset
 
 
-# TODO: #40 input wrapper functions
 def keyboard_check(key: int) -> bool:
     Place = RsPreset.event_key.get(key)
     if Place and Place == INPUT_STATES.ING or Place == INPUT_STATES.PRESSED:

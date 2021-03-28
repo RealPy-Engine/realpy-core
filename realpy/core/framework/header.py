@@ -19,7 +19,7 @@ other_proceed = []
 
 
 async def proceed_ing(where, pack):
-    from realpy.constants import INPUT_STATES
+    from realpy.core.constants import INPUT_STATES
 
     while True:
         try:
@@ -35,7 +35,7 @@ async def proceed_ing(where, pack):
 
 
 async def proceed_done(where, pack):
-    from realpy.constants import INPUT_STATES
+    from realpy.core.constants import INPUT_STATES
 
     while True:
         try:
@@ -48,8 +48,8 @@ async def proceed_done(where, pack):
 
 
 async def hand_update():
-    from realpy.constants import INPUT_STATES
-    from realpy.preset import RsPreset
+    from realpy.core.constants import INPUT_STATES
+    from realpy.core.preset import RsPreset
 
     RsPreset.event_others.clear()
 
@@ -58,11 +58,11 @@ async def hand_update():
     Len = len(Temp)
 
     await asyncio.gather(proceed_ing(mouse_igniter, RsPreset.event_mouse),
-    proceed_ing(key_igniter, RsPreset.event_key),
-    proceed_ing(controller_igniter, RsPreset.event_controller),
-    proceed_done(mouse_proceed, RsPreset.event_mouse),
-    proceed_done(key_proceed, RsPreset.event_key),
-    proceed_done(controller_proceed, RsPreset.event_controller))
+                         proceed_ing(key_igniter, RsPreset.event_key),
+                         proceed_ing(controller_igniter, RsPreset.event_controller),
+                         proceed_done(mouse_proceed, RsPreset.event_mouse),
+                         proceed_done(key_proceed, RsPreset.event_key),
+                         proceed_done(controller_proceed, RsPreset.event_controller))
 
     if 0 < Len:
         for event in Temp:
@@ -93,7 +93,7 @@ async def hand_update():
                 Place = RsPreset.event_key.get(Seed)
 
                 if Place:
-                    if Place == INPUT_STATES.RELEASED: # Should not happen
+                    if Place == INPUT_STATES.RELEASED:  # Should not happen
                         RsPreset.event_key[Seed] = INPUT_STATES.NONE
                         print("Cleaned:", Seed)
                     elif Place != INPUT_STATES.NONE:
@@ -151,7 +151,7 @@ async def scene_update(room, time: float):
 
 
 async def graphics_update(room, time: float):
-    from realpy.preset import RsPreset
+    from realpy.core.preset import RsPreset
 
     RsPreset.application_surface.fill("black")
     room.onDraw(time)
@@ -163,7 +163,7 @@ async def update_all(room, time: float):
 
 
 def rs_init(title: str, view_port_width: int, view_port_height: int):
-    from realpy.preset import RsPreset
+    from realpy.core.preset import RsPreset
 
     pygame.init()
     PyDisplay.init()
@@ -177,8 +177,8 @@ def rs_init(title: str, view_port_width: int, view_port_height: int):
 
 
 def rs_startup():
-    from realpy.preset import RsPreset
-    from realpy.scene import RsScene
+    from realpy.core.preset import RsPreset
+    from realpy.core.scene import RsScene
 
     # Startup
     Rooms = RsPreset.room_order

@@ -1,7 +1,7 @@
 from typing import Union, Optional
 
-from ..preset import RsPreset
-from ..scene import RsScene
+from .preset import RsPreset
+from .scene import RsScene
 
 
 def room_register(info: RsScene, caption: Optional[str] = None):

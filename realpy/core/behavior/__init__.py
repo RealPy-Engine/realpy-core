@@ -1,4 +1,13 @@
+""" Prefab
+    ---
+    ```
+    from realpy import RsPrefab, RsActor, RsInstance
+    ```
+"""
+from .actor import RsActor
 from .instance import RsInstance
+
+__all__ = ["RsPrefab", "RsActor", "RsInstance"]
 
 
 class RsPrefab(object):

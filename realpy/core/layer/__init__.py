@@ -1,7 +1,9 @@
-from copy import copy
-from typing import List, Optional
-
-
+""" Layer
+    ---
+    ```
+    from realpy import RsLayer
+    ```
+"""
 class RsLayer(object):
     """`RsLayer(name)`
         ---
@@ -9,6 +11,8 @@ class RsLayer(object):
     """
 
     def __init__(self, scene, name: str = ""):
+        from typing import List, Optional
+
         self.scene = scene
         self.name: str = name
         self.storage: List = []
@@ -54,16 +58,22 @@ class RsLayer(object):
             Instance.onDestroy()
 
     def onUpdate(self, time: float) -> None:
+        from copy import copy
+
         self.__atomic_storage = copy(self.storage_update)
         for Instance in self.__atomic_storage:
             Instance.onUpdate(time)
 
     def onUpdateLater(self, time: float) -> None:
+        from copy import copy
+
         self.__atomic_storage = copy(self.storage_updatelater)
         for Instance in self.__atomic_storage:
             Instance.onUpdateLater(time)
 
     def onDraw(self, time: float) -> None:
+        from copy import copy
+
         self.__atomic_storage = copy(self.storage_draw)
         for Instance in self.__atomic_storage:
             Instance.onDraw(time)

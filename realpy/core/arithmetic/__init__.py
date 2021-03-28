@@ -1,3 +1,9 @@
+""" Arithmetic
+    ---
+    ```
+    from realpy.core import arithmetic
+    ```
+"""
 import math
 import random
 from typing import Union
@@ -107,3 +113,4 @@ def choose(*args):
     except ValueError:
         pass
     return pick
+

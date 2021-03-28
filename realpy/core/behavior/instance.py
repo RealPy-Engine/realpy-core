@@ -9,8 +9,8 @@ class RsInstance(object):
 
     def __init__(self, original: Type[Any], layer, x: float = 0, y: float = 0):
         from pygame.surface import Surface
-        from realpy.layer import RsLayer
-        from realpy.sprite import RsSprite
+        from realpy.core.layer import RsLayer
+        from realpy.core.sprite import RsSprite
 
         self.enabled: bool = True
         self.layer: Optional[RsLayer] = layer
@@ -65,7 +65,7 @@ class RsInstance(object):
         self.department.append(ogroup)
 
     def acceleration(self, velocity, direction):
-        from realpy.arithmetic import lengthdir_x, lengthdir_y, point_distance, point_direction
+        from realpy.core.arithmetic import lengthdir_x, lengthdir_y, point_distance, point_direction
 
         Vx = lengthdir_x(velocity, direction)
         Vy = lengthdir_y(velocity, direction)
@@ -80,7 +80,7 @@ class RsInstance(object):
         Where = RsPreset.application_surface
         if Where and self.sprite_index:
             self.__image = self.sprite_index.draw(Where, self.image_index, self.x, self.y,
-            self.image_scale, self.image_angle, self.image_alpha).convert_alpha()
+                                                  self.image_scale, self.image_angle, self.image_alpha).convert_alpha()
 
             if RsPreset.debug_get() and self.can_collide:
                 from pygame import draw
@@ -127,7 +127,7 @@ class RsInstance(object):
 
     @speed.setter
     def speed(self, value: float):
-        from realpy.arithmetic import lengthdir_x, lengthdir_y
+        from realpy.core.arithmetic import lengthdir_x, lengthdir_y
 
         self.__speed = value
         self.__hspeed = lengthdir_x(value, self.__direction)
@@ -135,7 +135,7 @@ class RsInstance(object):
 
     @direction.setter
     def direction(self, value: float):
-        from realpy.arithmetic import lengthdir_x, lengthdir_y
+        from realpy.core.arithmetic import lengthdir_x, lengthdir_y
 
         self.__direction = value
         if self.__speed != 0:
@@ -144,7 +144,7 @@ class RsInstance(object):
 
     @hspeed.setter
     def hspeed(self, value: float):
-        from realpy.arithmetic import point_distance, point_direction
+        from realpy.core.arithmetic import point_distance, point_direction
 
         self.__hspeed = value
         self.__speed = point_distance(0, 0, self.__hspeed, self.__vspeed)
@@ -152,7 +152,7 @@ class RsInstance(object):
 
     @vspeed.setter
     def vspeed(self, value: float):
-        from realpy.arithmetic import point_distance, point_direction
+        from realpy.core.arithmetic import point_distance, point_direction
 
         self.__vspeed = value
         self.__speed = point_distance(0, 0, self.__hspeed, self.__vspeed)
@@ -186,7 +186,7 @@ class RsInstance(object):
             Do not override it.
         """
         from realpy import RsPreset
-        from realpy.arithmetic import lengthdir_x, lengthdir_y
+        from realpy.core.arithmetic import lengthdir_x, lengthdir_y
 
         Method = self.original.onUpdateLater
         if Method:
@@ -238,17 +238,15 @@ class RsInstance(object):
         return f"Instance {id(self)} at '{self.layer}'"
 
     def _set_vertex_boundary(self, angle: float) -> None:
-        from realpy.arithmetic import lengthdir_x, lengthdir_y
+        from realpy.core.arithmetic import lengthdir_x, lengthdir_y
 
         Cos = lengthdir_x(self.image_scale, angle)
         Sin = lengthdir_y(self.image_scale, angle)
 
-        # TempRotator = mat([[Cos, Sin], [-Sin, Cos]])
         for i in range(0, 4):
             TempPoint = self.boundbox[i]
             TempA = TempPoint[0]
             TempB = TempPoint[1]
-            # TempPoint = ((self.boundbox[i] * TempRotator).tolist())[0]
             TempX = round(self.x + TempA * Cos - TempB * Sin)
             TempY = round(self.y + TempA * Sin + TempB * Cos)
             # print("Point(", i, ") - ", TempPoint, " -> (", TempX, ", ", TempY, ")")

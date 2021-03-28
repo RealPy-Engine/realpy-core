@@ -1,3 +1,9 @@
+""" Scene
+    ---
+    ```
+    from realpy import RsScene
+    ```
+"""
 from typing import Optional, Any, List, Dict
 
 

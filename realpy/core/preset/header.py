@@ -12,7 +12,6 @@ __all__ = [
     "debug_set", "debug_get"
 ]
 
-
 # General
 game_speed: int = 30
 mouse_x: int = 0
