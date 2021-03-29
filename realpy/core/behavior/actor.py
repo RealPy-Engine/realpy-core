@@ -2,7 +2,7 @@ from typing import List
 
 
 class RsActor(object):
-    """`RsActor(Prefab, Layer)`
+    """`RsActor(Layer)`
         ---
     """
 
