@@ -2,6 +2,7 @@ import asyncio
 import sys
 
 import pygame
+import pygame.mixer as PySound
 import pygame.constants as PyConstants
 import pygame.display as PyDisplay
 import pygame.fastevent as PyEvent
@@ -47,7 +48,7 @@ async def proceed_done(where, pack):
     where.clear()
 
 
-async def hand_update():
+async def update_hand():
     from realpy.core.constants import INPUT_STATES
     from realpy.core.preset import RsPreset
 
@@ -145,12 +146,12 @@ async def hand_update():
                 RsPreset.event_others.append(event)
 
 
-async def scene_update(room, time: float):
+async def update_flow(room, time: float):
     room.onUpdate(time)
     room.onUpdateLater(time)
 
 
-async def graphics_update(room, time: float):
+async def update_draw(room, time: float):
     from realpy.core.preset import RsPreset
 
     RsPreset.application_surface.fill("black")
@@ -159,15 +160,17 @@ async def graphics_update(room, time: float):
 
 
 async def update_all(room, time: float):
-    await asyncio.gather(scene_update(room, time), graphics_update(room, time))
+    await asyncio.gather(update_flow(room, time), update_draw(room, time))
 
 
 def rs_init(title: str, view_port_width: int, view_port_height: int):
     from realpy.core.preset import RsPreset
 
+    PySound.pre_init(channels=12, buffer=1024)
     pygame.init()
     PyDisplay.init()
     PyEvent.init()
+    PySound.init()
 
     PyDisplay.set_caption(title)
     PyDisplay.set_allow_screensaver(False)
@@ -203,7 +206,7 @@ def rs_startup():
         TimeOccured = 0 if RsPreset.room.paused else AbsoluteTimer.get_time() * 0.001  # Millisecond
 
         try:
-            asyncio.run(hand_update())
+            asyncio.run(update_hand())
             asyncio.run(update_all(RoomCurrent, TimeOccured))
         except RsPreset.RsInteruptError:
             rs_quit()
