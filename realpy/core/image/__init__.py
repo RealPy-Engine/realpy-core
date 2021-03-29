@@ -4,20 +4,19 @@
     from realpy import RsImage
     ```
 """
-import os
-from typing import List, Tuple, Union
-
-import pygame.image as PyImage
-import pygame.rect as PyRect
-
-
 class RsImage(object):
     """`RsImage(image_path)`
         ---
         Raw image of a sprite that contains single or multiple images.
     """
 
+    from typing import List, Tuple, Union
+
     def __init__(self, filepath: Union[str, Tuple[str], List[str]]):
+        import os
+        import pygame.image as PyImage
+        import pygame.rect as PyRect
+
         self.number: int = -1
         self.raw_data = []
         self.boundbox = PyRect.Rect(0, 0, 0, 0)
