@@ -21,11 +21,14 @@ class RsSprite(object):
         "center_angle", "using_custom_offset"
     ]
 
-    def __init__(self, image, mask_type: int = 0, xo: int = 0, yo: int = 0):
+    from realpy.core.image import RsImage
+
+    def __init__(self, image: RsImage, mask_type: int = 0, xo: int = 0, yo: int = 0):
+        from realpy.core.image import RsImage
         from realpy.core.arithmetic import point_distance, point_direction
 
         assert image
-        self.image = image
+        self.image: RsImage = image
         self.mask_type: int = mask_type
         self.width: int = image.boundbox.width
         self.height: int = image.boundbox.height
