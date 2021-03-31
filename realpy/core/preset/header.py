@@ -1,6 +1,7 @@
 from typing import Optional, List, Dict
 
 from pygame.surface import Surface as PySurface
+from pygame.mixer import Sound as PyAudio
 
 from ..scene import RsScene
 
@@ -49,7 +50,7 @@ event_controller: Dict[int, int] = {}
 event_others = []
 
 # Others
-AudioPot = {}
+AudioPot: Dict[str, PyAudio] = {}
 
 
 class RsInteruptError(Exception):
