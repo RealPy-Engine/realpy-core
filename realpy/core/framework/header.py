@@ -163,10 +163,10 @@ async def update_all(room, time: float):
     await asyncio.gather(update_flow(room, time), update_draw(room, time))
 
 
-def rs_init(title: str, view_port_width: int, view_port_height: int):
+def rs_init(title: str, view_port_width: int, view_port_height: int, *, audio_channels = 12, audio_buffer = 1024):
     from realpy.core.preset import RsPreset
 
-    PySound.pre_init(channels=12, buffer=1024)
+    PySound.pre_init(channels=audio_channels, buffer=audio_buffer)
     pygame.init()
     PyDisplay.init()
     PyEvent.init()
