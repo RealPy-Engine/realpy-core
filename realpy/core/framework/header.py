@@ -2,7 +2,7 @@ import asyncio
 import sys
 
 import pygame
-import pygame.mixer as PySound
+import pygame.mixer as PyAudio
 import pygame.constants as PyConstants
 import pygame.display as PyDisplay
 import pygame.fastevent as PyEvent
@@ -166,11 +166,11 @@ async def update_all(room, time: float):
 def rs_init(title: str, view_port_width: int, view_port_height: int, *, audio_channels = 12, audio_buffer = 1024):
     from realpy.core.preset import RsPreset
 
-    PySound.pre_init(channels=audio_channels, buffer=audio_buffer)
+    PyAudio.pre_init(channels=audio_channels, buffer=audio_buffer)
     pygame.init()
     PyDisplay.init()
     PyEvent.init()
-    PySound.init()
+    PyAudio.init()
 
     PyDisplay.set_caption(title)
     PyDisplay.set_allow_screensaver(False)
@@ -217,5 +217,6 @@ def rs_startup():
 
 def rs_quit():
     print("Program is ended.")
+    PyAudio.quit()
     pygame.quit()
     sys.exit(0)
