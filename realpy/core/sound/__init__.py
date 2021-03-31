@@ -10,36 +10,37 @@ from .stream import *
 
 audio_set_channel_count = lambda count: PyAudio.set_num_channels(count)
 audio_get_channel_count = lambda: PyAudio.get_num_channels()
-AudioType = Optional[Union[PySound, PyChannel]]
+AudioType = Optional[Union[PySound, RsSound]]
 
 
-def audio_play(sound, loop = False):
-    ...
+def audio_play(sound: RsSound, loop = False):
+    return sound.play(-1) if loop else sound.play()
 
 
-def audio_stop(sound = None):
+def audio_stop(sound: RsSound = None):
     if sound:
-        ...
+        sound.stop()
     else:
-       PyAudio.stop()
+        PyAudio.stop()
 
 
-def audio_play_single(sound, loop = False):
-    ...
+def audio_play_single(sound: RsSound, loop = False):
+    sound.stop()
+    audio_play(sound)
 
 
 def audio_pause(sound = None):
     if sound:
         ...
     else:
-       PyAudio.pause() 
+        PyAudio.pause() 
 
 
 def audio_resume(sound = None, loop = False):
     if sound:
         ...
     else:
-       PyAudio.unpause()
+        PyAudio.unpause()
 
 
 @overload
@@ -49,18 +50,12 @@ def audio_is_playing(sound: None) -> bool:
 
 @overload
 def audio_is_playing(sound: PySound) -> bool:
-    if sound:
-        return 0 < sound.get_num_channels()
-    else:
-        return PyAudio.get_busy()
+    return 0 < sound.get_num_channels()
 
 
 @overload
 def audio_is_playing(sound: PyChannel) -> bool:
-    if sound:
-        return sound.get_busy()
-    else:
-        return PyAudio.get_busy()
+    return sound.get_busy()
 
 
 def audio_is_playing(sound) -> bool:
