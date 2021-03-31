@@ -2,6 +2,8 @@ from typing import Optional
 
 from pygame import mixer as PySound
 
+__all__ = ["RsAudio"]
+
 
 class RsAudio:
     def __init__(self, filepath: str):

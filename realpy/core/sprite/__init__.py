@@ -4,6 +4,12 @@
     from realpy import RsSprite
     ```
 """
+from typing import Optional
+from pygame.surface import Surface
+
+__all__ = ["RsSprite"]
+
+
 class RsSprite(object):
     """`RsSprite(image, mask_type, x_offset, y_offset)`
         ---
@@ -41,9 +47,6 @@ class RsSprite(object):
         bx, bex = -xo, self.width - xo
         by, bey = -yo, self.height - yo
         self.boundbox = [(bx, by), (bex, by), (bx, bey), (bex, bey)]
-
-    from typing import Optional
-    from pygame.surface import Surface
 
     def draw(self, where: Surface, index, x, y, scale: float = 1, orientation: float = 0,
              alpha: float = 1, *, xflip: bool = False, yflip: bool = False) -> Optional[Surface]:

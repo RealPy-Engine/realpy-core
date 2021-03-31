@@ -48,6 +48,9 @@ event_key: Dict[int, int] = {}
 event_controller: Dict[int, int] = {}
 event_others = []
 
+# Others
+AudioPot = {}
+
 
 class RsInteruptError(Exception):
     pass

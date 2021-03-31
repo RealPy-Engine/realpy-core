@@ -4,13 +4,16 @@
     from realpy import RsImage
     ```
 """
+from typing import List, Tuple, Union
+
+__all__ = ["RsImage"]
+
+
 class RsImage(object):
     """`RsImage(image_path)`
         ---
         Raw image of a sprite that contains single or multiple images.
     """
-
-    from typing import List, Tuple, Union
 
     def __init__(self, filepath: Union[str, Tuple[str], List[str]]):
         import os
