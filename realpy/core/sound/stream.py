@@ -1,4 +1,4 @@
-from pygame import music as PyMusic
+from pygame.mixer import music as PyMusic
 
 
 class RsMusic:

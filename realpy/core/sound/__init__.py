@@ -1,9 +1,7 @@
-from _typeshed import NoneType
 from typing import Optional, Union, overload
 
 from pygame import mixer as PyAudio
-from pygame import music as PyMusic
-from pygame.mixer import Channel as PyChannel, Sound as PySound
+from pygame.mixer import music as PyMusic, Channel as PyChannel, Sound as PySound
 
 from .control import *
 from .sfx import *
@@ -50,19 +48,18 @@ def audio_resume(sound: Optional[RsSound] = None):
 
 
 @overload
-def audio_is_playing(sound: None) -> bool:
-    return PyAudio.get_busy()
-
-
+def audio_is_playing(sound: None) -> bool: ...
 @overload
-def audio_is_playing(sound: PySound) -> bool:
-    return 0 < sound.get_num_channels()
-
-
+def audio_is_playing(sound: PySound) -> bool: ...
 @overload
-def audio_is_playing(sound: PyChannel) -> bool:
-    return sound.get_busy()
+def audio_is_playing(sound: PyChannel) -> bool: ...
 
-
-def audio_is_playing(sound) -> bool:
-    return audio_is_playing(sound)
+def audio_is_playing(sound = None) -> bool:
+    if sound is None:
+        return PyAudio.get_busy()
+    elif isinstance(sound, PySound):
+        return 0 < sound.get_num_channels()
+    elif isinstance(sound, PyChannel):
+        return sound.get_busy()
+    else:
+        raise TypeError(f"{sound} is not sound element.")
