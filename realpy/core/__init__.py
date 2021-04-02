@@ -8,6 +8,7 @@ from .sprite import *
 from .behavior import *
 from .collisionfield import *
 from .arithmetic import *
+from .sound import *
 
 from .function_input import *
 from .function_instance import *

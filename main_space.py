@@ -1,4 +1,3 @@
-from realpy.core.sound.sfx import RsSound
 from realpy import *
 
 
@@ -10,6 +9,7 @@ if __name__ == "__main__":
     TestSprite = RsSprite(TestImage, 0, 50, 24)
     TestSFX = RsSound("main_sfx_jump.ogg")
     print(TestSFX)
+    audio_play(TestSFX)
     TestSFX.play(5)
 
     class oTestRoom(RsScene):

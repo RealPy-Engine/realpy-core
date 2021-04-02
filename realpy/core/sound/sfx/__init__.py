@@ -3,8 +3,6 @@ from typing import List, Optional
 from pygame import mixer as PyAudio
 from pygame.mixer import Channel as PyChannel, Sound as PySound
 
-__all__ = ["RsSound"]
-
 
 # TODO: #42 Audio System
 class RsSound(PySound):
