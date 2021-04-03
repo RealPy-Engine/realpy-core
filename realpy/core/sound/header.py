@@ -58,3 +58,14 @@ def audio_is_playing(sound = None) -> bool:
         return sound.get_busy()
     else:
         raise TypeError(f"{sound} is not sound element.")
+
+
+def audio_fadeout(time: int, sound = None):
+    if sound is None:
+        return PyAudio.fadeout(time)
+    elif isinstance(sound, PySound):
+        return 0 < sound.get_num_channels()
+    elif isinstance(sound, PyChannel):
+        return sound.get_busy()
+    else:
+        raise TypeError(f"{sound} is not sound element.")
