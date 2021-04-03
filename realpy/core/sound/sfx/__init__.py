@@ -4,7 +4,6 @@ from pygame import mixer as PyAudio
 from pygame.mixer import Channel as PyChannel, Sound as PySound
 
 
-# TODO: #42 Audio System
 class RsSound(PySound):
     def __init__(self, info):
         super().__init__(info)
@@ -21,7 +20,7 @@ class RsSound(PySound):
 
     def stop(self) -> None:
         self.fields.clear()
-        return super().stop()
+        super().stop()
 
     def is_playing(self) -> bool:
         return 0 < self.get_num_channels()

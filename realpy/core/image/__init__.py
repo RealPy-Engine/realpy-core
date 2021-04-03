@@ -4,7 +4,11 @@
     from realpy import RsImage
     ```
 """
-from typing import List, Tuple, Union
+import os
+from typing import Sequence, overload, AnyStr
+
+import pygame.image as PyImage
+import pygame.rect as PyRect
 
 __all__ = ["RsImage"]
 
@@ -15,11 +19,12 @@ class RsImage(object):
         Raw image of a sprite that contains single or multiple images.
     """
 
-    def __init__(self, filepath: Union[str, Tuple[str], List[str]]):
-        import os
-        import pygame.image as PyImage
-        import pygame.rect as PyRect
+    @overload
+    def __init__(self, filepath: AnyStr): ...
+    @overload
+    def __init__(self, filepath: Sequence[AnyStr]): ...
 
+    def __init__(self, filepath):
         self.number: int = -1
         self.raw_data = []
         self.boundbox = PyRect.Rect(0, 0, 0, 0)
@@ -28,8 +33,13 @@ class RsImage(object):
             filepath = (filepath,)
 
         self.number = len(filepath)
+        if self.number == 0:
+            raise FileNotFoundError
+
         FileLoc: str
         for FileLoc in filepath:
             self.raw_data.append(PyImage.load(FileLoc).convert_alpha())
-        self.filename = os.path.basename(filepath[0])
+
+        FileLoc = filepath[0]
+        self.filename = os.path.basename(FileLoc)
         self.boundbox = self.raw_data[0].get_rect()

@@ -1,4 +1,4 @@
-from typing import Optional, Union, overload
+from typing import Optional, overload
 
 from pygame import mixer as PyAudio
 from pygame.mixer import music as PyMusic, Channel as PyChannel, Sound as PySound
@@ -7,7 +7,6 @@ from .sfx import RsSound
 
 audio_set_channel_count = PyAudio.set_num_channels
 audio_get_channel_count = PyAudio.get_num_channels
-AudioType = Optional[Union[PySound, RsSound]]
 
 
 def audio_play(sound: RsSound, loop = False):
@@ -46,11 +45,9 @@ def audio_resume(sound: Optional[RsSound] = None):
 
 
 @overload
-def audio_is_playing(sound: None) -> bool: ...
+def audio_is_playing(sound: Optional[PySound]) -> bool: ...
 @overload
-def audio_is_playing(sound: PySound) -> bool: ...
-@overload
-def audio_is_playing(sound: PyChannel) -> bool: ...
+def audio_is_playing(sound: Optional[PyChannel]) -> bool: ...
 
 def audio_is_playing(sound = None) -> bool:
     if sound is None:

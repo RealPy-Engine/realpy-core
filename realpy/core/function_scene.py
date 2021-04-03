@@ -1,4 +1,4 @@
-from typing import Union, Optional
+from typing import Optional, overload
 
 from .preset import RsPreset
 from .scene import RsScene
@@ -30,10 +30,16 @@ def room_register(info: RsScene, caption: Optional[str] = None):
     return NewRoom
 
 
-def room_get(id: Union[int, str]):
-    if type(id) is int:
+@overload
+def room_lookup(id: int) -> Optional[RsScene]: ...
+@overload
+def room_lookup(id: str) -> Optional[RsScene]: ...
+
+
+def room_lookup(id):
+    if isinstance(id, int):
         return RsPreset.room_order[id]
-    elif type(id) is str:
+    elif isinstance(id, str):
         return RsPreset.room_all[id]
 
 
@@ -46,7 +52,7 @@ def _room_set(taget: RsScene):
 
 
 def room_goto(name: str):
-    Temp = room_get(name)
+    Temp = room_lookup(name)
     if not Temp:
         raise RuntimeError("The room " + name + " doesn't exist.")
     elif Temp is not RsPreset.room:

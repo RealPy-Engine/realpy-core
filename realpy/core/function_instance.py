@@ -1,4 +1,4 @@
-from typing import List, Optional, Type, Union
+from typing import List, Optional, Type, overload
 
 import pygame.mask as PyMask
 
@@ -65,7 +65,12 @@ def collide_all(instance: RsInstance, prefab: Type[RsPrefab]) -> Optional[List[R
     return Result
 
 
-def actor_create(actor_type: Type[RsActor], layer_id: Optional[Union[str, RsLayer]]) -> RsActor:
+@overload
+def actor_create(actor_type: Type[RsActor], layer_id: Optional[str]) -> RsActor: ...
+@overload
+def actor_create(actor_type: Type[RsActor], layer_id: Optional[RsLayer]) -> RsActor: ...
+
+def actor_create(actor_type: Type[RsActor], layer_id) -> RsActor:
     """`actor_create(Scene, Layer)`
         ---
         Creates an simple behavior instance.
@@ -77,7 +82,7 @@ def actor_create(actor_type: Type[RsActor], layer_id: Optional[Union[str, RsLaye
         if isinstance(layer_id, RsLayer):
             Place = layer_id
         else:
-            Place = RsPreset.room.layer_find(str(layer_id))
+            Place = RsPreset.room.layer_find(layer_id)
 
         if Place:
             Instance = actor_type(Place)
@@ -95,8 +100,12 @@ def actor_create(actor_type: Type[RsActor], layer_id: Optional[Union[str, RsLaye
 
     return Instance
 
+@overload
+def instance_create(prefab: Type[RsPrefab], layer_id: Optional[str], x: float=..., y: float=...) -> RsInstance: ...
+@overload
+def instance_create(prefab: Type[RsPrefab], layer_id: Optional[RsLayer], x: float=..., y: float=...) -> RsInstance: ...
 
-def instance_create(prefab: Type[RsPrefab], layer_id: Optional[Union[str, RsLayer]], x=0, y=0) -> RsInstance:
+def instance_create(prefab: Type[RsPrefab], layer_id, x: float=0, y: float=0) -> RsInstance:
     """`instance_create(Scene, Layer, x=0, y=0)`
         ---
         Creates an instance of game object.
@@ -108,7 +117,7 @@ def instance_create(prefab: Type[RsPrefab], layer_id: Optional[Union[str, RsLaye
         if isinstance(layer_id, RsLayer):
             Place = layer_id
         else:
-            Place = RsPreset.room.layer_find(str(layer_id))
+            Place = RsPreset.room.layer_find(layer_id)
 
         if Place:
             Instance = prefab.trait_instance(prefab, Place, x, y)
@@ -173,7 +182,12 @@ def _instance_register_recursive(prefab: Type[RsPrefab], instance: RsInstance):
         _instance_register(prefab.__base__, instance)
 
 
-def instance_destroy(target: Union[RsActor, RsInstance]):
+@overload
+def instance_destroy(target: RsActor): ...
+@overload
+def instance_destroy(target: RsInstance): ...
+
+def instance_destroy(target):
     Method = target.onDestroy
     if Method:
         Method()

@@ -6,7 +6,6 @@
 """
 import math
 import random
-from typing import Union
 
 __all__ = [
     "sqr", "sign", "degtorad", "radtodeg", "irandom", "irandom_range", "bezier4", "choose",
@@ -83,11 +82,11 @@ def line_interact(Sx1: float, Sy1: float, Sx2: float, Sy2: float, Dx1: float, Dy
     return ua
 
 
-def irandom(n: Union[int, float]) -> int:
+def irandom(n) -> int:
     return random.randint(0, int(n))
 
 
-def irandom_range(n1: Union[int, float], n2: Union[int, float]) -> int:
+def irandom_range(n1, n2) -> int:
     return random.randint(int(n1), int(n2))
 
 
@@ -98,7 +97,7 @@ def distribute(x1: float, x2: float, ratio: float) -> float:
         return x2
 
 
-def probability_test(max_value: Union[int, float]) -> bool:
+def probability_test(max_value) -> bool:
     return bool(irandom(max_value - 1) == 0)
 
 
