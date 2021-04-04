@@ -20,9 +20,12 @@ class RsImage(object):
     """
 
     @overload
-    def __init__(self, filepath: AnyStr): ...
+    def __init__(self, filepath: AnyStr):
+        ...
+
     @overload
-    def __init__(self, filepath: Sequence[AnyStr]): ...
+    def __init__(self, filepath: Sequence[AnyStr]):
+        ...
 
     def __init__(self, filepath):
         self.number: int = -1

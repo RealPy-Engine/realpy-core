@@ -5,6 +5,7 @@
     ```
 """
 from typing import Optional
+
 from pygame.surface import Surface
 
 __all__ = ["RsSprite"]

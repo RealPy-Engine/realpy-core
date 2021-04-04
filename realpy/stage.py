@@ -1,4 +1,4 @@
-from .core import RsScene, RsLayer
+from .core import RsScene
 
 
 class RsStage(RsScene):
@@ -7,4 +7,3 @@ class RsStage(RsScene):
 
         self.width = 640
         self.height = 480
-

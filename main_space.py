@@ -3,7 +3,7 @@ from realpy import *
 
 if __name__ == "__main__":
     rs_init("RealPy Engine", 640, 480)
-    debug_set(True)
+    debug_set(False)
 
     TestImage = RsImage("main_battleship.png")
     TestSprite = RsSprite(TestImage, 0, 50, 24)
@@ -52,13 +52,14 @@ if __name__ == "__main__":
 
         @staticmethod
         def onUpdate(itself, time):
-            if 0 < itself.speed:
-                print("Speed: ", itself.speed, " Vspeed: ", itself.vspeed)
-            itself.image_angle += 30 * time
+            #if 0 < itself.speed:
+            #    print("Speed: ", itself.speed, " Vspeed: ", itself.vspeed)
+            #itself.image_angle += 30 * time
+            pass
 
             Who = collide_anyone(itself, oEnemyBattleship)
-            if Who:
-                print(id(itself), "is collided with", id(Who))
+            #if Who:
+            #    print(id(itself), "is collided with", id(Who))
 
 
     Temp = oTestRoom()
@@ -68,7 +69,8 @@ if __name__ == "__main__":
     TestRoom.add_layer_direct(RsLayer("Starfield"))
     TestRoom.add_layer_direct(RsLayer("Background"))
 
-    instance_create(oEnemyBattleship, Testbed, 320, 240)
+    for i in range(100):
+        instance_create(oEnemyBattleship, Testbed, irandom(640), irandom(480))
     # instance_create(oEnemyBattleship, Testbed, 240, 200)
     # instance_create(oEnemyBattleship, Testbed, 400, 280)
 

@@ -112,4 +112,3 @@ def choose(*args):
     except ValueError:
         pass
     return pick
-

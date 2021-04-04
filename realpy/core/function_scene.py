@@ -32,6 +32,8 @@ def room_register(info: RsScene, caption: Optional[str] = None):
 
 @overload
 def room_lookup(id: int) -> Optional[RsScene]: ...
+
+
 @overload
 def room_lookup(id: str) -> Optional[RsScene]: ...
 
@@ -48,7 +50,9 @@ def _room_set(taget: RsScene):
         RsPreset.room.onDestroy()
     RsPreset.room = taget
     RsPreset.room.onAwake()
-    print("Go to " + str(RsPreset.room))
+
+    if RsPreset.debug_get():
+        print("Go to " + str(RsPreset.room))
 
 
 def room_goto(name: str):

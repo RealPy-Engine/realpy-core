@@ -1,7 +1,7 @@
 from typing import Optional, List, Dict
 
-from pygame.surface import Surface as PySurface
 from pygame.mixer import Sound as PyAudio
+from pygame.surface import Surface as PySurface
 
 from ..scene import RsScene
 

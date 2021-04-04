@@ -2,10 +2,10 @@ import asyncio
 import sys
 
 import pygame
-import pygame.mixer as PyAudio
 import pygame.constants as PyConstants
 import pygame.display as PyDisplay
 import pygame.fastevent as PyEvent
+import pygame.mixer as PyAudio
 from pygame.time import Clock
 
 __all__ = ["rs_init", "rs_startup", "rs_quit"]
@@ -19,8 +19,8 @@ controller_proceed = []
 other_proceed = []
 
 
-async def proceed_ing(where, pack):
-    from realpy.core.constants import INPUT_STATES
+def proceed_ing(where, pack):
+    from realpy.core import INPUT_STATES, debug_get
 
     while True:
         try:
@@ -29,20 +29,22 @@ async def proceed_ing(where, pack):
                 pack[Upk] = INPUT_STATES.NONE
                 continue
             pack[Upk] = INPUT_STATES.ING
-            print("Start at later:", Upk)
+            if debug_get():
+                print("Start at later:", Upk)
         except IndexError:
             break
     where.clear()
 
 
-async def proceed_done(where, pack):
-    from realpy.core.constants import INPUT_STATES
+def proceed_done(where, pack):
+    from realpy.core import INPUT_STATES, debug_get
 
     while True:
         try:
             Upk = where.pop()
             pack[Upk] = INPUT_STATES.NONE
-            print("Cleaned at later:", Upk)
+            if debug_get():
+                print("Cleaned at later:", Upk)
         except IndexError:
             break
     where.clear()
@@ -58,12 +60,13 @@ async def update_hand():
     Temp = PyEvent.get()
     Len = len(Temp)
 
-    await asyncio.gather(proceed_ing(mouse_igniter, RsPreset.event_mouse),
-                         proceed_ing(key_igniter, RsPreset.event_key),
-                         proceed_ing(controller_igniter, RsPreset.event_controller),
-                         proceed_done(mouse_proceed, RsPreset.event_mouse),
-                         proceed_done(key_proceed, RsPreset.event_key),
-                         proceed_done(controller_proceed, RsPreset.event_controller))
+    proceed_ing(mouse_igniter, RsPreset.event_mouse)
+    proceed_ing(key_igniter, RsPreset.event_key)
+    proceed_ing(controller_igniter, RsPreset.event_controller)
+    proceed_done(mouse_proceed, RsPreset.event_mouse)
+    proceed_done(key_proceed, RsPreset.event_key)
+    proceed_done(controller_proceed, RsPreset.event_controller)
+    # await asyncio.gather(proceed_ing(mouse_igniter, RsPreset.event_mouse), ...)
 
     if 0 < Len:
         for event in Temp:
@@ -77,17 +80,15 @@ async def update_hand():
                 if Place:  # Key can be able to be None
                     if Place == INPUT_STATES.NONE:  # Normal
                         RsPreset.event_key[Seed] = INPUT_STATES.PRESSED
-                        print("Pressed:", Seed)
                     elif Place == INPUT_STATES.RELEASED:  # Should not happen
                         RsPreset.event_key[Seed] = INPUT_STATES.NONE
-                        print("Cleaned in Press:", Seed)
                     else:  # It may not be runned
                         RsPreset.event_key[Seed] = INPUT_STATES.ING
-                        print("Pressing:", Seed)
                 else:  # Add a new key
                     key_igniter.append(Seed)
                     RsPreset.event_key[Seed] = INPUT_STATES.PRESSED
-                    print("New Press:", Seed)
+                    if RsPreset.debug_get():
+                        print("New Key:", Seed)
 
             elif event.type == PyConstants.KEYUP:
                 Seed = event.key
@@ -96,11 +97,9 @@ async def update_hand():
                 if Place:
                     if Place == INPUT_STATES.RELEASED:  # Should not happen
                         RsPreset.event_key[Seed] = INPUT_STATES.NONE
-                        print("Cleaned:", Seed)
                     elif Place != INPUT_STATES.NONE:
                         key_proceed.append(Seed)  # Clear later
                         RsPreset.event_key[Seed] = INPUT_STATES.RELEASED
-                        print("Released:", Seed)
                 else:
                     RsPreset.event_key[Seed] = INPUT_STATES.NONE
 
@@ -112,17 +111,15 @@ async def update_hand():
                 if Place:
                     if Place == INPUT_STATES.NONE:
                         RsPreset.event_mouse[Seed] = INPUT_STATES.PRESSED
-                        print("Clicked:", Seed)
                     elif Place == INPUT_STATES.RELEASED:
                         RsPreset.event_mouse[Seed] = INPUT_STATES.NONE
-                        print("Cleaned in Click:", Seed)
                     else:
                         RsPreset.event_mouse[Seed] = INPUT_STATES.ING
-                        print("Clicking:", Seed)
                 else:
                     mouse_igniter.append(Seed)
                     RsPreset.event_mouse[Seed] = INPUT_STATES.PRESSED
-                    print("New Click:", Seed)
+                    if RsPreset.debug_get():
+                        print("New Click:", Seed)
 
             elif event.type == PyConstants.MOUSEBUTTONUP:
                 Seed = event.button
@@ -132,11 +129,9 @@ async def update_hand():
                 if Place:
                     if Place == INPUT_STATES.RELEASED:
                         RsPreset.event_mouse[Seed] = INPUT_STATES.NONE
-                        print("Cleaned:", Seed)
                     elif Place != INPUT_STATES.NONE:
                         mouse_proceed.append(Seed)  # Clear later
                         RsPreset.event_mouse[Seed] = INPUT_STATES.RELEASED
-                        print("Declicked:", Seed)
                 else:
                     RsPreset.event_mouse[Seed] = INPUT_STATES.NONE
 
@@ -163,7 +158,7 @@ async def update_all(room, time: float):
     await asyncio.gather(update_flow(room, time), update_draw(room, time))
 
 
-def rs_init(title: str, view_port_width: int, view_port_height: int, *, audio_channels = 12, audio_buffer = 1024):
+def rs_init(title: str, view_port_width: int, view_port_height: int, *, audio_channels=12, audio_buffer=1024):
     from realpy.core.preset import RsPreset
 
     PyAudio.pre_init(channels=audio_channels, buffer=audio_buffer)
@@ -200,7 +195,6 @@ def rs_startup():
     TimeOccured: float = 0
 
     # Load rooms
-    print(RsPreset.room)
     RsPreset.room.onAwake()
     while True:
         TimeOccured = 0 if RsPreset.room.paused else AbsoluteTimer.get_time() * 0.001  # Millisecond

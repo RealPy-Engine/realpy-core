@@ -9,7 +9,8 @@ class RsSound(PySound):
         super().__init__(info)
         self.fields: List[PyChannel] = []
 
-    def play(self, loops: Optional[int] = 0, maxtime: Optional[int] = 0, fade_ms: Optional[int] = 0) -> Optional[PyChannel]:
+    def play(self, loops: Optional[int] = 0, maxtime: Optional[int] = 0, fade_ms: Optional[int] = 0) -> Optional[
+        PyChannel]:
         Place: Optional[PyChannel] = PyAudio.find_channel(False)
         if not Place:
             return None

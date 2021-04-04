@@ -67,8 +67,11 @@ def collide_all(instance: RsInstance, prefab: Type[RsPrefab]) -> Optional[List[R
 
 @overload
 def actor_create(actor_type: Type[RsActor], layer_id: Optional[str]) -> RsActor: ...
+
+
 @overload
 def actor_create(actor_type: Type[RsActor], layer_id: Optional[RsLayer]) -> RsActor: ...
+
 
 def actor_create(actor_type: Type[RsActor], layer_id) -> RsActor:
     """`actor_create(Scene, Layer)`
@@ -100,12 +103,17 @@ def actor_create(actor_type: Type[RsActor], layer_id) -> RsActor:
 
     return Instance
 
-@overload
-def instance_create(prefab: Type[RsPrefab], layer_id: Optional[str], x: float=..., y: float=...) -> RsInstance: ...
-@overload
-def instance_create(prefab: Type[RsPrefab], layer_id: Optional[RsLayer], x: float=..., y: float=...) -> RsInstance: ...
 
-def instance_create(prefab: Type[RsPrefab], layer_id, x: float=0, y: float=0) -> RsInstance:
+@overload
+def instance_create(prefab: Type[RsPrefab], layer_id: Optional[str], x: float = ..., y: float = ...) -> RsInstance: ...
+
+
+@overload
+def instance_create(prefab: Type[RsPrefab], layer_id: Optional[RsLayer], x: float = ...,
+                    y: float = ...) -> RsInstance: ...
+
+
+def instance_create(prefab: Type[RsPrefab], layer_id, x: float = 0, y: float = 0) -> RsInstance:
     """`instance_create(Scene, Layer, x=0, y=0)`
         ---
         Creates an instance of game object.
@@ -177,15 +185,20 @@ def _instance_register_recursive(prefab: Type[RsPrefab], instance: RsInstance):
     if RsPreset.debug_get():
         print(Recursive_condition, "from", prefab)
         print(f"An instance is appended to {Where} of {prefab}.")
+        if Recursive_condition:
+            print("Goto ", prefab.__base__)
+
     if Recursive_condition:
-        print("Goto ", prefab.__base__)
         _instance_register(prefab.__base__, instance)
 
 
 @overload
 def instance_destroy(target: RsActor): ...
+
+
 @overload
 def instance_destroy(target: RsInstance): ...
+
 
 def instance_destroy(target):
     Method = target.onDestroy
