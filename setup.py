@@ -4,11 +4,11 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="realpy-iconer",  # Replace with your own username
-    version="1.0.0",
+    name="realpy-engine-iconer",  # Replace with your own username
+    version="1.0.0a",
     author="Iconerworks",
     author_email="yoyofa2@hotmail.com",
-    description="2D game engine",
+    description="2D game engine with pygame",
     license="LICENSE",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -19,7 +19,7 @@ setuptools.setup(
     classifiers=[
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.9",
-        "Development Status :: 5 - Stable",
+        "Development Status :: 5 - Production/Stable",
         "Operating System :: OS Independent"
     ],
     packages=setuptools.find_packages(),
